@@ -39,6 +39,7 @@ use OCA\Forms\Db\Submission;
 use OCA\Forms\Db\SubmissionMapper;
 use OCA\Forms\Service\FormsService;
 
+use OCA\Forms\Service\SurveyUserService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\IMapperException;
@@ -86,6 +87,9 @@ class ApiController extends Controller {
 	/** @var FormsService */
 	private $formsService;
 
+	/** @var SurveyUserService */
+	private $surveyUserService;
+
 	/** @var ISecureRandom */
 	private $secureRandom;
 
@@ -101,6 +105,7 @@ class ApiController extends Controller {
 								ILogger $logger,
 								IL10N $l10n,
 								FormsService $formsService,
+								SurveyUserService $surveyUserService,
 								ISecureRandom $secureRandom) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
@@ -115,6 +120,7 @@ class ApiController extends Controller {
 		$this->logger = $logger;
 		$this->l10n = $l10n;
 		$this->formsService = $formsService;
+		$this->surveyUserService = $surveyUserService;
 		$this->secureRandom = $secureRandom;
 
 		$this->currentUser = $userSession->getUser();
@@ -211,6 +217,8 @@ class ApiController extends Controller {
 	 * @throws OCSForbiddenException
 	 */
 	public function updateForm(int $id, array $keyValuePairs): DataResponse {
+		// TODO the absolute lack of input validation is worrysome all along Form::fromParams
+
 		$this->logger->debug('Updating form: FormId: {id}, values: {keyValuePairs}', [
 			'id' => $id,
 			'keyValuePairs' => $keyValuePairs

@@ -41,7 +41,7 @@ use OCP\Share\IShare;
  * Trait for getting forms information in a service
  */
 class FormsService {
-	
+
 	/** @var FormMapper */
 	private $formMapper;
 
@@ -53,12 +53,15 @@ class FormsService {
 
 	/** @var SubmissionMapper */
 	private $submissionMapper;
-	
+
 	/** @var IGroupManager */
 	private $groupManager;
-	
+
 	/** @var IUserManager */
 	private $userManager;
+
+	/** @var SurveyUserService */
+	private $surveyUserService;
 
 	/** @var IUser */
 	private $currentUser;
@@ -73,8 +76,10 @@ class FormsService {
 								IGroupManager $groupManager,
 								IUserManager $userManager,
 								IUserSession $userSession,
+								SurveyUserService $surveyUserService,
 								ILogger $logger) {
 		$this->formMapper = $formMapper;
+		$this->surveyUserService = $surveyUserService;
 		$this->questionMapper = $questionMapper;
 		$this->optionMapper = $optionMapper;
 		$this->submissionMapper = $submissionMapper;
@@ -140,7 +145,7 @@ class FormsService {
 		$result['questions'] = $this->getQuestions($id);
 
 		// Set proper user/groups properties
-		
+
 		// Make sure we have the bare minimum
 		$result['access'] = array_merge(['users' => [], 'groups' => []], $result['access']);
 
@@ -194,6 +199,21 @@ class FormsService {
 	}
 
 	/**
+	 * Checks if the form is a "registered survey users only" form that
+	 * requires survey user login
+	 *
+	 * @param int $formId
+	 * @return bool
+	 */
+	public function isSurveyLoginRequired(int $formId): bool {
+		$form = $this->formMapper->findById($formId);
+		$access = $form->getAccess();
+
+		return $access['type'] === 'surveyusers'
+			&& !$this->hasUserAccess($formId);
+	}
+
+	/**
 	 * Check if user has access to this form
 	 *
 	 * @param integer $formId
@@ -207,7 +227,15 @@ class FormsService {
 		if ($access['type'] === 'public') {
 			return true;
 		}
-		
+
+		$surveyUserForm = $access['type'] === 'surveyusers';
+		$surveyUserLoggedIn = $this->surveyUserService->isSurveyUserLoggedIn();
+
+		// TODO TODOFORMS check access
+		if ($surveyUserForm && $surveyUserLoggedIn) {
+			return true;
+		}
+
 		// Refuse access, if not public and no user logged in.
 		if (!$this->currentUser) {
 			return false;
@@ -217,6 +245,10 @@ class FormsService {
 		if ($ownerId === $this->currentUser->getUID()) {
 			return true;
 		}
+
+		// Survey user forms can be filled by NC users to enter physical copies
+		if ($surveyUserForm)
+			return true;
 
 		// Now all remaining users are allowed, if access-type 'registered'.
 		if ($access['type'] === 'registered') {

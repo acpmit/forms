@@ -55,16 +55,16 @@ class PageController extends Controller {
 
 	/** @var FormMapper */
 	private $formMapper;
-	
+
 	/** @var FormsService */
 	private $formsService;
 
 	/** @var IAccountManager */
 	protected $accountManager;
-	
+
 	/** @var IGroupManager */
 	private $groupManager;
-	
+
 	/** @var IInitialStateService */
 	private $initialStateService;
 
@@ -76,7 +76,7 @@ class PageController extends Controller {
 
 	/** @var IUserManager */
 	private $userManager;
-	
+
 	/** @var IUserSession */
 	private $userSession;
 
@@ -151,6 +151,10 @@ class PageController extends Controller {
 
 		// Does the user have access to form
 		if (!$this->formsService->hasUserAccess($form->getId())) {
+			if ($this->formsService->isSurveyLoginRequired($form->getId())) {
+				return $this->provideTemplate(
+					SureveyUserController::TEMPLATE_SURVEY_USER_LOGIN, $form);
+			}
 			return $this->provideTemplate(self::TEMPLATE_NOTFOUND);
 		}
 

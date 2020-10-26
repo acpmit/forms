@@ -58,6 +58,19 @@
 				</label>
 			</li>
 			<li>
+				<input id="surveyusers"
+					v-model="form.access.type"
+					type="radio"
+					value="surveyusers"
+					class="radio"
+					@change="onAccessChange">
+				<label for="surveyusers">
+					<span class="icon-favorite">
+						{{ t('forms', 'Only for registered survey users') }}
+					</span>
+				</label>
+			</li>
+			<li>
 				<input id="selected"
 					v-model="form.access.type"
 					type="radio"

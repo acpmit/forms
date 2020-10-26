@@ -2,7 +2,7 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>forms</id>
-    <name>Forms</name>
+    <name>FormsEx</name>
     <summary>📝 Simple surveys and questionnaires, self-hosted</summary>
     <description><![CDATA[**Simple surveys and questionnaires, self-hosted!**
 
@@ -11,7 +11,7 @@
 - **🔒 Data under your control!** Unlike in Google Forms, Typeform, Doodle and others, the survey info and responses are kept private on your instance.
 - **🙋 Get involved!** We have lots of stuff planned like more question types, collaboration on forms, [and much more](https://github.com/nextcloud/forms/milestones)!
     ]]></description>
-    <version>2.0.4</version>
+    <version>2.0.5</version>
     <licence>agpl</licence>
 
     <author>Affan Hussain</author>
