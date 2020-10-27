@@ -40,6 +40,25 @@ class SurveyUserMapper extends QBMapper {
 	}
 
 	/**
+	 * @param int $id Load a user with a specific ID
+	 * @return \OCP\AppFramework\Db\Entity
+	 * @throws \OCP\AppFramework\Db\DoesNotExistException
+	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
+	 */
+	public function load(int $id) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('id',
+					$qb->createNamedParameter($id))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
 	 * Find a user by e-mail address. (Either deleted or active)
 	 *
 	 * @param string $email

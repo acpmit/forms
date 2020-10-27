@@ -88,16 +88,11 @@ class SureveyUserController extends Controller {
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 * @NoSameSiteCookieRequired
-	 * @CORS
 	 *
 	 * @param string $id Form id to redirect to after the login
 	 * @return Response Login page
 	 */
 	public function login($id, $su_email, $su_password): Response {
-		//https://docs.nextcloud.com/server/15/developer_manual/app/requests/controllers.html
-		//$response->addCookie('foo', 'bar');
-
 		if (!$su_email || !$su_password) {
 			return $this->surveyUserLoginPage(
 				$id,
@@ -111,7 +106,7 @@ class SureveyUserController extends Controller {
 		try {
 			$user = $this->surveyUserMapper->findByEmail($su_email);
 			if ($user && password_verify($su_password, $user->getPasswordhash())) {
-				$this->surveyUserService->setCurrentSurveyUser($user->getId());
+				$this->surveyUserService->setCurrentSurveyUserId($user->getId());
 				$success = true;
 			}
 		} catch (IMapperException $e) {
@@ -145,8 +140,6 @@ class SureveyUserController extends Controller {
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 * @NoSameSiteCookieRequired
-	 * @CORS
 	 *
 	 * @param string $id Form id to redirect to after the login
 	 * @return Response Login page
@@ -162,8 +155,6 @@ class SureveyUserController extends Controller {
 	 *
      * @PublicPage
 	 * @NoCSRFRequired
-	 * @NoSameSiteCookieRequired
-	 * @CORS
 	 *
 	 * @return TemplateResponse The template with the registration details
 	 */
@@ -181,6 +172,9 @@ class SureveyUserController extends Controller {
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 *
+	 * TODO TODOFORM delete these
+	 *
 	 * @NoSameSiteCookieRequired
 	 * @CORS
 	 *

@@ -46,23 +46,33 @@ class SurveyUserService
 	/** @var ILogger */
 	private $logger;
 
-	public const SURVEY_USER_SESSION_ID = 'FORMS_SURVEY_USER';
+	public const SURVEY_USER_SESSION_ID = 'FormsSurveyUserId';
 
 	public function __construct(FormMapper $formMapper,
 								SurveyUserMapper $surveyUserMapper,
 								ILogger $logger) {
+		// We need the session if we want to use survey user login sessions
+		session_start();
 		$this->formMapper = $formMapper;
 		$this->surveyUserMapper = $surveyUserMapper;
 		$this->logger = $logger;
 	}
 
 	public function isSurveyUserLoggedIn() {
-		$user = \OC::$server->getSession()->get(self::SURVEY_USER_SESSION_ID);
-		return $user === null || ((int)$user) === 0;
+		$user = $this->getCurrentSurveyUserId();
+		return $user !== null && ((int)$user) > 0;
 	}
 
-	public function setCurrentSurveyUser($userId) {
-		\OC::$server->getSession()->set(self::SURVEY_USER_SESSION_ID, $userId);
+	public function setCurrentSurveyUserId($userId) {
+		session_start();
+		// \OC::$server->getSession()->set(self::SURVEY_USER_SESSION_ID, $userId);
+		$_SESSION[self::SURVEY_USER_SESSION_ID] = $userId;
+	}
+
+	public function getCurrentSurveyUserId() {
+		session_start();
+		// return \OC::$server->getSession()->get(self::SURVEY_USER_SESSION_ID);
+		return $_SESSION[self::SURVEY_USER_SESSION_ID];
 	}
 
 	public function getCurrentSurveyUser() : ?SurveyUser {
@@ -70,8 +80,8 @@ class SurveyUserService
 			return null;
 
 		try {
-			$user = $this->surveyUserMapper->get(
-				$_SESSION[self::SURVEY_USER_SESSION_ID]);
+			$user = $this->surveyUserMapper->load(
+				$this->getCurrentSurveyUserId());
 			return $user;
 		} catch (IMapperException $e) {
 			// TODO FORMSTODO log

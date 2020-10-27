@@ -26,7 +26,19 @@ $routeRegister = \OC::$server->getURLGenerator()
 $routeLogin = \OC::$server->getURLGenerator()
 	->linkToRoute('forms.sureveyUser.login', ['id' => $_['formid']]);
 
-var_dump(\OC::$server->getSession()->get(self::SURVEY_USER_SESSION_ID));
+//\OC::$server->getSession()->set('fake_ss', 3);
+echo('FAKE value ['. (\OC::$server->getSession()->get('fake_ss')).'] hasval: '.
+	(\OC::$server->getSession()->exists('fake_ss'))
+	);
+var_dump(\OC::$server->getSession()->get(\OCA\Forms\Service\SurveyUserService::SURVEY_USER_SESSION_ID));
+var_dump(\OC::$server->getSession()->getId());
+
+//$_SESSION['fake_s2'] = 'ok';
+
+echo('FAKE3: '.$_SESSION['fake_s2']);
+echo(' FAKE4: '.$_SESSION[\OCA\Forms\Service\SurveyUserService::SURVEY_USER_SESSION_ID]);
+
+//var_dump($_SESSION);
 
 ?>
 
