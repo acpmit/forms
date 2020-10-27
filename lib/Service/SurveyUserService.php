@@ -24,8 +24,11 @@
 namespace OCA\Forms\Service;
 
 use OCA\Forms\Db\FormMapper;
+use OCA\Forms\Db\SurveyUser;
 use OCA\Forms\Db\SurveyUserMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\IMapperException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\ILogger;
 
 /**
@@ -43,6 +46,8 @@ class SurveyUserService
 	/** @var ILogger */
 	private $logger;
 
+	public const SURVEY_USER_SESSION_ID = 'FORMS_SURVEY_USER';
+
 	public function __construct(FormMapper $formMapper,
 								SurveyUserMapper $surveyUserMapper,
 								ILogger $logger) {
@@ -52,23 +57,59 @@ class SurveyUserService
 	}
 
 	public function isSurveyUserLoggedIn() {
-		return false;
+		$user = \OC::$server->getSession()->get(self::SURVEY_USER_SESSION_ID);
+		return $user === null || ((int)$user) === 0;
 	}
 
-	public function getCurrentSurveyUser() {
-		return false;
+	public function setCurrentSurveyUser($userId) {
+		\OC::$server->getSession()->set(self::SURVEY_USER_SESSION_ID, $userId);
+	}
+
+	public function getCurrentSurveyUser() : ?SurveyUser {
+		if (!$this->isSurveyUserLoggedIn())
+			return null;
+
+		try {
+			$user = $this->surveyUserMapper->get(
+				$_SESSION[self::SURVEY_USER_SESSION_ID]);
+			return $user;
+		} catch (IMapperException $e) {
+			// TODO FORMSTODO log
+			return  null;
+		}
 	}
 
 	/**
-	 * @param $loginToCheck
-	 * @return bool
-	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
+	 * Check if the user name is available to register
+	 *
+	 * @param string $loginToCheck Username to check
+	 * @return bool True if the username is not taken
 	 */
 	public function isUserNameAvailable($loginToCheck) {
 		try {
 			$this->surveyUserMapper->findByLogin($loginToCheck);
 		} catch (DoesNotExistException $e) {
 			return true;
+		} catch (MultipleObjectsReturnedException $e) {
+			return false;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if the email is available to register
+	 *
+	 * @param string $emailToCheck Email to check
+	 * @return bool True if the email is not taken
+	 */
+	public function isEmailAvailable($emailToCheck) {
+		try {
+			$this->surveyUserMapper->findByEmail($emailToCheck);
+		} catch (DoesNotExistException $e) {
+			return true;
+		} catch (MultipleObjectsReturnedException $e) {
+			return false;
 		}
 
 		return false;

@@ -23,8 +23,19 @@
 
 namespace OCA\Forms\Controller;
 
+use OC\OCS\Exception;
+use OCA\Forms\Db\Form;
+use OCA\Forms\Db\FormMapper;
+use OCA\Forms\Db\SurveyUser;
+use OCA\Forms\Db\SurveyUserMapper;
+use OCA\Forms\Helper\RandomHelper;
+use OCA\Forms\Helper\ValidationHelper;
 use OCA\Forms\Service\SurveyUserService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\IMapperException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -49,25 +60,105 @@ class SureveyUserController extends Controller {
 	/** @var SurveyUserService */
 	private $surveyUserService;
 
+	/** @var FormMapper */
+	private $formMapper;
+
+	/** @var SurveyUserMapper */
+	private $surveyUserMapper;
+
 	public function __construct(string $appName,
 								IL10N $l10n,
 								ILogger $logger,
+								FormMapper $formMapper,
+								SurveyUserMapper $surveyUserMapper,
 								SurveyUserService $surveyUserService,
 								IRequest $request) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
+		$this->formMapper = $formMapper;
+		$this->surveyUserMapper = $surveyUserMapper;
 		$this->surveyUserService = $surveyUserService;
 		$this->logger = $logger;
 		$this->appName = $appName;
 	}
 
-	public function login(): Response {
+	/**
+	 * Process the login details and/or show the login page for the survey users
+	 * accordingly
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
+	 * @CORS
+	 *
+	 * @param string $id Form id to redirect to after the login
+	 * @return Response Login page
+	 */
+	public function login($id, $su_email, $su_password): Response {
 		//https://docs.nextcloud.com/server/15/developer_manual/app/requests/controllers.html
 		//$response->addCookie('foo', 'bar');
+
+		if (!$su_email || !$su_password) {
+			return $this->surveyUserLoginPage(
+				$id,
+				false,
+				$this->l10n->t('Please fill in both the e-mail and password fields.')
+			);
+		}
+
+		$success = false;
+
+		try {
+			$user = $this->surveyUserMapper->findByEmail($su_email);
+			if ($user && password_verify($su_password, $user->getPasswordhash())) {
+				$this->surveyUserService->setCurrentSurveyUser($user->getId());
+				$success = true;
+			}
+		} catch (IMapperException $e) {
+			// TODO TODOFORMS log
+			// We are already at success = false
+		}
+
+		if ($success) {
+			if ($id)
+				$response = new RedirectResponse(\OC::$server->getURLGenerator()
+					->linkToRoute('forms.page.goto_form', ['hash' => $id]));
+			else
+				$response = $this->surveyUserLoginPage(
+					null,
+					true,
+					$this->l10n->t('Successful login')
+				);
+		} else {
+			$response = $this->surveyUserLoginPage(
+				$id,
+				false,
+				$this->l10n->t('Invalid e-mail or login.')
+			);
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Show the login page for the survey users
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
+	 * @CORS
+	 *
+	 * @param string $id Form id to redirect to after the login
+	 * @return Response Login page
+	 */
+	public function loginForm($id): Response {
+		return $this->login($id, null, null);
 	}
 
 	/**
 	 * Provide a form where the survey users can register
+	 *
+	 * @param string $id Form id to pass to the login after the registration
 	 *
      * @PublicPage
 	 * @NoCSRFRequired
@@ -76,14 +167,17 @@ class SureveyUserController extends Controller {
 	 *
 	 * @return TemplateResponse The template with the registration details
 	 */
-	public function register(): PublicTemplateResponse {
+	public function register($id): PublicTemplateResponse {
 		return $this->setupRegisterPage([
+			'formid' => $id,
 			'mode' => 'first'
 		]);
 	}
 
 	/**
 	 * Process the form where the survey users can register
+	 *
+	 * @param string $id Form id to pass to the login after the registration
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
@@ -92,10 +186,11 @@ class SureveyUserController extends Controller {
 	 *
 	 * @return PublicTemplateResponse The template with the registration details
 	 */
-	public function commitRegister($su_email,
-								   $su_login,
+	public function commitRegister($id,
+								   $su_email,
 								   $su_password,
 								   $su_password2,
+								   $su_realname,
 								   $su_address,
 								   $su_born): PublicTemplateResponse {
 
@@ -108,6 +203,13 @@ class SureveyUserController extends Controller {
 		if (!filter_var($su_email, FILTER_VALIDATE_EMAIL)) {
 			$success = false;
 			$problems[] = $this->l10n->t('Invalid e-mail format.');
+		} else {
+			$su_email = filter_var($su_email, FILTER_VALIDATE_EMAIL);
+			if (!$this->surveyUserService->isEmailAvailable($su_email)) {
+				$success = false;
+				$problems[] = $this->l10n->t(
+					'The e-mail address is in use. Please try to reset your password.');
+			}
 		}
 
 		if ($su_password !== $su_password2) {
@@ -123,31 +225,46 @@ class SureveyUserController extends Controller {
 				self::SUREVEY_USER_PASS_MIN_LEN);
 		}
 
-		if (strlen($su_login) < 3) {
-			$success = false;
-			$problems[] = $this->l10n->t(
-				'The login name is too short. Please use at least three characters.');
-		} else if (!$this->surveyUserService->isUserNameAvailable($su_login)) {
-			$success = false;
-			$problems[] = $this->l10n->t(
-				'The login is in use. Please select a different one.');
-		}
-
-		if (!$success)
+		if (!$success) {
 			$message = $this->l10n->n(
 				'There is a problem with the registration data, please correct it:',  // singular string
 				'There are problems with the registration data, please correct them:',  // plural string
 				count($problems)
 			);
+		} else {
+			$newUser = new SurveyUser();
+			$newUser->setRealname(ValidationHelper::filterAlphaNumericUnicde($su_realname, 255));
+			$newUser->setAddress(ValidationHelper::filterAlphaNumericUnicde($su_address, 1000));
+			$newUser->setEmail($su_email); // It is already filtered above
+			$newUser->setPasswordhash(password_hash($su_password, PASSWORD_ARGON2I));
+			$newUser->setConfirmcode(RandomHelper::randomStr(100));
+
+			// TODO TODOFORMS send mail
+
+			$born = (int)$su_born;
+			if ($born > 0)
+				$newUser->setBornyear(ValidationHelper::filterAlphaNumericUnicde($born));
+
+			try {
+				$this->surveyUserMapper->insert($newUser);
+				$message = $this->l10n->t('Successful registration.');
+			} catch (Exception $e) {
+				// TODO TODOFORMS Log
+				$message = $this->l10n->t(
+					'Error occurred during the registration, please try again later.');
+				$success = false;
+			}
+		}
 
 		$data = [
+			'formid' => $id,
 			'mode' => 'return',
 			'su_email' => $su_email,
-			'su_login' => $su_login,
 			'su_password' => $su_password,
 			'su_password2' => $su_password2,
 			'su_address' => $su_address,
 			'su_born' => $su_born,
+			'su_realname' => $su_realname,
 			'success' => $success,
 			'message' => $message,
 			'problems' => $problems,
@@ -157,14 +274,47 @@ class SureveyUserController extends Controller {
 			$this->l10n->t('Please check your details'));
 	}
 
+	public function surveyUserLoginPage($formId = null,
+										$success = null,
+										$message = null) : PublicTemplateResponse {
+		return $this->setupLoginPage([
+				'formid' => $formId,
+				'message' => $message,
+				'success' => $success
+			],
+			$formId
+				? $this->l10n->t('To access the survey, please log in')
+				: '');
+	}
+
+	private function setupLoginPage($data,
+									$subtitle = null) : PublicTemplateResponse {
+		return $this->setupPage(
+			$data,
+			$this->l10n->t('Survey user log in'),
+			$subtitle,
+			self::TEMPLATE_SURVEY_USER_LOGIN);
+	}
+
 	private function setupRegisterPage($data,
 									   $subtitle = null) : PublicTemplateResponse {
+		return $this->setupPage(
+			$data,
+			$this->l10n->t('Survey user registration'),
+			$subtitle,
+			self::TEMPLATE_SURVEY_USER_REGISTER);
+	}
+
+	private function setupPage($data,
+							   $title,
+							   $subtitle,
+							   $template) : PublicTemplateResponse {
 		// TODO
 		$template = new PublicTemplateResponse(
 			$this->appName,
-			self::TEMPLATE_SURVEY_USER_REGISTER,
+			$template,
 			$data);
-		$template->setHeaderTitle($this->l10n->t('Survey user registration'));
+		$template->setHeaderTitle($title);
 		$template->setHeaderDetails($subtitle === null
 			? $this->l10n->t('Please enter your details')
 			: $subtitle

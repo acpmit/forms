@@ -28,9 +28,10 @@ return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 
-		['name' => 'sureveyUser#register', 'url' => '/sureveyuser/register/form', 'verb' => 'GET'],
-		['name' => 'sureveyUser#commitRegister', 'url' => '/sureveyuser/register/form', 'verb' => 'POST'],
-		['name' => 'sureveyUser#login', 'url' => '/sureveyuser/login', 'verb' => 'POST'],
+		['name' => 'sureveyUser#register', 'url' => '/sureveyuser/register/form/{id}', 'verb' => 'GET', 'defaults' => ['id' => '']],
+		['name' => 'sureveyUser#commitRegister', 'url' => '/sureveyuser/register/form/{id}', 'verb' => 'POST', 'defaults' => ['id' => '']],
+		['name' => 'sureveyUser#loginForm', 'url' => '/sureveyuser/login/form/{id}', 'verb' => 'GET', 'defaults' => ['id' => '']],
+		['name' => 'sureveyUser#login', 'url' => '/sureveyuser/login/{id}', 'verb' => 'POST', 'defaults' => ['id' => '']],
 
 		// Before /{hash} to avoid conflict
 		['name' => 'page#index', 'url' => '/new', 'verb' => 'GET', 'postfix' => 'create'],

@@ -55,9 +55,9 @@ class Version020005Date20201019161000 extends SimpleMigrationStep {
 				'length' => 11,
 				'unsigned' => true
 			]);
-			$table->addColumn('login', TYPE::STRING, [
+			$table->addColumn('passwordhash', TYPE::STRING, [
 				'notnull' => true,
-				'length' => 100
+				'length' => 200
 			]);
 			$table->addColumn('realname', TYPE::STRING, [
 				'notnull' => false,
@@ -84,7 +84,6 @@ class Version020005Date20201019161000 extends SimpleMigrationStep {
 			]);
 
 			$table->setPrimaryKey(['id']);
-			$table->addUniqueIndex(['login'], 'forms_su_login');
 			$table->addUniqueIndex(['email', 'isdeleted'], 'forms_su_email');
 			$table->addIndex(['confirmcode'], 'forms_su_confirmcode');
 		}

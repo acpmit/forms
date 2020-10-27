@@ -51,31 +51,11 @@ class SurveyUserMapper extends QBMapper {
 	{
 		$qb = $this->db->getQueryBuilder();
 
+		// TODO TODOFORMS check for deleted flag and modify comment
 		$qb->select('*')
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('email', $qb->createNamedParameter($email, IQueryBuilder::PARAM_STR))
-			);
-
-		return $this->findEntity($qb);
-	}
-
-	/**
-	 * Find a user by login name. (Either deleted or active)
-	 *
-	 * @param string $login
-	 * @return SurveyUser|\OCP\AppFramework\Db\Entity
-	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException if more than one result
-	 * @throws \OCP\AppFramework\Db\DoesNotExistException if not found
-	 */
-	public function findByLogin(string $login)
-	{
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select('*')
-			->from($this->getTableName())
-			->where(
-				$qb->expr()->eq('login', $qb->createNamedParameter($login, IQueryBuilder::PARAM_STR))
 			);
 
 		return $this->findEntity($qb);

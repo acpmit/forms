@@ -31,8 +31,8 @@ use OCP\AppFramework\Db\Entity;
 /**
  * @method integer getFormId()
  * @method void setFormId(integer $value)
- * @method string getLogin()
- * @method void setLogin(string $value)
+ * @method string getPasswordhash()
+ * @method void setPasswordhash(string $value)
  * @method string getRealname()
  * @method void setRealname(string $value)
  * @method bool getIsdeleted()
@@ -48,7 +48,7 @@ use OCP\AppFramework\Db\Entity;
  */
 class SurveyUser extends Entity
 {
-	protected $login;
+	protected $passwordhash;
 	protected $realname;
 	protected $isdeleted;
 	protected $address;
@@ -61,20 +61,20 @@ class SurveyUser extends Entity
 	 */
 	public function __construct()
 	{
-		$this->addType('login', 'string');
 		$this->addType('realname', 'string');
 		$this->addType('isdeleted', 'bool');
 		$this->addType('address', 'string');
 		$this->addType('email', 'string');
 		$this->addType('confirmcode', 'string');
 		$this->addType('bornyear', 'integer');
+		$this->addType('passwordhash', 'string');
 	}
 
 	public function read(): array
 	{
 		return [
 			'id' => $this->getId(),
-			'login' => $this->getLogin(),
+			'passwordhash' => $this->getPasswordhash(),
 			'realname' => $this->getRealname(),
 			'isdeleted' => $this->getIsdeleted(),
 			'address' => $this->getAddress(),

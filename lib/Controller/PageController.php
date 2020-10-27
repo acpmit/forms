@@ -59,6 +59,9 @@ class PageController extends Controller {
 	/** @var FormsService */
 	private $formsService;
 
+	/** @var SureveyUserController */
+	private $sureveyUserController;
+
 	/** @var IAccountManager */
 	protected $accountManager;
 
@@ -99,6 +102,7 @@ class PageController extends Controller {
 								IAccountManager $accountManager,
 								IGroupManager $groupManager,
 								IInitialStateService $initialStateService,
+								SureveyUserController $sureveyUserController,
 								IL10N $l10n,
 								ILogger $logger,
 								IUserManager $userManager,
@@ -109,6 +113,7 @@ class PageController extends Controller {
 
 		$this->formMapper = $formMapper;
 		$this->formsService = $formsService;
+		$this->sureveyUserController = $sureveyUserController;
 
 		$this->accountManager = $accountManager;
 		$this->groupManager = $groupManager;
@@ -152,8 +157,7 @@ class PageController extends Controller {
 		// Does the user have access to form
 		if (!$this->formsService->hasUserAccess($form->getId())) {
 			if ($this->formsService->isSurveyLoginRequired($form->getId())) {
-				return $this->provideTemplate(
-					SureveyUserController::TEMPLATE_SURVEY_USER_LOGIN, $form);
+				return $this->sureveyUserController->surveyUserLoginPage($hash);
 			}
 			return $this->provideTemplate(self::TEMPLATE_NOTFOUND);
 		}

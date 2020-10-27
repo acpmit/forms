@@ -21,82 +21,98 @@
  *
  */
 
-$routeRegister = \OC::$server->getURLGenerator()->linkToRoute('forms.sureveyUser.commitRegister');
+$routeRegister = \OC::$server->getURLGenerator()
+	->linkToRoute('forms.sureveyUser.commitRegister', ['id' => $_['formid']]);
+$routeLogin = \OC::$server->getURLGenerator()
+	->linkToRoute('forms.sureveyUser.loginForm', ['id' => $_['formid']]);
 
 ?>
 
 <div id="emptycontent" class="">
-	<div class="icon-forms"></div>
 
-	<?php if (isset($_['message']) && strlen($_['message']) > 0): ?>
-	<div>
-		<?php
-			p($_['message']);
-			if (isset($_['problems']) && count($_['problems']) > 0) {
-				print_unescaped(
-					'<ul><li>'.
-					join('</li><li>', $_['problems']).
-					'</li></ul>');
-			}
-		?>
-	</div>
+	<?php if (isset($_['success']) && $_['success']): ?>
+
+		<div>
+			<p>
+				<?php p($_['message']); ?>
+			</p>
+			<p>
+				<?php print_unescaped($l->t('Please <a href="%s">click here to log in</a>.', $routeLogin)); ?>
+			</p>
+		</div>
+
+	<?php else: ?>
+
+		<?php if (isset($_['message']) && strlen($_['message']) > 0): ?>
+		<div>
+			<?php
+				p($_['message']);
+				if (isset($_['problems']) && count($_['problems']) > 0) {
+					print_unescaped(
+						'<ul><li>'.
+						join('</li><li>', $_['problems']).
+						'</li></ul>');
+				}
+			?>
+		</div>
+		<?php endif ?>
+
+		<h2><?php p($l->t('Please provide your details below.')); ?></h2>
+
+		<form id="su_form"
+			  action="<?php p($routeRegister); ?>"
+			  method="POST"
+			  name="su_form">
+			<div>
+				<label for="su_email"><?php p($l->t('E-mail address:')); ?></label>
+				<input name="su_email"
+					   required
+					   value="<?php p($_['su_email']); ?>"
+					   placeholder="<?php p($l->t('my@address.com')); ?>" maxlength="200"
+					   minlength="1" type="text" class="question__input">
+			</div>
+			<div>
+				<label for="su_realname"><?php p($l->t('Real name:')); ?></label>
+				<input name="su_realname"
+					   value="<?php p($_['su_realname']); ?>"
+					   placeholder="<?php p($l->t('Please enter your name')); ?>" maxlength="255"
+					   type="text" class="question__input">
+			</div>
+			<div>
+				<label for="su_password"><?php p($l->t('Password:')); ?></label>
+				<input name="su_password"
+					   required
+					   value="<?php p($_['su_password']); ?>"
+					   placeholder="<?php p($l->t('Enter your password here')); ?>" maxlength="200"
+					   minlength="1" type="password" class="question__input">
+			</div>
+			<div>
+				<label for="su_password2"><?php p($l->t('Password (repeat):')); ?></label>
+				<input name="su_password2"
+					   required
+					   value="<?php p($_['su_password2']); ?>"
+					   placeholder="<?php p($l->t('Enter your password here')); ?>" maxlength="200"
+					   minlength="1" type="password" class="question__input">
+			</div>
+			<div>
+				<label for="su_address"><?php p($l->t('Address:')); ?></label>
+				<input name="su_address"
+					   value="<?php p($_['su_address']); ?>"
+					   placeholder="<?php p($l->t('Please enter your postal address')); ?>"
+					   minlength="1" type="text" class="question__input">
+			</div>
+			<div>
+				<label for="su_born"><?php p($l->t('Your birth year:')); ?></label>
+				<input name="su_born"
+					   value="<?php p($_['su_born']); ?>"
+					   placeholder="<?php p($l->t('Please enter the year you were born in')); ?>" maxlength="4"
+					   minlength="1" type="number" class="question__input">
+			</div>
+			<div>
+				<input type="submit" class="primary" value="<?php p($l->t('Register')); ?>">
+			</div>
+		</form>
+
 	<?php endif ?>
-
-	<h2><?php p($l->t('Please provide your details below.')); ?></h2>
-
-	<form id="su_form"
-		  action="<?php p($routeRegister); ?>"
-		  method="POST"
-		  name="su_form">
-		<div>
-			<label for="su_email"><?php p($l->t('E-mail address:')); ?></label>
-			<input name="su_email"
-				   required
-				   value="<?php p($_['su_email']); ?>"
-				   placeholder="<?php p($l->t('my@address.com')); ?>" maxlength="200"
-				   minlength="1" type="text" class="question__input">
-		</div>
-		<div>
-			<label for="su_login"><?php p($l->t('Username:')); ?></label>
-			<input name="su_login"
-				   required
-				   value="<?php p($_['su_login']); ?>"
-				   placeholder="<?php p($l->t('Please enter your desired username')); ?>" maxlength="100"
-				   minlength="1" type="text" class="question__input">
-		</div>
-		<div>
-			<label for="su_password"><?php p($l->t('Password:')); ?></label>
-			<input name="su_password"
-				   required
-				   value="<?php p($_['su_password']); ?>"
-				   placeholder="<?php p($l->t('Enter your password here')); ?>" maxlength="200"
-				   minlength="1" type="password" class="question__input">
-		</div>
-		<div>
-			<label for="su_password2"><?php p($l->t('Password (repeat):')); ?></label>
-			<input name="su_password2"
-				   required
-				   value="<?php p($_['su_password2']); ?>"
-				   placeholder="<?php p($l->t('Enter your password here')); ?>" maxlength="200"
-				   minlength="1" type="password" class="question__input">
-		</div>
-		<div>
-			<label for="su_address"><?php p($l->t('Address:')); ?></label>
-			<input name="su_address"
-				   value="<?php p($_['su_address']); ?>"
-				   placeholder="<?php p($l->t('Please enter your postal address')); ?>"
-				   minlength="1" type="text" class="question__input">
-		</div>
-		<div>
-			<label for="su_born"><?php p($l->t('Your birth year:')); ?></label>
-			<input name="su_born"
-				   value="<?php p($_['su_born']); ?>"
-				   placeholder="<?php p($l->t('Please enter the year you were born in')); ?>" maxlength="4"
-				   minlength="1" type="number" class="question__input">
-		</div>
-		<div>
-			<input type="submit" class="primary" value="<?php p($l->t('Register')); ?>">
-		</div>
-	</form>
 
 </div>
