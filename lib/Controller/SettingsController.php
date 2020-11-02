@@ -24,9 +24,12 @@
 namespace OCA\Forms\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -44,6 +47,9 @@ class SettingsController extends Controller
 
 	/** @var ILogger */
 	private $logger;
+
+	/** @var IL10N */
+	private $l10n;
 
 	public const FORMS_ARRAY_SEPARATOR =
 		"\n";
@@ -63,11 +69,13 @@ class SettingsController extends Controller
 								IUserManager $userManager,
 								IGroupManager $groupManager,
 								IConfig $config,
+								IL10N $l10n,
 								$UserId) {
 		parent::__construct($AppName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->logger = $logger;
+		$this->l10n = $l10n;
 		$this->userId = $UserId;
 		$this->config = $config;
 	}
@@ -76,8 +84,35 @@ class SettingsController extends Controller
 	 * Admin only, this method handles the settings post route
 	 */
 	public function postSettings() {
-		// TODO SAVE
-		return $this->getForm();
+		$configViewGroups = [];
+		$configCreateGroups = [];
+		$error = [];
+
+		foreach ($_POST as $key => $item) {
+			$this->checkFieldForGroup($configViewGroups, 'view-', $key, $error);
+			$this->checkFieldForGroup($configCreateGroups, 'create-', $key, $error);
+		}
+
+		$this->setFormsCreatorGroups($configCreateGroups);
+		$this->setFormsViewResultsGroups($configViewGroups);
+
+		if (count($error) === 0)
+			return new DataResponse('Ok', Http::STATUS_OK);
+		else
+			return new DataResponse(implode("\n", $error), Http::STATUS_BAD_REQUEST);
+	}
+
+	private function checkFieldForGroup(array &$groupArray,
+										string $prefix,
+										string $field,
+										array &$errorArray) {
+		if (substr($field, 0, strlen($prefix)) === $prefix) {
+			$group = str_replace('_', ' ', substr($field, strlen($prefix)));
+			if ($this->groupManager->groupExists($group))
+				$groupArray[] = $group;
+			else
+				$errorArray[] = $this->l10n->t('Invalid group name: %s', [$group]);
+		}
 	}
 
 	/**
@@ -85,13 +120,12 @@ class SettingsController extends Controller
 	 */
 	public function getForm()
 	{
+		\OC_Util::addScript('forms', 'admin');
+
 		$createGroupList = [];
 		$viewGroupList = [];
-
-		$configViewGroups =
-			$this->getFormsViewResultsGroups();
-		$configCreateGroups =
-			$this->getFormsCreatorGroups();
+		$configViewGroups = $this->getFormsViewResultsGroups();
+		$configCreateGroups = $this->getFormsCreatorGroups();
 
 		foreach ($this->groupManager->search('') as $group) {
 			$id = $group->getGID();
@@ -208,5 +242,21 @@ class SettingsController extends Controller
 	public function getFormsViewResultsGroups()
 	{
 		return $this->getArray(self::CONFIG_VIEW_RESULTS_FORMS_GROUPS);
+	}
+
+	/**
+	 * @param array $groupList List of the groups allowed to create forms
+	 */
+	public function setFormsCreatorGroups($groupList)
+	{
+		return $this->setArray(self::CONFIG_CREATE_FORMS_GROUPS, $groupList);
+	}
+
+	/**
+	 * @param array $groupList List of the groups allowed to view forms results
+	 */
+	public function setFormsViewResultsGroups($groupList)
+	{
+		return $this->setArray(self::CONFIG_VIEW_RESULTS_FORMS_GROUPS, $groupList);
 	}
 }
