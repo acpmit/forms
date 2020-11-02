@@ -38,10 +38,12 @@ use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
+use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\Util;
 
 class SureveyUserController extends Controller {
 	public const TEMPLATE_SURVEY_USER_LOGIN = 'surveyuserlogin';
@@ -158,7 +160,7 @@ class SureveyUserController extends Controller {
 	 *
 	 * @return TemplateResponse The template with the registration details
 	 */
-	public function register($id): PublicTemplateResponse {
+	public function register($id): Response {
 		return $this->setupRegisterPage([
 			'formid' => $id,
 			'mode' => 'first'
@@ -186,10 +188,7 @@ class SureveyUserController extends Controller {
 								   $su_password2,
 								   $su_realname,
 								   $su_address,
-								   $su_born): PublicTemplateResponse {
-
-		$su_email = $_POST['su_email'];
-
+								   $su_born): TemplateResponse {
 		$success = true;
 		$message = '';
 		$problems = [];
@@ -270,7 +269,7 @@ class SureveyUserController extends Controller {
 
 	public function surveyUserLoginPage($formId = null,
 										$success = null,
-										$message = null) : PublicTemplateResponse {
+										$message = null) : TemplateResponse {
 		return $this->setupLoginPage([
 				'formid' => $formId,
 				'message' => $message,
@@ -282,7 +281,7 @@ class SureveyUserController extends Controller {
 	}
 
 	private function setupLoginPage($data,
-									$subtitle = null) : PublicTemplateResponse {
+									$subtitle = null) : TemplateResponse {
 		return $this->setupPage(
 			$data,
 			$this->l10n->t('Survey user log in'),
@@ -290,8 +289,17 @@ class SureveyUserController extends Controller {
 			self::TEMPLATE_SURVEY_USER_LOGIN);
 	}
 
+	/**
+	 * Prepare a registration page for the survey users
+	 *
+	 * @param array $data Data to be passed to the PHP template
+	 * @param null|string $subtitle Left bottom NC title
+	 * @return TemplateResponse Regsitration page
+	 */
 	private function setupRegisterPage($data,
-									   $subtitle = null) : PublicTemplateResponse {
+									   $subtitle = null) : TemplateResponse {
+		Util::addStyle($this->appName, 'survey');
+
 		return $this->setupPage(
 			$data,
 			$this->l10n->t('Survey user registration'),
@@ -299,20 +307,57 @@ class SureveyUserController extends Controller {
 			self::TEMPLATE_SURVEY_USER_REGISTER);
 	}
 
+	/**
+	 * Add header actions for the logged in survey users
+	 *
+	 * @param TemplateResponse $response Add the menu actions to this response
+	 * @return TemplateResponse The response we got easier caller syntax
+	 */
+	public function addSurveyUserMenu(TemplateResponse $response) : TemplateResponse {
+		// Only provide menu for the users when they are logged in
+		if (!$this->surveyUserService->isSurveyUserLoggedIn())
+			return $response;
+
+		$profileUrl = 'http://';
+		$logoutUrl = 'http://2';
+		$docsUrlPrivacyPolicy = 'http://2';
+		$docsUrlTermsOfUse = 'http://2';
+		$profile = new SimpleMenuAction('profile', $this->l10n->t('View profile'), 'icon-user', $profileUrl, 0);
+		$docs1 = new SimpleMenuAction('tos', $this->l10n->t('Terms of use'), 'icon-info', $docsUrlTermsOfUse, 1);
+		$docs2 = new SimpleMenuAction('ppolicy', $this->l10n->t('Privacy Policy'), 'icon-info', $docsUrlPrivacyPolicy, 2);
+		$logout = new SimpleMenuAction('logout', $this->l10n->t('Log out'), 'icon-close', $logoutUrl, 3);
+		$response->setHeaderActions([$profile, $docs1, $docs2, $logout]);
+		return $response;
+	}
+
+	/**
+	 * Create a general public page for the survey users
+	 *
+	 * @param array $data Data passed to the template
+	 * @param string $title Left top title in NC
+	 * @param string $subtitle Left bottom title in NC
+	 * @param string $template PHP template name
+	 * @return TemplateResponse The created response
+	 */
 	private function setupPage($data,
 							   $title,
 							   $subtitle,
-							   $template) : PublicTemplateResponse {
+							   $template) : TemplateResponse
+	{
+		Util::addStyle($this->appName, 'survey');
+
 		// TODO
 		$template = new PublicTemplateResponse(
 			$this->appName,
 			$template,
 			$data);
+
 		$template->setHeaderTitle($title);
 		$template->setHeaderDetails($subtitle === null
 			? $this->l10n->t('Please enter your details')
 			: $subtitle
 		);
-		return $template;
+
+		return $this->addSurveyUserMenu($template);
 	}
 }

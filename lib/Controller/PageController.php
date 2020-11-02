@@ -164,7 +164,11 @@ class PageController extends Controller {
 
 		// Does the user have permissions to submit (resp. submitOnce)
 		if (!$this->formsService->canSubmit($form->getId())) {
-			return $this->provideTemplate(self::TEMPLATE_NOSUBMIT, $form);
+			$template = $this->provideTemplate(self::TEMPLATE_NOSUBMIT, $form);
+			// Add survey user profile/logout menu if necessary
+			if ($this->formsService->isSurveyUserForm($form))
+				$this->sureveyUserController->addSurveyUserMenu($template);
+			return $template;
 		}
 
 		// Has form expired
@@ -176,7 +180,12 @@ class PageController extends Controller {
 		Util::addScript($this->appName, 'forms-submit');
 		$this->initialStateService->provideInitialState($this->appName, 'form', $this->formsService->getPublicForm($form->getId()));
 		$this->initialStateService->provideInitialState($this->appName, 'maxStringLengths', $this->maxStringLengths);
-		return $this->provideTemplate(self::TEMPLATE_MAIN, $form);
+
+		$template = $this->provideTemplate(self::TEMPLATE_MAIN, $form);
+		if ($this->formsService->isSurveyUserForm($form))
+			$this->sureveyUserController->addSurveyUserMenu($template);
+
+		return $template;
 	}
 
 	/**

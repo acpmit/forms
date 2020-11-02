@@ -23,6 +23,7 @@
 
 namespace OCA\Forms\Service;
 
+use OCA\Forms\Db\Form;
 use OCA\Forms\Db\FormMapper;
 use OCA\Forms\Db\OptionMapper;
 use OCA\Forms\Db\QuestionMapper;
@@ -166,6 +167,9 @@ class FormsService {
 	public function getPublicForm(int $id): array {
 		$form = $this->getForm($id);
 
+		// Keep the form type after we cut down the access info
+		$form['isSurveyUserForm'] = ($form['access']['type'] === 'surveyusers');
+
 		// Remove sensitive data
 		unset($form['access']);
 		unset($form['ownerId']);
@@ -187,9 +191,20 @@ class FormsService {
 
 		// Refuse access, if SubmitOnce is set and user already has taken part.
 		if ($form->getSubmitOnce()) {
+			if ($access['type'] === 'surveyusers') {
+				// Check for forms with survey users
+				$lookupId =
+					SurveyUserService::SURVEY_USER_DB_PREFIX.
+					$this->surveyUserService->getCurrentSurveyUserId();
+			} else {
+				// Check for forms with internal users
+				$lookupId = $this->currentUser->getUID();
+			}
+
+			// TODO It should be more efficient if the ID went with the query
 			$participants = $this->submissionMapper->findParticipantsByForm($form->getId());
 			foreach ($participants as $participant) {
-				if ($participant === $this->currentUser->getUID()) {
+				if ($participant === $lookupId) {
 					return false;
 				}
 			}
@@ -211,6 +226,17 @@ class FormsService {
 
 		return $access['type'] === 'surveyusers'
 			&& !$this->hasUserAccess($formId);
+	}
+
+	/**
+	 * Checks if the form is a survey user type form (requires separate login)
+	 *
+	 * @param Form $form
+	 * @return bool True, if it's a survey user form
+	 */
+	public function isSurveyUserForm(Form $form) : bool {
+		$access = $form->getAccess();
+		return $access['type'] === 'surveyusers';
 	}
 
 	/**

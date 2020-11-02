@@ -715,6 +715,10 @@ class ApiController extends Controller {
 			if (substr($submission['userId'], 0, 10) === 'anon-user-') {
 				// Anonymous User
 				$submission['userDisplayName'] = $this->l10n->t('Anonymous response');
+			} else if (substr($submission['userId'], 0, 12) === 'survey-user-') {
+				// Survey User. They are anonymous unless the user has extra
+				// rights to expose the name
+				$submission['userDisplayName'] = $this->l10n->t('Registered survey user response');
 			} else {
 				$userEntity = $this->userManager->get($submission['userId']);
 
@@ -761,6 +765,7 @@ class ApiController extends Controller {
 		try {
 			$form = $this->formMapper->findById($formId);
 			$questions = $this->formsService->getQuestions($formId);
+			$access = $form->getAccess();
 		} catch (IMapperException $e) {
 			$this->logger->debug('Could not find form');
 			throw new OCSBadRequestException();
@@ -786,12 +791,19 @@ class ApiController extends Controller {
 		$submission->setFormId($formId);
 		$submission->setTimestamp(time());
 
-		// If not logged in or anonymous use anonID
-		if (!$this->currentUser || $form->getIsAnonymous()) {
-			$anonID = "anon-user-".  hash('md5', (time() + rand()));
-			$submission->setUserId($anonID);
+		if ($access['type'] === 'surveyusers') {
+			$surveyUserID =
+				SurveyUserService::SURVEY_USER_DB_PREFIX.
+				$this->surveyUserService->getCurrentSurveyUserId();
+			$submission->setUserId($surveyUserID);
 		} else {
-			$submission->setUserId($this->currentUser->getUID());
+			// If not logged in or anonymous use anonID
+			if (!$this->currentUser || $form->getIsAnonymous()) {
+				$anonID = "anon-user-".  hash('md5', (time() + rand()));
+				$submission->setUserId($anonID);
+			} else {
+				$submission->setUserId($this->currentUser->getUID());
+			}
 		}
 
 		// Insert new submission

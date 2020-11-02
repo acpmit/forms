@@ -203,6 +203,8 @@ export default {
 			let message = ''
 			if (this.form.isAnonymous) {
 				message += t('forms', 'Responses are anonymous.')
+			} else if (this.form.isSurveyUserForm) {
+				message += t('forms', 'Responses are connected to your account.')
 			} else {
 				message += t('forms', 'Responses are connected to your Nextcloud account.')
 			}

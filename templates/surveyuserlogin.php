@@ -26,61 +26,54 @@ $routeRegister = \OC::$server->getURLGenerator()
 $routeLogin = \OC::$server->getURLGenerator()
 	->linkToRoute('forms.sureveyUser.login', ['id' => $_['formid']]);
 
-//\OC::$server->getSession()->set('fake_ss', 3);
-echo('FAKE value ['. (\OC::$server->getSession()->get('fake_ss')).'] hasval: '.
-	(\OC::$server->getSession()->exists('fake_ss'))
-	);
-var_dump(\OC::$server->getSession()->get(\OCA\Forms\Service\SurveyUserService::SURVEY_USER_SESSION_ID));
-var_dump(\OC::$server->getSession()->getId());
-
-//$_SESSION['fake_s2'] = 'ok';
-
-echo('FAKE3: '.$_SESSION['fake_s2']);
-echo(' FAKE4: '.$_SESSION[\OCA\Forms\Service\SurveyUserService::SURVEY_USER_SESSION_ID]);
-
-//var_dump($_SESSION);
-
 ?>
 
 <div id="emptycontent" class="">
 
-	<?php if($_['success']): ?>
-		<div>
-			<?php p($_['message']); ?>
-		</div>
-	<?php else: ?>
-		<div class="icon-forms"></div>
-
-		<h2><?php p($l->t('This form is for registered users only. If you already have an account, please log in.')); ?></h2>
-
-		<?php if($_['message']): ?>
+	<div class="survey-user-center">
+		<?php if($_['success']): ?>
 			<div>
 				<?php p($_['message']); ?>
 			</div>
+		<?php else: ?>
+			<div class="icon-forms"></div>
+
+			<div class="survey_user_login">
+				<h2><?php p($l->t('This form is for registered users only. If you already have an account, please log in.')); ?></h2>
+
+				<?php if($_['message']): ?>
+					<div class="survey-user-message">
+						<?php p($_['message']); ?>
+					</div>
+				<?php endif ?>
+
+				<div class="survey_user_form">
+					<form id="su_form"
+						  action="<?php p($routeLogin); ?>"
+						  method="POST"
+						  name="su_form">
+						<div>
+							<label for="su_email"><?php p($l->t('E-mail address:')); ?></label>
+							<input name="su_email"
+								   placeholder="<?php p($l->t('my@address.com')); ?>" maxlength="200"
+								   minlength="1" type="text" class="question__input">
+						</div>
+						<div>
+							<label for="su_password"><?php p($l->t('Password:')); ?></label>
+							<input name="su_password"
+								   placeholder="<?php p($l->t('Enter your password here')); ?>" maxlength="200"
+								   minlength="1" type="password" class="question__input">
+						</div>
+						<div>
+							<label></label>
+							<input type="submit" class="primary" value="<?php p($l->t('Login')); ?>">
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<p><?php print_unescaped($l->t('If you don\'t have an account yet, you can register by <a href="%s">clicking here</a>.', $routeRegister)); ?></p>
 		<?php endif ?>
-
-		<form id="su_form"
-			  action="<?php p($routeLogin); ?>"
-			  method="POST"
-			  name="su_form">
-			<div>
-				<label for="su_email"><?php p($l->t('E-mail address:')); ?></label>
-				<input name="su_email"
-					   placeholder="<?php p($l->t('my@address.com')); ?>" maxlength="200"
-					   minlength="1" type="text" class="question__input">
-			</div>
-			<div>
-				<label for="su_password"><?php p($l->t('Password:')); ?></label>
-				<input name="su_password"
-					   placeholder="<?php p($l->t('Enter your password here')); ?>" maxlength="200"
-					   minlength="1" type="password" class="question__input">
-			</div>
-			<div>
-				<input type="submit" class="primary" value="<?php p($l->t('Login')); ?>">
-			</div>
-		</form>
-
-		<p><?php print_unescaped($l->t('If you don\'t have an account yet, you can register by <a href="%s">clicking here</a>.', $routeRegister)); ?></p>
-	<?php endif ?>
+	</div>
 
 </div>

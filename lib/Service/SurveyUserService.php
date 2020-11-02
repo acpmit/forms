@@ -47,6 +47,7 @@ class SurveyUserService
 	private $logger;
 
 	public const SURVEY_USER_SESSION_ID = 'FormsSurveyUserId';
+	public const SURVEY_USER_DB_PREFIX = 'survey-user-';
 
 	public function __construct(FormMapper $formMapper,
 								SurveyUserMapper $surveyUserMapper,

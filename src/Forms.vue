@@ -32,6 +32,10 @@
 					@mobile-close-navigation="mobileCloseNavigation"
 					@delete="onDeleteForm" />
 			</template>
+			<!-- Settings and import -->
+<!--			<template #footer>-->
+<!--				<AppNavigationSettings />-->
+<!--			</template>-->
 		</AppNavigation>
 
 		<!-- No forms & loading emptycontents -->
@@ -80,6 +84,7 @@ import AppNavigationNew from '@nextcloud/vue/dist/Components/AppNavigationNew'
 import Content from '@nextcloud/vue/dist/Components/Content'
 import isMobile from '@nextcloud/vue/src/mixins/isMobile'
 
+import AppNavigationSettings from './components/AppNavigationSettings.vue'
 import AppNavigationForm from './components/AppNavigationForm'
 import EmptyContent from './components/EmptyContent'
 
@@ -88,6 +93,7 @@ export default {
 
 	components: {
 		AppNavigationForm,
+		AppNavigationSettings,
 		AppContent,
 		AppNavigation,
 		AppNavigationNew,

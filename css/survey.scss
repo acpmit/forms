@@ -1,0 +1,81 @@
+/**
+ * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @author ACPM IT LTD <info@acpmit.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+.survey-user-center {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+
+	.survey-user-message {
+		text-align: left;
+		padding: 25px;
+		color: $color-error;
+		border: 1px $color-error solid;
+		border-radius: $border-radius;
+
+		li {
+			padding: 5px;
+			list-style: circle;
+			margin-left: 45px;
+		}
+	}
+
+	.survey-user-success {
+		text-align: left;
+		padding: 25px;
+		color: $color-success;
+
+		a, a.visited, a.hover, a.active {
+			color: $color-success;
+			text-decoration: underline;
+		}
+	}
+
+	.survey_user_form, .survey_register_form {
+		text-align: left;
+		display: block;
+		padding: 20px 0px;
+
+		div {
+			display: flex;
+
+			label {
+				text-align: right;
+				flex: 1;
+				padding-right: 10px;
+				margin-top: 11px;
+			}
+			input {
+				flex: 2;
+			}
+			input.primary {
+				margin-top: 20px;
+			}
+		}
+	}
+
+	.survey_user_login {
+		min-width: 70%;
+		max-width: 600px;
+	}
+}
