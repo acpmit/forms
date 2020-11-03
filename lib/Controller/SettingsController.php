@@ -33,6 +33,7 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Util;
 
 class SettingsController extends Controller
 {
@@ -51,6 +52,9 @@ class SettingsController extends Controller
 	/** @var IL10N */
 	private $l10n;
 
+	/** @var string */
+	private $userId;
+
 	public const FORMS_ARRAY_SEPARATOR =
 		"\n";
 	public const CONFIG_BOOL_TRUE =
@@ -58,6 +62,8 @@ class SettingsController extends Controller
 	public const CONFIG_BOOL_FALSE =
 		'false';
 
+	public const CONFIG_ADVANCED_ACCESS_CONTROL =
+		'FormsEnableAdvancedAccessControl';
 	public const CONFIG_CREATE_FORMS_GROUPS =
 		'FormsCreateAllowed';
 	public const CONFIG_VIEW_RESULTS_FORMS_GROUPS =
@@ -81,6 +87,56 @@ class SettingsController extends Controller
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
+	 * Read the access for the current user as set in the settings
+	 */
+	public function getAccess(): DataResponse {
+		if ($this->isAccessControlEnabled()) {
+			$result = [
+				'canCreate' => $this->canCreateForms(),
+				'canViewSurveyResults' => $this->canViewResults(),
+			];
+		} else {
+			$result = [
+				'canCreate' => true,
+				'canViewSurveyResults' => true,
+			];
+		}
+
+		return new DataResponse($result);
+	}
+
+	/**
+	 * @return bool True, if the current user can view the results
+	 */
+	public function canViewResults() : bool {
+		return $this->checkListForAccess($this->getFormsViewResultsGroups());
+	}
+
+	/**
+	 * @return bool True, if the current user can create a form
+	 */
+	public function canCreateForms() : bool {
+		return $this->checkListForAccess($this->getFormsCreatorGroups());
+	}
+
+	/**
+	 * @param array $accessList List of group IDS allowed
+	 * @return bool True if the user has a group that is allowed
+	 */
+	private function checkListForAccess($accessList) : bool {
+		$userGroups = $this->groupManager->getUserGroups(
+			$this->userManager->get($this->userId));
+
+		foreach ($userGroups as $userGroup)
+			if (in_array($userGroup->getGID(), $accessList))
+				return true;
+
+		return false;
+	}
+
+	/**
 	 * Admin only, this method handles the settings post route
 	 */
 	public function postSettings() {
@@ -95,6 +151,9 @@ class SettingsController extends Controller
 
 		$this->setFormsCreatorGroups($configCreateGroups);
 		$this->setFormsViewResultsGroups($configViewGroups);
+		$this->setIsAccessControlEnabled(
+			isset($_POST['enable-access']) && $_POST['enable-access'] === 'yes'
+		);
 
 		if (count($error) === 0)
 			return new DataResponse('Ok', Http::STATUS_OK);
@@ -120,7 +179,8 @@ class SettingsController extends Controller
 	 */
 	public function getForm()
 	{
-		\OC_Util::addScript('forms', 'admin');
+		\OC_Util::addScript($this->appName, 'admin');
+		\OC_Util::addStyle($this->appName, 'admin');
 
 		$createGroupList = [];
 		$viewGroupList = [];
@@ -143,7 +203,8 @@ class SettingsController extends Controller
 
 		$data = [
 			'createGroups' => $createGroupList,
-			'viewGroups' => $viewGroupList
+			'viewGroups' => $viewGroupList,
+			'enableAccess' => $this->isAccessControlEnabled(),
 		];
 
 		return new TemplateResponse(
@@ -258,5 +319,23 @@ class SettingsController extends Controller
 	public function setFormsViewResultsGroups($groupList)
 	{
 		return $this->setArray(self::CONFIG_VIEW_RESULTS_FORMS_GROUPS, $groupList);
+	}
+
+	/**
+	 * @return bool True if the group-based access control should be considered
+	 */
+	public function isAccessControlEnabled()
+	{
+		return $this->getBoolVal(self::CONFIG_ADVANCED_ACCESS_CONTROL);
+	}
+
+	/**
+	 * @param bool $enabled True if the group-based access control should be
+	 * considered
+	 */
+	public function setIsAccessControlEnabled($enabled)
+	{
+		return $this->setBoolVal(self::CONFIG_ADVANCED_ACCESS_CONTROL,
+			$enabled);
 	}
 }

@@ -23,6 +23,7 @@
 
 namespace OCA\Forms\Service;
 
+use OCA\Forms\Controller\SettingsController;
 use OCA\Forms\Db\Form;
 use OCA\Forms\Db\FormMapper;
 use OCA\Forms\Db\OptionMapper;
@@ -70,6 +71,9 @@ class FormsService {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var SettingsController */
+	private $settingsController;
+
 	public function __construct(FormMapper $formMapper,
 								QuestionMapper $questionMapper,
 								OptionMapper $optionMapper,
@@ -77,6 +81,7 @@ class FormsService {
 								IGroupManager $groupManager,
 								IUserManager $userManager,
 								IUserSession $userSession,
+								SettingsController $settingsController,
 								SurveyUserService $surveyUserService,
 								ILogger $logger) {
 		$this->formMapper = $formMapper;
@@ -87,6 +92,7 @@ class FormsService {
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
+		$this->settingsController = $settingsController;
 
 		$this->currentUser = $userSession->getUser();
 	}
@@ -153,6 +159,10 @@ class FormsService {
 		// Properly format users & groups
 		$result['access']['users'] = array_map([$this, 'formatUsers'], $result['access']['users']);
 		$result['access']['groups'] = array_map([$this, 'formatGroups'], $result['access']['groups']);
+
+		// The current user can view survey results. This could be refined to
+		// a per form basis later if required
+		$result['access']['canViewResults'] = $this->settingsController->canViewResults();
 
 		return $result;
 	}

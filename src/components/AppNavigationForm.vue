@@ -35,7 +35,8 @@
 				@click.stop.prevent="copyLink">
 				{{ clipboardTooltip }}
 			</ActionLink>
-			<ActionRouter :close-after-click="true"
+			<ActionRouter v-if="form.canViewResults"
+				:close-after-click="true"
 				:exact="true"
 				icon="icon-comment"
 				:to="{ name: 'results', params: { hash: form.hash } }"

@@ -32,7 +32,8 @@
 	<AppContent v-else>
 		<!-- Show results & sidebar button -->
 		<TopBar>
-			<button @click="showResults">
+			<button v-if="form.access.canViewResults"
+				@click="showResults">
 				<span class="icon-comment" role="img" />
 				{{ t('forms', 'Responses') }}
 			</button>

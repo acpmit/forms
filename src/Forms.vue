@@ -24,7 +24,10 @@
 <template>
 	<Content app-name="forms">
 		<AppNavigation>
-			<AppNavigationNew button-class="icon-add" :text="t('forms', 'New form')" @click="onNewForm" />
+			<AppNavigationNew v-if="access.canCreate"
+				button-class="icon-add"
+				:text="t('forms', 'New form')"
+				@click="onNewForm" />
 			<template #list>
 				<AppNavigationForm v-for="form in forms"
 					:key="form.id"
@@ -32,10 +35,6 @@
 					@mobile-close-navigation="mobileCloseNavigation"
 					@delete="onDeleteForm" />
 			</template>
-			<!-- Settings and import -->
-<!--			<template #footer>-->
-<!--				<AppNavigationSettings />-->
-<!--			</template>-->
 		</AppNavigation>
 
 		<!-- No forms & loading emptycontents -->
@@ -84,7 +83,6 @@ import AppNavigationNew from '@nextcloud/vue/dist/Components/AppNavigationNew'
 import Content from '@nextcloud/vue/dist/Components/Content'
 import isMobile from '@nextcloud/vue/src/mixins/isMobile'
 
-import AppNavigationSettings from './components/AppNavigationSettings.vue'
 import AppNavigationForm from './components/AppNavigationForm'
 import EmptyContent from './components/EmptyContent'
 
@@ -93,7 +91,6 @@ export default {
 
 	components: {
 		AppNavigationForm,
-		AppNavigationSettings,
 		AppContent,
 		AppNavigation,
 		AppNavigationNew,
@@ -107,6 +104,9 @@ export default {
 		return {
 			loading: true,
 			forms: [],
+			access: {
+				canCreate: false,
+			},
 		}
 	},
 
@@ -134,6 +134,7 @@ export default {
 
 	beforeMount() {
 		this.loadForms()
+		this.loadAccess()
 	},
 
 	methods: {
@@ -159,6 +160,19 @@ export default {
 				console.error(error)
 			} finally {
 				this.loading = false
+			}
+		},
+
+		/**
+		 * Access rights load
+		 */
+		async loadAccess() {
+			try {
+				const response = await axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'access')
+				this.access = response.data
+			} catch (error) {
+				showError(t('forms', 'An error occurred while loading the access list'))
+				console.error(error)
 			}
 		},
 

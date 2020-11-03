@@ -66,8 +66,10 @@ return [
 		// Submissions
 		['name' => 'api#getSubmissions', 'url' => '/api/v1/submissions/{hash}', 'verb' => 'GET'],
 		['name' => 'api#deleteAllSubmissions', 'url' => '/api/v1/submissions/{formId}', 'verb' => 'DELETE'],
-
 		['name' => 'api#insertSubmission', 'url' => '/api/v1/submission/insert', 'verb' => 'POST'],
 		['name' => 'api#deleteSubmission', 'url' => '/api/v1/submission/{id}', 'verb' => 'DELETE'],
+
+		// Access
+		['name' => 'settings#getAccess', 'url' => '/api/v1/access', 'verb' => 'GET'],
 	]
 ];

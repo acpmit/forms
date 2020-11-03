@@ -90,6 +90,9 @@ class ApiController extends Controller {
 	/** @var SurveyUserService */
 	private $surveyUserService;
 
+	/** @var SettingsController */
+	private $settingsController;
+
 	/** @var ISecureRandom */
 	private $secureRandom;
 
@@ -105,6 +108,7 @@ class ApiController extends Controller {
 								ILogger $logger,
 								IL10N $l10n,
 								FormsService $formsService,
+								SettingsController $settingsController,
 								SurveyUserService $surveyUserService,
 								ISecureRandom $secureRandom) {
 		parent::__construct($appName, $request);
@@ -117,6 +121,7 @@ class ApiController extends Controller {
 		$this->answerMapper = $answerMapper;
 		$this->questionMapper = $questionMapper;
 		$this->optionMapper = $optionMapper;
+		$this->settingsController = $settingsController;
 		$this->logger = $logger;
 		$this->l10n = $l10n;
 		$this->formsService = $formsService;
@@ -141,7 +146,10 @@ class ApiController extends Controller {
 				'hash' => $form->getHash(),
 				'title' => $form->getTitle(),
 				'expires' => $form->getExpires(),
-				'partial' => true
+				'partial' => true,
+				// The current user can view survey results. This could be
+				// refined to a per form basis later if required
+				'canViewResults' => $this->settingsController->canViewResults()
 			];
 		}
 
@@ -687,6 +695,10 @@ class ApiController extends Controller {
 	 * @throws OCSForbiddenException
 	 */
 	public function getSubmissions(string $hash): DataResponse {
+		if ($this->settingsController->isAccessControlEnabled() &&
+			!$this->settingsController->canViewResults())
+			throw new OCSForbiddenException();
+
 		try {
 			$form = $this->formMapper->findByHash($hash);
 		} catch (IMapperException $e) {
