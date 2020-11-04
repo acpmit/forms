@@ -162,7 +162,9 @@ class FormsService {
 
 		// The current user can view survey results. This could be refined to
 		// a per form basis later if required
-		$result['access']['canViewResults'] = $this->settingsController->canViewResults();
+		$result['canViewResults'] =
+			!$this->settingsController->isAccessControlEnabled() ||
+			$this->settingsController->canViewResults();
 
 		return $result;
 	}

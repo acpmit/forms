@@ -139,6 +139,11 @@ class ApiController extends Controller {
 	public function getForms(): DataResponse {
 		$forms = $this->formMapper->findAllByOwnerId($this->currentUser->getUID());
 
+		// The current user can view survey results. This could be
+		// refined to a per form basis later if required
+		$canView = !$this->settingsController->isAccessControlEnabled() ||
+			$this->settingsController->canViewResults();
+
 		$result = [];
 		foreach ($forms as $form) {
 			$result[] = [
@@ -147,9 +152,7 @@ class ApiController extends Controller {
 				'title' => $form->getTitle(),
 				'expires' => $form->getExpires(),
 				'partial' => true,
-				// The current user can view survey results. This could be
-				// refined to a per form basis later if required
-				'canViewResults' => $this->settingsController->canViewResults()
+				'canViewResults' => $canView
 			];
 		}
 
@@ -189,6 +192,10 @@ class ApiController extends Controller {
 	 * @throws OCSForbiddenException
 	 */
 	public function newForm(): DataResponse {
+		if ($this->settingsController->isAccessControlEnabled() &&
+			!$this->settingsController->canCreateForms())
+			throw new OCSForbiddenException();
+
 		$form = new Form();
 
 		$form->setOwnerId($this->currentUser->getUID());

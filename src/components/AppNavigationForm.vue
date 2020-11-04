@@ -35,7 +35,7 @@
 				@click.stop.prevent="copyLink">
 				{{ clipboardTooltip }}
 			</ActionLink>
-			<ActionRouter v-if="form.canViewResults"
+			<ActionRouter v-show="form.canViewResults"
 				:close-after-click="true"
 				:exact="true"
 				icon="icon-comment"
