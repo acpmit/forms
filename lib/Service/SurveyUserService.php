@@ -53,7 +53,7 @@ class SurveyUserService
 								SurveyUserMapper $surveyUserMapper,
 								ILogger $logger) {
 		// We need the session if we want to use survey user login sessions
-		session_start();
+		if (session_status() == PHP_SESSION_NONE) session_start();
 		$this->formMapper = $formMapper;
 		$this->surveyUserMapper = $surveyUserMapper;
 		$this->logger = $logger;
@@ -65,13 +65,13 @@ class SurveyUserService
 	}
 
 	public function setCurrentSurveyUserId($userId) {
-		session_start();
+		if (session_status() == PHP_SESSION_NONE) session_start();
 		// \OC::$server->getSession()->set(self::SURVEY_USER_SESSION_ID, $userId);
 		$_SESSION[self::SURVEY_USER_SESSION_ID] = $userId;
 	}
 
 	public function getCurrentSurveyUserId() {
-		session_start();
+		if (session_status() == PHP_SESSION_NONE) session_start();
 		// return \OC::$server->getSession()->get(self::SURVEY_USER_SESSION_ID);
 		return $_SESSION[self::SURVEY_USER_SESSION_ID];
 	}
