@@ -1,5 +1,6 @@
 {
 	"translations": {
+		"If you don't have an account yet, you can register by <a href=\"%s\">clicking here</a>.": "Ha még nincs felhasználói fiókja, <a href=\"%s\">itt regisztrálhat</a>.",
 		"Password verification for %1$s": "Jelszóellenőrzés %1$s számára",
 		"Please confirm that this is your e-mail address": "Kérjük, erősítse meg, hogy ez az Ön e-mail címe",
 		"To confirm your e-mail address, please press the button below:": "E-mail címének megerősítéséhez nyomja meg az alábbi gombot:",

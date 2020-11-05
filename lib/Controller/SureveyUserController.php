@@ -404,7 +404,7 @@ class SureveyUserController extends Controller {
 	{
 		Util::addStyle($this->appName, 'survey');
 
-		if (strlen($this->settingsController->hasSurveyUiLogo()))
+		if ($this->settingsController->hasSurveyUiLogo())
 			$data['logoImage'] = \OC::$server->getURLGenerator()
 				->linkToRoute('forms.settings.getLogoImage');
 		else

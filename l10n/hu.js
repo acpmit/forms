@@ -1,6 +1,7 @@
 OC.L10N.register(
     "forms",
     {
+		"If you don't have an account yet, you can register by <a href=\"%s\">clicking here</a>.": "Ha még nincs felhasználói fiókja, <a href=\"%s\">itt regisztrálhat</a>.",
 		"Allow all instance users to access all forms (no ownership is checked)": "Engedélyezze az összes példány felhasználójának az összes űrlaphoz való hozzáférést (nincs ellenőrizve a tulajdonjog)",
 		"Please select the user groups allowed to view the survey results:": "Kérjük, válassza ki azokat a felhasználói csoportokat, amelyek tagjai megtekinthetik a kérdőívek eredményeit:",
 		"Please select the user groups allowed to create new forms:": "Kérjük, válassza ki azokat a felhasználói csoportokat, amelyek tagjai kérdőíveket hozhatnak létre:",

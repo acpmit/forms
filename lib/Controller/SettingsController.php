@@ -401,7 +401,7 @@ class SettingsController extends Controller
 	 */
 	public function hasSurveyUiLogo()
 	{
-		return strlen($this->getVal(self::CONFIG_SURVEY_UI_LOGOIMAGE) > 0);
+		return strlen($this->getVal(self::CONFIG_SURVEY_UI_LOGOIMAGE))>0;
 	}
 
 	/**
