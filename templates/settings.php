@@ -22,6 +22,13 @@ $settingsUrl = \OC::$server->getURLGenerator()
 					  value="yes"
 					  class="checkbox">
 				<label for="enable-access"><?php p($l->t('Enable advanced access controls (allow access based on the settings below to create forms and view results)')); ?></label></p>
+			<p><input name="allow-all"
+					  id="allow-all"
+					<?php if ($_['enableAll']) p('checked'); ?>
+					  type="checkbox"
+					  value="yes"
+					  class="checkbox">
+				<label for="allow-all"><?php p($l->t('Allow all instance users to access all forms (no ownership is checked)')); ?></label></p>
 		</div>
 	</div>
 

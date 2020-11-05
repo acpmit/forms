@@ -279,6 +279,11 @@ class FormsService {
 			return false;
 		}
 
+		// Always grant access if it's set in the settings
+		if ($this->settingsController->isAccessToAllEnabled()) {
+			return true;
+		}
+
 		// Always grant access to owner.
 		if ($ownerId === $this->currentUser->getUID()) {
 			return true;

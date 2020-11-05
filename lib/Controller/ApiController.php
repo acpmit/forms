@@ -96,6 +96,11 @@ class ApiController extends Controller {
 	/** @var ISecureRandom */
 	private $secureRandom;
 
+	private const ACCESS_VIEW = 1;
+	private const ACCESS_EDIT = 2;
+	private const ACCESS_DELETE = 3;
+	private const ACCESS_VIEW_RESULTS = 4;
+
 	public function __construct(string $appName,
 								IRequest $request,
 								IUserSession $userSession,
@@ -137,7 +142,10 @@ class ApiController extends Controller {
 	 * Read Form-List only with necessary information for Listing.
 	 */
 	public function getForms(): DataResponse {
-		$forms = $this->formMapper->findAllByOwnerId($this->currentUser->getUID());
+		if ($this->settingsController->isAccessToAllEnabled())
+			$forms = $this->formMapper->findAll();
+		else
+			$forms = $this->formMapper->findAllByOwnerId($this->currentUser->getUID());
 
 		// The current user can view survey results. This could be
 		// refined to a per form basis later if required
@@ -232,7 +240,7 @@ class ApiController extends Controller {
 	 * @throws OCSForbiddenException
 	 */
 	public function updateForm(int $id, array $keyValuePairs): DataResponse {
-		// TODO the absolute lack of input validation is worrysome all along Form::fromParams
+		// TODO the absolute lack of input validation is worrisome all along Form::fromParams
 
 		$this->logger->debug('Updating form: FormId: {id}, values: {keyValuePairs}', [
 			'id' => $id,
@@ -246,7 +254,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException();
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_EDIT, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -297,7 +305,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException();
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_DELETE, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -340,7 +348,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException();
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_EDIT, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -393,7 +401,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException();
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_EDIT, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -486,7 +494,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException('Could not find form or question');
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_EDIT, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -528,7 +536,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException('Could not find form or question');
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_EDIT, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -577,7 +585,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException('Could not find form or question');
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_EDIT, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -619,7 +627,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException('Could not find option, question or form');
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_EDIT, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -657,7 +665,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException('Could not find form or option');
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_EDIT, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -702,10 +710,6 @@ class ApiController extends Controller {
 	 * @throws OCSForbiddenException
 	 */
 	public function getSubmissions(string $hash): DataResponse {
-		if ($this->settingsController->isAccessControlEnabled() &&
-			!$this->settingsController->canViewResults())
-			throw new OCSForbiddenException();
-
 		try {
 			$form = $this->formMapper->findByHash($hash);
 		} catch (IMapperException $e) {
@@ -713,7 +717,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException();
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_VIEW_RESULTS, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -892,7 +896,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException();
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_DELETE, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -924,7 +928,7 @@ class ApiController extends Controller {
 			throw new OCSBadRequestException();
 		}
 
-		if ($form->getOwnerId() !== $this->currentUser->getUID()) {
+		if (!$this->checkFormAccess(self::ACCESS_DELETE, $form)) {
 			$this->logger->debug('This form is not owned by the current user');
 			throw new OCSForbiddenException();
 		}
@@ -934,4 +938,24 @@ class ApiController extends Controller {
 
 		return new DataResponse($formId);
 	}
+
+	/**
+	 * Check the access for a form based on form ID and the current login
+	 *
+	 * @param int $access Access level based on the ACCESS_ consts
+	 * @param Form $form Form object to check on
+	 * @return bool True if the desired access is grantable
+	 */
+	private function checkFormAccess(int $access, Form $form) : bool {
+		if ($access === self::ACCESS_VIEW_RESULTS) {
+			return ($this->settingsController->isAccessControlEnabled() &&
+				!$this->settingsController->canViewResults()) ||
+				$form->getOwnerId() === $this->currentUser->getUID();
+		}
+
+		// So far we only have a general access all and creator owner settings
+		return ($this->settingsController->isAccessToAllEnabled() ||
+			$form->getOwnerId() === $this->currentUser->getUID());
+	}
+
 }

@@ -72,6 +72,8 @@ class SettingsController extends Controller
 		'FormsViewResults';
 	public const CONFIG_SURVEY_UI_LOGOIMAGE =
 		'FormsSurveyLogoImage';
+	public const CONFIG_ENABLE_ACCESS_ALL =
+		'FormsAccessAll';
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -157,6 +159,9 @@ class SettingsController extends Controller
 		$this->setFormsViewResultsGroups($configViewGroups);
 		$this->setIsAccessControlEnabled(
 			isset($_POST['enable-access']) && $_POST['enable-access'] === 'yes'
+		);
+		$this->setIsAccessToAllEnabled(
+			isset($_POST['allow-all']) && $_POST['allow-all'] === 'yes'
 		);
 
 		if (isset($_POST['uploadLogoData']) && strlen($_POST['uploadLogoData']) > 0)
@@ -245,6 +250,7 @@ class SettingsController extends Controller
 		}
 
 		$data = [
+			'enableAll' => $this->isAccessToAllEnabled(),
 			'createGroups' => $createGroupList,
 			'viewGroups' => $viewGroupList,
 			'enableAccess' => $this->isAccessControlEnabled(),
@@ -406,5 +412,22 @@ class SettingsController extends Controller
 	{
 		return $this->setVal(self::CONFIG_SURVEY_UI_LOGOIMAGE,
 			$image);
+	}
+
+	/**
+	 * @return bool True if everyone can access every form
+	 */
+	public function isAccessToAllEnabled()
+	{
+		return $this->getBoolVal(self::CONFIG_ENABLE_ACCESS_ALL);
+	}
+
+	/**
+	 * @param bool $enabled True if everyone can access every form
+	 */
+	public function setIsAccessToAllEnabled($enabled)
+	{
+		return $this->setBoolVal(self::CONFIG_ENABLE_ACCESS_ALL,
+			$enabled);
 	}
 }

@@ -1,6 +1,10 @@
 OC.L10N.register(
     "forms",
     {
+		"Allow all instance users to access all forms (no ownership is checked)": "Engedélyezze az összes példány felhasználójának az összes űrlaphoz való hozzáférést (nincs ellenőrizve a tulajdonjog)",
+		"Please select the user groups allowed to view the survey results:": "Kérjük, válassza ki azokat a felhasználói csoportokat, amelyek tagjai megtekinthetik a kérdőívek eredményeit:",
+		"Please select the user groups allowed to create new forms:": "Kérjük, válassza ki azokat a felhasználói csoportokat, amelyek tagjai kérdőíveket hozhatnak létre:",
+		"Enable advanced access controls (allow access based on the settings below to create forms and view results)": "Egyedi hozzáférés-kezelés engedélyezése (lehetővé teszi az alább beállítottak alapján a hozzáférés korlátozását az űrlapok létrehozásához és az eredmények megtekintéséhez)",
 		"Are you sure you want to delete all responses of {title}?": "Biztosan törli a (z) {title} összes válaszát?",
 		"Responses are connected to your Nextcloud account.": "A válaszok kapcsolódnak a Nextcloud-fiókjához.",
 		"A long answer for the question “{text}”": "Hosszú válasz a “{text}” kérdésre",
