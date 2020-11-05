@@ -44,7 +44,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 					<?php p($_['message']); ?>
 				</p>
 				<p>
-					<?php print_unescaped($l->t('Please <a href="%s">click here to log in</a>.', $routeLogin)); ?>
+					<?php print_unescaped($l->t('After you confirmed your e-mail address, please <a href="%s">click here to log in</a>.', $routeLogin)); ?>
 				</p>
 			</div>
 

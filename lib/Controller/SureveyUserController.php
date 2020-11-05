@@ -40,18 +40,26 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\Mail\IMailer;
 use OCP\Util;
 
 class SureveyUserController extends Controller {
 	public const TEMPLATE_SURVEY_USER_LOGIN = 'surveyuserlogin';
 	public const TEMPLATE_SURVEY_USER_REGISTER = 'surveyuserregister';
 
+	private const EMAIL_TEMPLATE_VERIFY = 1;
+	private const EMAIL_TEMPLATE_RESET_PASSWORD = 2;
+
 	public const SUREVEY_USER_PASS_MIN_LEN = 8;
 
 	protected $appName;
+
+	/** @var IConfig */
+	private $config;
 
 	/** @var IL10N */
 	private $l10n;
@@ -71,17 +79,24 @@ class SureveyUserController extends Controller {
 	/** @var SettingsController */
 	private $settingsController;
 
+	/** @var IMailer */
+	private $mailer;
+
 	public function __construct(string $appName,
 								IL10N $l10n,
 								ILogger $logger,
+								IConfig $config,
 								FormMapper $formMapper,
 								SurveyUserMapper $surveyUserMapper,
 								SettingsController $settingsController,
 								SurveyUserService $surveyUserService,
+								IMailer $mailer,
 								IRequest $request) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
+		$this->mailer = $mailer;
 		$this->formMapper = $formMapper;
+		$this->config = $config;
 		$this->surveyUserMapper = $surveyUserMapper;
 		$this->settingsController = $settingsController;
 		$this->surveyUserService = $surveyUserService;
@@ -173,6 +188,40 @@ class SureveyUserController extends Controller {
 	}
 
 	/**
+	 * Generate a code for the password recovery/activation
+	 *
+	 * @return string Access code
+	 * @throws \Exception
+	 */
+	private static function getAccessCode(): string {
+		return RandomHelper::randomStr(100);
+	}
+
+	/**
+	 * Password verification email link
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param $code
+	 */
+	public function verifyEmail($code) {
+
+	}
+
+	/**
+	 * Reset password email link
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param $code
+	 */
+	public function resetPassword($code) {
+
+	}
+
+	/**
 	 * Process the form where the survey users can register
 	 *
 	 * @param string $id Form id to pass to the login after the registration
@@ -235,9 +284,8 @@ class SureveyUserController extends Controller {
 			$newUser->setAddress(ValidationHelper::filterAlphaNumericUnicde($su_address, 1000));
 			$newUser->setEmail($su_email); // It is already filtered above
 			$newUser->setPasswordhash(password_hash($su_password, PASSWORD_ARGON2I));
-			$newUser->setConfirmcode(RandomHelper::randomStr(100));
-
-			// TODO TODOFORMS send mail
+			$code = self::getAccessCode();
+			$newUser->setConfirmcode($code);
 
 			$born = (int)$su_born;
 			if ($born > 0)
@@ -246,6 +294,11 @@ class SureveyUserController extends Controller {
 			try {
 				$this->surveyUserMapper->insert($newUser);
 				$message = $this->l10n->t('Successful registration.');
+
+				// Send mail with the activation code
+				$link = \OC::$server->getURLGenerator()
+					->linkToRoute('forms.sureveyUser.verifyEmail', ['code' => $code]);
+				$this->sendMail(self::EMAIL_TEMPLATE_VERIFY, $link, $su_email);
 			} catch (Exception $e) {
 				// TODO TODOFORMS Log
 				$message = $this->l10n->t(
@@ -370,5 +423,47 @@ class SureveyUserController extends Controller {
 		);
 
 		return $this->addSurveyUserMenu($template);
+	}
+
+	private function sendMail(int $template, string $link, string $to) {
+		// The user sets the site name in the theming app
+		$serverName = $this->config->getAppValue('theming', 'name', 'Site');
+		$message = $this->mailer->createMessage();
+		$link = \OC::$server->getURLGenerator()->getAbsoluteURL($link);
+
+		switch ($template) {
+			case self::EMAIL_TEMPLATE_VERIFY:
+				$mailId = 'forms.verify';
+				$title = $this->l10n->t('Password verification for %1$s', [$serverName]);
+				$heading = $this->l10n->t('Please confirm that this is your e-mail address');
+				$body = $this->l10n->t('To confirm your e-mail address, please press the button below:');
+				$textBody = $this->l10n->t('To confirm your e-mail address, please open this link in your browser: %1$s', [$link]);
+				$button = $this->l10n->t('Confirm e-mail address');
+				break;
+			case self::EMAIL_TEMPLATE_RESET_PASSWORD:
+				$mailId = 'forms.reset';
+				$title = $this->l10n->t('Password reset for %1$s', [$serverName]);
+				$heading = $this->l10n->t('Someone requested a password reset at %1$s for you.', [$serverName]);
+				$body = $this->l10n->t('To change your password, please press the button below:');
+				$textBody = $this->l10n->t('To change your password, please open this link in your browser: %1$s', [$link]);
+				$button = $this->l10n->t('Change password');
+				break;
+		}
+
+		$emailTemplate = $this->mailer->createEMailTemplate($mailId, [
+			'link' => $link,]);
+		$emailTemplate->setSubject($title);
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($heading, false);
+		$emailTemplate->addBodyText(htmlspecialchars($body), $textBody);
+		$emailTemplate->addBodyButton($button, $link);
+
+		$message->setTo([$to]);
+
+		// The "From" contains the sharers name
+		$message->setFrom([\OCP\Util::getDefaultEmailAddress($serverName) => $serverName]);
+
+		$message->useTemplate($emailTemplate);
+		$this->mailer->send($message);
 	}
 }
