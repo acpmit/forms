@@ -68,17 +68,22 @@ class SureveyUserController extends Controller {
 	/** @var SurveyUserMapper */
 	private $surveyUserMapper;
 
+	/** @var SettingsController */
+	private $settingsController;
+
 	public function __construct(string $appName,
 								IL10N $l10n,
 								ILogger $logger,
 								FormMapper $formMapper,
 								SurveyUserMapper $surveyUserMapper,
+								SettingsController $settingsController,
 								SurveyUserService $surveyUserService,
 								IRequest $request) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->formMapper = $formMapper;
 		$this->surveyUserMapper = $surveyUserMapper;
+		$this->settingsController = $settingsController;
 		$this->surveyUserService = $surveyUserService;
 		$this->logger = $logger;
 		$this->appName = $appName;
@@ -345,6 +350,12 @@ class SureveyUserController extends Controller {
 							   $template) : TemplateResponse
 	{
 		Util::addStyle($this->appName, 'survey');
+
+		if (strlen($this->settingsController->hasSurveyUiLogo()))
+			$data['logoImage'] = \OC::$server->getURLGenerator()
+				->linkToRoute('forms.settings.getLogoImage');
+		else
+			$data['logoImage'] = false;
 
 		// TODO
 		$template = new PublicTemplateResponse(

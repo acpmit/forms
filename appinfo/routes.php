@@ -35,6 +35,7 @@ return [
 
 		// Settings
 		['name' => 'settings#postSettings', 'url' => '/settings', 'verb' => 'POST'],
+		['name' => 'settings#getLogoImage', 'url' => '/settings/logoimage', 'verb' => 'GET'],
 
 		// Before /{hash} to avoid conflict
 		['name' => 'page#index', 'url' => '/new', 'verb' => 'GET', 'postfix' => 'create'],

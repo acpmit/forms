@@ -30,14 +30,20 @@ $routeLogin = \OC::$server->getURLGenerator()
 
 <div id="emptycontent" class="">
 
+	<?php if($_['logoImage']): ?>
+		<div class="survey-logo">
+			<img src="<?php p($_['logoImage']); ?>">
+		</div>
+	<?php else: ?>
+		<div class="icon-forms"></div>
+	<?php endif ?>
+
 	<div class="survey-user-center">
 		<?php if($_['success']): ?>
 			<div>
 				<?php p($_['message']); ?>
 			</div>
 		<?php else: ?>
-			<div class="icon-forms"></div>
-
 			<div class="survey_user_login">
 				<h2><?php p($l->t('This form is for registered users only. If you already have an account, please log in.')); ?></h2>
 

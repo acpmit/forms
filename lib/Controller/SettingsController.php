@@ -25,7 +25,9 @@ namespace OCA\Forms\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\DownloadResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -68,6 +70,8 @@ class SettingsController extends Controller
 		'FormsCreateAllowed';
 	public const CONFIG_VIEW_RESULTS_FORMS_GROUPS =
 		'FormsViewResults';
+	public const CONFIG_SURVEY_UI_LOGOIMAGE =
+		'FormsSurveyLogoImage';
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -155,6 +159,9 @@ class SettingsController extends Controller
 			isset($_POST['enable-access']) && $_POST['enable-access'] === 'yes'
 		);
 
+		if (isset($_POST['uploadLogoData']) && strlen($_POST['uploadLogoData']) > 0)
+			$this->setSurveyUiLogo($_POST['uploadLogoData']);
+
 		if (count($error) === 0)
 			return new DataResponse('Ok', Http::STATUS_OK);
 		else
@@ -174,11 +181,47 @@ class SettingsController extends Controller
 		}
 	}
 
+	private static function getImageData($data) {
+		$items = [];
+		$matches = preg_match('/^(data:)(image\/[^;]+);base64,(.*)/', $data, $items);
+		if ($matches <= 0)
+			return false;
+
+		if ($items[1] !== 'data:')
+			return false;
+
+		$source = base64_decode($items[3]);
+		if (!$source)
+			return false;
+
+		return [
+			'source' => $source,
+			'mime' => $items[2]
+		];
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @CORS
+	 *
+	 * @return DataDownloadResponse|DataResponse
+	 */
+	public function getLogoImage() {
+		$data = self::getImageData($this->getSurveyUiLogo());
+		if (!$data) return new DataResponse('', Http::STATUS_NO_CONTENT);
+
+		return new DataDownloadResponse(
+			$data['source'],
+			'logo',
+			$data['mime']
+		);
+	}
+
 	/**
 	 * Display the settings page
 	 */
-	public function getForm()
-	{
+	public function getForm() {
 		\OC_Util::addScript($this->appName, 'admin');
 		\OC_Util::addStyle($this->appName, 'admin');
 
@@ -337,5 +380,31 @@ class SettingsController extends Controller
 	{
 		return $this->setBoolVal(self::CONFIG_ADVANCED_ACCESS_CONTROL,
 			$enabled);
+	}
+
+	/**
+	 * @return string Base64 coded image to insert into the source
+	 */
+	public function getSurveyUiLogo()
+	{
+		return $this->getVal(self::CONFIG_SURVEY_UI_LOGOIMAGE);
+	}
+
+	/**
+	 * @return bool If the page has an image to insert into the source
+	 */
+	public function hasSurveyUiLogo()
+	{
+		return strlen($this->getVal(self::CONFIG_SURVEY_UI_LOGOIMAGE) > 0);
+	}
+
+	/**
+	 * @param string $image Base64 coded image to insert into the source
+	 * considered
+	 */
+	public function setSurveyUiLogo($image)
+	{
+		return $this->setVal(self::CONFIG_SURVEY_UI_LOGOIMAGE,
+			$image);
 	}
 }

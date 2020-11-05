@@ -11,8 +11,7 @@ $settingsUrl = \OC::$server->getURLGenerator()
 
 	<div id="forms-general" class="section">
 		<p><span id="forms_settings_msg" class="msg"></span></p>
-
-		<h2>General settings</h2>
+		<h2><?php p($l->t('General settings')); ?></h2>
 		<div><p class="settings-hint">
 				<?php p($l->t('These are the controls for the general functions:')); ?>
 			</p>
@@ -27,7 +26,7 @@ $settingsUrl = \OC::$server->getURLGenerator()
 	</div>
 
 	<div id="forms-create-groups" class="section">
-		<h2>Create forms</h2>
+		<h2><?php p($l->t('Create forms')); ?></h2>
 		<div class="section-content">
 			<div class="forms-access forms-access-curtain"></div>
 			<p class="settings-hint">
@@ -46,7 +45,7 @@ $settingsUrl = \OC::$server->getURLGenerator()
 	</div>
 
 	<div id="forms-view-groups" class="section">
-		<h2>View results</h2>
+		<h2><?php p($l->t('View results')); ?></h2>
 		<div class="section-content">
 			<div class="forms-access forms-access-curtain"></div>
 			<p class="settings-hint">
@@ -64,7 +63,16 @@ $settingsUrl = \OC::$server->getURLGenerator()
 		</div>
 	</div>
 
+	<div id="forms-logo" class="section">
+		<h2><?php p($l->t('Logo for the survey user interface')); ?></h2>
+		<div class="section-content">
+			<label for="uploadlogo"><span><?php p($l->t('Logo')) ?></span></label>
+			<input id="uploadLogoData" name="uploadLogoData" type="hidden" />
+			<input id="uploadlogo" class="fileupload" name="uploadlogo" type="file" />
+		</div>
+	</div>
+
 	<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
 	<div class="section"><input type="button" id="forms_settings_submit" class="primary" value="<?php p($l->t('Save changes')); ?>"></div>
-
 </form>
+
