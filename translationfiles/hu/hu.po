@@ -1,0 +1,1086 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Nextcloud package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Nextcloud 3.14159\n"
+"Report-Msgid-Bugs-To: translations\\@example.com\n"
+"POT-Creation-Date: 2020-11-05 07:43+0000\n"
+"PO-Revision-Date: 2020-11-05 09:23+0100\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.1\n"
+"Last-Translator: \n"
+"Language: hu\n"
+
+#: /var/www/nextcloud/apps/forms/js/admin.js:11
+msgid "Saved"
+msgstr "Mentve"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:8475
+msgid "seconds"
+msgstr "másodperc"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11450
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11462
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:8556
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:8568
+msgid "action"
+msgid_plural "action--disabled"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11462
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:8568
+msgid "checkbox"
+msgid_plural "checkbox action-checkbox__checkbox"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11462
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:8568
+msgid "label"
+msgid_plural "action-checkbox__label"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11704
+msgid "app-navigation__list"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11704
+msgid "app-navigation"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11759
+msgid "app-navigation-entry-link"
+msgid_plural "#"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11759
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "icon-confirm"
+msgid_plural "submit"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11759
+msgid "icon-close"
+msgid_plural "reset"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11801
+msgid "popover"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11822
+msgid "aria-hidden"
+msgid_plural ""
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11822
+msgid "menuButton"
+msgid_plural "icon action-item__menutoggle"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-tabs__tab-icon"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-tabs__nav"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-tabs__content"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-tabs"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar__close icon-close"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header__figure"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header__star"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header__tertiary-actions"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header__subtitle"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header__title-container"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header__menu"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header__desc"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header__info"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header__action"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar-header"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "icon-loading"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "app-sidebar"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:11933
+msgid "slide-right"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:14677
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:7
+msgid "An error occurred while loading the forms list"
+msgstr "Hiba történt az űrlaplista betöltésekor"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:14719
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:8
+msgid "An error occurred while loading the access list"
+msgstr "Hiba történt a hozzáférési lista betöltése közben"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:14768
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:9
+msgid "Unable to create a new form"
+msgstr "Nem lehet új űrlapot létrehozni"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:14986
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:17764
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18343
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76457
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:12207
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:1
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:13
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:54
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:74
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:102
+msgid "New form"
+msgstr "Új űrlap"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:15003
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18369
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18976
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:14
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:75
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:96
+msgid "Form link copied"
+msgstr "Az űrlap linkje másolva"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:15003
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18371
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18978
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:15
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:76
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:97
+msgid "Cannot copy, please copy the link manually"
+msgstr "Nem lehet másolni, kérjük, másolja a linket manuálisan"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:15006
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78383
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78494
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:16
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:73
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:83
+msgid "Copy share link"
+msgstr "Megosztás link másolása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:15024
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:17
+msgid "Are you sure you want to delete {title}?"
+msgstr "Biztosan törli a következőt: {title}?"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:15049
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:18
+msgid "Error while deleting {title}"
+msgstr "Hiba történt a(z) {title} törlésekor"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:15401
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:15454
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:10873
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:10926
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:22
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:23
+msgid "Error while saving the answer"
+msgstr "Hiba történt a válasz mentése közben"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:15608
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99900
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99909
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:11080
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45383
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45392
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:29
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:94
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:105
+msgid "This question needs a title!"
+msgstr "Ehhez a kérdéshez cím kell!"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:16005
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:16474
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:11477
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:11946
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:32
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:36
+msgid "There was an issue deleting this option"
+msgstr "Hiba történt ennek a lehetőségnek a törlése közben"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:16873
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:16940
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:39
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:40
+msgid "No response"
+msgstr "Nincs válasz"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:17127
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:43
+msgid "Searching …"
+msgstr "Keresés..."
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:17130
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:44
+msgid "No elements found."
+msgstr "Nem található elem."
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:17532
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:45
+msgid "Group"
+msgstr "Csoport"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:17778
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:12235
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:55
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:103
+msgid "Responses are anonymous."
+msgstr "A válaszok névtelenek."
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:17780
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:12237
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:56
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:104
+msgid "Responses are connected to your account."
+msgstr "A válaszok a fiókjához kapcsolódnak."
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:17782
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:12239
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:57
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:105
+msgid "Responses are connected to your Nextcloud account."
+msgstr "A válaszok kapcsolódnak a Nextcloud-fiókjához."
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:17786
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:12243
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:58
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:106
+msgid "An asterisk (*) indicates mandatory questions."
+msgstr "A csillag (*) a kötelező kérdéseket jelöli."
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:17965
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:59
+msgid "There was an error while adding the new question"
+msgstr "Hiba történt az új kérdés hozzáadásakor"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18016
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:60
+msgid "There was an error while removing the question"
+msgstr "Hiba történt a kérdés eltávolítása közben"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18062
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99782
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:61
+#: /var/www/nextcloud/apps/forms/src/mixins/ViewsMixin.js:49
+msgid "Error while saving form"
+msgstr "Hiba történt az űrlap mentése közben"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18116
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77950
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77968
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:49
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:50
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:62
+msgid "Form title"
+msgstr "Űrlap címe"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18407
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:77
+msgid "There was an error while loading the results"
+msgstr "Hiba történt az eredmények betöltése közben"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18450
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:78
+msgid "There was an error while removing this response"
+msgstr "Hiba történt a válasz eltávolítása közben"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18473
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:79
+msgid "Are you sure you want to delete all responses of {title}?"
+msgstr "Biztosan törli a (z) {title} összes válaszát?"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18497
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:80
+msgid "There was an error while removing responses"
+msgstr "Hiba történt a válaszok eltávolítása közben"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18546
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:81
+msgid "responses"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18762
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:93
+msgid "Select expiration date"
+msgstr "Válassza ki a lejárati dátumot"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18938
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:94
+msgid "Expired on {date}"
+msgstr "Lejárt: {date}"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:18943
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:95
+msgid "Expires on {date}"
+msgstr "Lejárt: {date}"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76476
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:2
+msgid "Loading forms …"
+msgstr "Űrlapok betöltése ..."
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76500
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:4
+msgid "Create a form"
+msgstr "Űrlap létrehozása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76519
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:3
+msgid "No forms created yet"
+msgstr "Még nem hoztak létre űrlapokat"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76543
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:6
+msgid "Create new form"
+msgstr "Új űrlap létrehozása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76563
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:5
+msgid "Select a form or create a new one"
+msgstr "Válasszon űrlapot, vagy hozzon létre újat"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76677
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77915
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78286
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:10
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:47
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:67
+msgid "Responses"
+msgstr "Válaszok"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76694
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:12
+msgid "Delete form"
+msgstr "Űrlap törlése"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76814
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34406
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:19
+msgid "An answer for the {index} option"
+msgstr "Válasz a {index} lehetőségre"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76817
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34409
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:20
+msgid "Answer number {index}"
+msgstr "{number} számú válasz"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76863
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34455
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:21
+msgid "Delete answer"
+msgstr "Válasz törlése"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76910
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34502
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:24
+msgid "Question number {index}"
+msgstr "{number} számú kérdés"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76922
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34514
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:25
+msgid "Drag to reorder the questions"
+msgstr "Húzza át a kérdések sorrendjének változtatásához"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76938
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34530
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:26
+msgid "Title of question number {index}"
+msgstr "A {index} számú kérdés címe"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:76987
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34579
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:27
+msgid "Required"
+msgstr "Kötelező"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77002
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34594
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:28
+msgid "Delete question"
+msgstr "Kérdés törlése"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77140
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77141
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77394
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77395
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34732
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34733
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34986
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34987
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:30
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:31
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:34
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:35
+msgid "Add a new answer"
+msgstr "Új válasz hozzáadása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77214
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:34806
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:33
+msgid "A long answer for the question “{text}”"
+msgstr "Hosszú válasz a “{text}” kérdésre"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77467
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:35059
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:37
+msgid "A short answer for the question “{text}”"
+msgstr "Rövid válasz a “{text}” kérdésre"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77576
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:38
+msgid "Delete this response"
+msgstr "Törölje ezt a választ"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77732
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:41
+msgid "User or group name …"
+msgstr "Felhasználó vagy csoport neve…"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77749
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:42
+msgid "No recommendations. Start typing."
+msgstr "Nincsenek ajánlások. Kezdje el beírni."
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77896
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:46
+msgid "Loading {title} …"
+msgstr "{title} betöltése …"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77927
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:48
+msgid "Toggle settings"
+msgstr "Beállítások kapcsolása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:77990
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78006
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:51
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:52
+msgid "Description"
+msgstr "Leírás"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78096
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:53
+msgid "Add a question"
+msgstr "Kérdés hozzáadása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78172
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:63
+msgid "Loading responses …"
+msgstr "Válaszok betöltése ..."
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78186
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:64
+msgid "Back to questions"
+msgstr "Vissza a kérdésekhez"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78199
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:65
+msgid "{amount} responses"
+msgstr "{amount} válasz"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78246
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:66
+msgid "Summary"
+msgstr "Összegzés"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78298
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:68
+msgid "Options"
+msgstr "Beállítások"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78312
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:69
+msgid "Export to CSV"
+msgstr "Exportálás CSV-fájlba"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78327
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:70
+msgid "Delete all responses"
+msgstr "Az összes válasz törlése"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78360
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:72
+msgid "Results of submitted forms will show up here"
+msgstr "A beküldött űrlapok eredményei itt jelennek meg"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78402
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:71
+msgid "No responses yet"
+msgstr "Még nincs válasz"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78485
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:82
+msgid "Share form"
+msgstr "Űrlap megosztása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78526
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:84
+msgid "Share via link"
+msgstr "Megosztás linken keresztül"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78560
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:85
+msgid "Show to all users of this instance"
+msgstr "Megjelenítés a példány összes felhasználójának"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78594
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:86
+msgid "Only for registered survey users"
+msgstr "Csak regisztrált kérdőív felhasználók számára"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78630
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:87
+msgid "Choose users to share with"
+msgstr "Válassza ki azokat a felhasználókat, akikkel meg szeretné osztani"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78656
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:88
+msgid "Settings"
+msgstr "Beállítások"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78708
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:89
+msgid "Anonymous responses"
+msgstr "Névtelen válaszok"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78764
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:90
+msgid "Allow multiple responses per person"
+msgstr "Több válasz engedélyezése személyenként"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78815
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:91
+msgid "Set expiration date"
+msgstr "Lejárati idő megadása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78837
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:92
+msgid "Expiration date"
+msgstr "Lejárati idő"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78977
+msgid "multiselect__tag-icon"
+msgid_plural "aria-hidden"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78977
+msgid "search"
+msgid_plural "multiselect__input"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78977
+msgid "tags"
+msgid_plural "multiselect__tags"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:78977
+msgid "multiselect"
+msgid_plural "multiselect--active"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99639
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45265
+#: /var/www/nextcloud/apps/forms/src/mixins/QuestionMixin.js:180
+msgid "Error while saving question"
+msgstr "Hiba a kérdés mentésekor"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99862
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45345
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:54
+msgid "Checkboxes"
+msgstr "Jelölőnégyzetek"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99866
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45349
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:57
+msgid "Checkbox question title"
+msgstr "Jelölőnégyzetes válasz címe"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99867
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99877
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99891
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45350
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45360
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45374
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:58
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:68
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:83
+msgid "This question needs a title and at least one answer!"
+msgstr "A kérdéshez legalább egy válasz szükséges!"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99872
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45355
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:64
+msgid "Multiple choice"
+msgstr "Több válasz"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99876
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45359
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:67
+msgid "Multiple choice question title"
+msgstr "Több válaszos kérdés címe"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99884
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45367
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:77
+msgid "Dropdown"
+msgstr "Legördülő"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99888
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45371
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:80
+msgid "Dropdown question title"
+msgstr "Legördülő válasz címe"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99889
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45372
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:81
+msgid "People can pick one option"
+msgstr "Egy lehetőséget választhatnak ki"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99890
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45373
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:82
+msgid "Pick an option"
+msgstr "Válasszon egy lehetőséget"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99896
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45379
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:89
+msgid "Short answer"
+msgstr "Rövid válasz"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99897
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45380
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:91
+msgid "Short answer question title"
+msgstr "Rövid szöveges kérdés címe"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99898
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45381
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:92
+msgid "People can enter a short answer"
+msgstr "Rövid válasz írható be"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99899
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45382
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:93
+msgid "Enter a short answer"
+msgstr "Rövid szöveg beírása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99905
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45388
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:100
+msgid "Long text"
+msgstr "Hosszú szöveg"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99906
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45389
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:102
+msgid "Long text question title"
+msgstr "Hosszú szöveges kérdés címe"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99907
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45390
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:103
+msgid "People can enter a long text"
+msgstr "Hosszú válasz írható be"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:99908
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45391
+#: /var/www/nextcloud/apps/forms/src/models/AnswerTypes.js:104
+msgid "Enter a long text"
+msgstr "Hosszú szöveg beírása"
+
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:100165
+#: /var/www/nextcloud/apps/forms/js/forms-main.js:100167
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45523
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:45525
+#: /var/www/nextcloud/apps/forms/lib/Controller/PageController.php:206
+#: /var/www/nextcloud/apps/forms/lib/Settings/Section.php:59
+#: /var/www/nextcloud/apps/forms/specialAppInfoFakeDummyForL10nScript.php:3
+#: /var/www/nextcloud/apps/forms/src/utils/SetWindowTitle.js:29
+#: /var/www/nextcloud/apps/forms/src/utils/SetWindowTitle.js:31
+msgid "Forms"
+msgstr "Űrlapok"
+
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:12304
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:107
+msgid "There was an error submitting the form"
+msgstr "Hiba történt az űrlap elküldése során"
+
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:35233
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:99
+msgid "Submit form"
+msgstr "Űrlap beküldése"
+
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:35235
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:98
+msgid "Submit"
+msgstr "Beküldés"
+
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:35243
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:100
+msgid "Submitting form …"
+msgstr "Űrlap beküldése …"
+
+#: /var/www/nextcloud/apps/forms/js/forms-submit.js:35252
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:101
+#: /var/www/nextcloud/apps/forms/templates/nosubmit.php:28
+msgid "Thank you for completing the form!"
+msgstr "Köszönöm, hogy kitöltötte az űrlapot!"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/ApiController.php:736
+msgid "Anonymous response"
+msgstr "Névtelen válasz"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/ApiController.php:740
+msgid "Registered survey user response"
+msgstr "Regisztrált külső felhasználó válasza"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/PageController.php:217
+#, php-format
+msgid "Shared by %s"
+msgstr "%s megosztotta"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SettingsController.php:180
+#, php-format
+msgid "Invalid group name: %s"
+msgstr "Hibás csoportnév: %s"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:107
+msgid "Please fill in both the e-mail and password fields."
+msgstr "Kérjük, töltse ki az e-mail és a jelszó mezőket."
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:132
+msgid "Successful login"
+msgstr "Sikeres belépés"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:138
+msgid "Invalid e-mail or login."
+msgstr "Érvénytelen e-mail vagy bejelentkezés."
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:203
+msgid "Invalid e-mail format."
+msgstr "Érvénytelen e-mail formátum."
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:209
+msgid "The e-mail address is in use. Please try to reset your password."
+msgstr ""
+"Az e-mail cím használatban van. Próbálja meg alaphelyzetbe állítani a "
+"jelszavát."
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:216
+msgid "The password and password verification fields don't match."
+msgstr "A jelszó- és jelszó-ellenőrzési mezők nem egyeznek."
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:222
+#, php-format
+msgid "The password is too short. Please use at least %s characters."
+msgstr "A jelszó túl rövid. Kérjük, használjon legalább %s karaktert."
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:228
+msgid "There is a problem with the registration data, please correct it:"
+msgid_plural ""
+"There are problems with the registration data, please correct them:"
+msgstr[0] "Probléma van az egyik regisztrációs adattal, kérjük, javítsa ki:"
+msgstr[1] "Probléma van a regisztrációs adatokkal, kérjük, javítsa ki őket:"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:248
+msgid "Successful registration."
+msgstr "Sikeres regisztráció."
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:252
+msgid "Error occurred during the registration, please try again later."
+msgstr "Hiba történt a regisztráció során, próbálkozzon újra később."
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:272
+msgid "Please check your details"
+msgstr "Kérjük, ellenőrizze adatait"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:284
+msgid "To access the survey, please log in"
+msgstr "A felméréshez való hozzáféréshez kérjük, jelentkezzen be"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:292
+msgid "Survey user log in"
+msgstr "Űrlap felhasználói belépés"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:310
+msgid "Survey user registration"
+msgstr "Űrlap felhasználói regisztráció"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:330
+msgid "View profile"
+msgstr "Profil kiválasztása"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:331
+msgid "Terms of use"
+msgstr "Feltételek és szabályzatok"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:332
+msgid "Privacy Policy"
+msgstr "Adatvédelmi tájékoztató"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:333
+msgid "Log out"
+msgstr "Kijelentkezés"
+
+#: /var/www/nextcloud/apps/forms/lib/Controller/SureveyUserController.php:368
+msgid "Please enter your details"
+msgstr "Kérjük, adja meg adatait"
+
+#: /var/www/nextcloud/apps/forms/specialAppInfoFakeDummyForL10nScript.php:2
+msgid "FormsEx"
+msgstr "FormsEx"
+
+#: /var/www/nextcloud/apps/forms/specialAppInfoFakeDummyForL10nScript.php:4
+msgid "📝 Simple surveys and questionnaires, self-hosted"
+msgstr "📝 Egyszerű űrlapok és kérdőívek, saját hosztolásban!"
+
+#: /var/www/nextcloud/apps/forms/specialAppInfoFakeDummyForL10nScript.php:5
+msgid ""
+"**Simple surveys and questionnaires, self-hosted!**\n"
+"\n"
+"- **📝 Simple design:** No mass of options, only the essentials. Works well "
+"on mobile of course.\n"
+"- **📊 View & export results:** Results are visualized and can also be "
+"exported as CSV in the same format used by Google Forms.\n"
+"- **🔒 Data under your control!** Unlike in Google Forms, Typeform, Doodle "
+"and others, the survey info and responses are kept private on your "
+"instance.\n"
+"- **🙋 Get involved!** We have lots of stuff planned like more question "
+"types, collaboration on forms, [and much more](https://github.com/nextcloud/"
+"forms/milestones)!"
+msgstr ""
+"**Egyszerű űrlapok és kérdőívek, saját hosztolásban!**\n"
+"\n"
+"- **📝 Egyszerű kialakítás:** Nincsenek zavaró, felesleges opciók, csak a "
+"legszükségesebbek. Természetesen mobilon is jól működik.\n"
+"- **📊 Eredmények áttekintése és exportálása:** Az eredményeket látványos "
+"módon tálaljuk és CSV formátumban exportálhatja. Ezt a formátumot használja "
+"a Google Forms is.\n"
+"- **🔒 Az adat az Ön felügyelete alatt van!** Ellentétben a Google Forms-"
+"szal, Typeform-al, Doodle-lel és a hasonló szolgáltatásokkal, a kérdőívek "
+"adatait és válaszait a saját oldalán és helyszínén tárolhatja.\n"
+"- **🙋 Kapcsolódjon be!** Sok dolgot tervezünk, mint újabb kérdéstípusok, "
+"együttműködés és, [sok más](https://github.com/nextcloud/forms/milestones)!"
+
+#: /var/www/nextcloud/apps/forms/specialVueFakeDummyForL10nScript.js:11
+msgid "Clone form"
+msgstr "Űrlap másolása"
+
+#: /var/www/nextcloud/apps/forms/templates/expired.php:29
+msgid "Form expired"
+msgstr "Az űrlap lejárt"
+
+#: /var/www/nextcloud/apps/forms/templates/expired.php:30
+msgid "This form has expired and is no longer taking answers"
+msgstr "Ez az űrlap lejárt és többé nem lehet kitölteni."
+
+#: /var/www/nextcloud/apps/forms/templates/notfound.php:29
+msgid "Form not found"
+msgstr "Az űrlap nem található"
+
+#: /var/www/nextcloud/apps/forms/templates/notfound.php:30
+msgid "This form does not exist"
+msgstr "Ez az űrlap nem létezik"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:14
+msgid "General settings"
+msgstr "Általános beállítások"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:16
+msgid "These are the controls for the general functions:"
+msgstr "Ezek a beállítások az általános funkciókat befolyásolják:"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:24
+msgid ""
+"Enable advanced access controls (allow access based on the settings below to "
+"create forms and view results)"
+msgstr ""
+"Egyedi hozzáférés-kezelés engedélyezése (lehetővé teszi az alább "
+"beállítottak alapján a hozzáférés korlátozását az űrlapok létrehozásához és "
+"az eredmények megtekintéséhez)"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:29
+msgid "Create forms"
+msgstr "Űrlapok létrehozása"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:33
+msgid "Please select the user groups allowed to create new forms:"
+msgstr ""
+"Kérjük, válassza ki azokat a felhasználói csoportokat, amelyek tagjai "
+"kérdőíveket hozhatnak létre:"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:48
+msgid "View results"
+msgstr "Eredmények megtekintése"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:52
+msgid "Please select the user groups allowed to view the survey results:"
+msgstr ""
+"Kérjük, válassza ki azokat a felhasználói csoportokat, amelyek tagjai "
+"megtekinthetik a kérdőívek eredményeit:"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:67
+msgid "Logo for the survey user interface"
+msgstr "Logó a kérdőív felülethez"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:69
+msgid "Logo"
+msgstr "Logó"
+
+#: /var/www/nextcloud/apps/forms/templates/settings.php:76
+msgid "Save changes"
+msgstr "Változások mentése"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserlogin.php:48
+msgid ""
+"This form is for registered users only. If you already have an account, "
+"please log in."
+msgstr ""
+"Ez az űrlap csak regisztrált felhasználók számára érhető el. Ha már van "
+"felhasználói fiókja, kérjük lépjen be."
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserlogin.php:62
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:75
+msgid "E-mail address:"
+msgstr "E-mail cím:"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserlogin.php:64
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:79
+msgid "my@address.com"
+msgstr "en@cimem.hu"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserlogin.php:68
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:90
+msgid "Password:"
+msgstr "Jelszó:"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserlogin.php:70
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:94
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:102
+msgid "Enter your password here"
+msgstr "Ide írja a jelszavát"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserlogin.php:75
+msgid "Login"
+msgstr "Belépés"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserlogin.php:81
+#, php-format
+msgid ""
+"If you don't have an account yet, you can register by <a href=\"%s"
+"\">clicking here</a>."
+msgstr ""
+"Ha még nem rendelkezik felhasználói fiókkal, regisztrálhat <a href=\"%s\">ha "
+"ide kattint</a>."
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:47
+#, php-format
+msgid "Please <a href=\"%s\">click here to log in</a>."
+msgstr "Kérjük, <a href=\"%s\">kattintson ide a belépéshez</a>."
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:68
+msgid "Please provide your details below."
+msgstr "Kérjük, adja meg az alábbi adatokat."
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:83
+msgid "Real name:"
+msgstr "Valós név:"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:86
+msgid "Please enter your name"
+msgstr "Kérjük, adja meg a nevét"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:98
+msgid "Password (repeat):"
+msgstr "Jelszó (ismét):"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:106
+msgid "Address:"
+msgstr "Cím:"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:109
+msgid "Please enter your postal address"
+msgstr "Adja meg a címét címét"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:113
+msgid "Your birth year:"
+msgstr "Születési év:"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:116
+msgid "Please enter the year you were born in"
+msgstr "Kérem, adja meg a születési évét"
+
+#: /var/www/nextcloud/apps/forms/templates/surveyuserregister.php:120
+msgid "Register"
+msgstr "Regisztráció"

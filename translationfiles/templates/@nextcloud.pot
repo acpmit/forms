@@ -1,0 +1,526 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Nextcloud package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nextcloud 3.14159\n"
+"Report-Msgid-Bugs-To: translations\\@example.com\n"
+"POT-Creation-Date: 2020-11-05 09:15+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/auth/dist/doc/assets/js/main.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/axios/dist/doc/assets/js/main.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/event-bus/dist/doc/assets/js/main.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/moment/dist/doc/assets/js/main.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/router/dist/doc/assets/js/main.js:1
+msgid "error"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/moment/dist/index.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/moment/lib/index.ts:22
+msgid "seconds"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ActionButton.js:43
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ActionCheckbox.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ActionRadio.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:108
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:108
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:277
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:553
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:636
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:657
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:761
+msgid "action"
+msgid_plural "action--disabled"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ActionCheckbox.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:657
+msgid "checkbox"
+msgid_plural "checkbox action-checkbox__checkbox"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ActionCheckbox.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ActionRadio.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:657
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:761
+msgid "label"
+msgid_plural "action-checkbox__label"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ActionRadio.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:761
+msgid "radio"
+msgid_plural "radio action-radio__radio"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigation.js:1
+msgid "app-navigation__list"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigation.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:574
+msgid "app-navigation"
+msgid_plural "app-navigation--close"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationIconBullet.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:615
+msgid "app-navigation-entry__icon-bullet"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationItem.js:24
+msgid "app-navigation-entry-link"
+msgid_plural "#"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationItem.js:24
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/PopoverMenu.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:214
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "icon-confirm"
+msgid_plural "submit"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationItem.js:24
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "icon-close"
+msgid_plural "reset"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationItem.js:66
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSettingsDialog.js:45
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/UserBubble.js:24
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:45
+msgid "popover"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationItem.js:87
+msgid "aria-hidden"
+msgid_plural ""
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationItem.js:87
+msgid "menuButton"
+msgid_plural "icon action-item__menutoggle"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationSettings.js:1
+msgid "settings-button"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationSettings.js:1
+msgid "app-settings-header"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppNavigationSettings.js:1
+msgid "slide-up"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSettingsSection.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:782
+msgid "app-settings-section__title"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSettingsSection.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:782
+msgid "app-settings-section"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+msgid "app-sidebar-tabs__tab-icon"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+msgid "app-sidebar-tabs__nav"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "app-sidebar-tabs__content"
+msgid_plural "app-sidebar-tabs__content--multiple"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+msgid "app-sidebar-tabs"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "app-sidebar__close icon-close"
+msgid_plural "#"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "app-sidebar-header__figure"
+msgid_plural "app-sidebar-header__figure--with-action"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "app-sidebar-header__star"
+msgid_plural "icon-starred"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+msgid "app-sidebar-header__tertiary-actions"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+msgid "app-sidebar-header__subtitle"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+msgid "app-sidebar-header__title-container"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "app-sidebar-header__menu"
+msgid_plural "force-menu"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "app-sidebar-header__desc"
+msgid_plural "app-sidebar-header__desc--with-tertiary-action"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+msgid "app-sidebar-header__info"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+msgid "app-sidebar-header__action"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "app-sidebar-header"
+msgid_plural "app-sidebar-header--with-figure"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+msgid "icon-loading"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "app-sidebar"
+msgid_plural "app-sidebar-vue"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/AppSidebar.js:88
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:470
+msgid "slide-right"
+msgid_plural ""
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumb.js:66
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+msgid "icon"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumb.js:66
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+msgid "element"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumb.js:66
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:407
+msgid "actions"
+msgid_plural "force-menu"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumb.js:66
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:407
+msgid "crumb"
+msgid_plural "crumb"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+msgid "action-router__icon"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+msgid "action-router__title"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+msgid "action-router__longtext"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+msgid "action-router__text"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:87
+msgid "action-router focusable"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:108
+msgid "action-link__icon"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:108
+msgid "action-link__title"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:108
+msgid "action-link__longtext"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:108
+msgid "action-link__text"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Breadcrumbs.js:108
+msgid "action-link focusable"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ColorPicker.js:1
+msgid "color-picker-simple"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ColorPicker.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:720
+msgid "color-picker-advanced"
+msgid_plural "disable-alpha"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ColorPicker.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:720
+msgid "slide"
+msgid_plural "out-in"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ColorPicker.js:1
+msgid "color-picker-navigation-button back"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ColorPicker.js:1
+msgid "color-picker-navigation-button more-settings"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ColorPicker.js:1
+msgid "color-picker-navigation-button confirm"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ColorPicker.js:1
+msgid "color-picker-navigation"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/ColorPicker.js:1
+msgid "color-picker"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:108
+msgid "action-button__icon"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:108
+msgid "action-button__title"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:108
+msgid "action-button__longtext"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:108
+msgid "action-button__text"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:108
+msgid "action-button"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "modal-title"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "hidden-visually"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:364
+msgid "progress-ring__circle"
+msgid_plural "white"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:364
+msgid "progress-ring"
+msgid_plural "50"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "header-actions"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "header-close"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "icons-menu"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "fade-visibility"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "icon icon-previous"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "modal-container"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "icon icon-next"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:364
+msgid "mask"
+msgid_plural "modal-mask"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/Modal.js:151
+msgid "fade"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/PopoverMenu.js:1
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:214
+msgid "focusable"
+msgid_plural "#"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/SettingsSection.js:1
+msgid "settings-section__info"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/SettingsSection.js:1
+msgid "settings-section__title"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/SettingsSection.js:1
+msgid "settings-section__desc"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/Components/SettingsSection.js:1
+msgid "settings-section"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:256
+msgid "avatardiv__user-status"
+msgid_plural "avatardiv__user-status--"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:256
+msgid "#"
+msgid_plural "M3.21 3.043H.494l.679-1.177.68-1.176.678 1.176z"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:256
+msgid "http://www.w3.org/2000/svg"
+msgid_plural "12"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:256
+msgid "avatardiv__status"
+msgid_plural "avatardiv__status--"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:277
+msgid "option__avatar"
+msgid_plural "display-name"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:277
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:533
+msgid "noResult"
+msgid_plural "noResult"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:298
+msgid "empty-content__icon"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:298
+msgid "empty-content__title"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:298
+msgid "empty-content"
+msgstr ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:553
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:636
+msgid "form"
+msgid_plural "action-text-editable__form"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:636
+msgid "action-input"
+msgid_plural "action-input--picker"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /var/www/nextcloud/apps/forms/node_modules/@nextcloud/vue/dist/ncvuecomponents.js:699
+msgid "Popover"
+msgid_plural "user-bubble__wrapper"
+msgstr[0] ""
+msgstr[1] ""
