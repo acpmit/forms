@@ -64,6 +64,11 @@ class SurveyUserService
 		return $user !== null && ((int)$user) > 0;
 	}
 
+	public function logoutSurveyUser() {
+		if (session_status() == PHP_SESSION_NONE) session_start();
+		$_SESSION[self::SURVEY_USER_SESSION_ID] = null;
+	}
+
 	public function setCurrentSurveyUserId($userId) {
 		if (session_status() == PHP_SESSION_NONE) session_start();
 		// \OC::$server->getSession()->set(self::SURVEY_USER_SESSION_ID, $userId);

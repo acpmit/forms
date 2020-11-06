@@ -109,7 +109,7 @@ OC.L10N.register(
 		"These are the controls for the general functions:": "Ezek a beállítások az általános funkciókat befolyásolják:",
 		"Invalid group name: %s": "Hibás csoportnév: %s",
 		"Add a new answer": "Új válasz hozzáadása",
-		"View profile": "Profil kiválasztása",
+		"View profile": "Profil megtekintése",
 		"Loading {title} …": "{title} betöltése …",
 		"New form": "Új űrlap",
 		"Password:": "Jelszó:",

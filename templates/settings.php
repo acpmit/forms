@@ -32,6 +32,26 @@ $settingsUrl = \OC::$server->getURLGenerator()
 		</div>
 	</div>
 
+	<div id="forms-policies" class="section">
+		<h2><?php p($l->t('Policies')); ?></h2>
+		<div><p class="settings-hint">
+				<?php p($l->t('These are the policies the registered users have to accept to fill the surveys')); ?>
+			</p>
+			<p><label for="policy-pp"><?php p($l->t('Privacy policy URL')); ?></label>
+				<input name="policy-pp"
+					  id="policy-pp"
+					  value="<?php print_unescaped($_['policy-pp']); ?>"
+					  type="text">
+				</p>
+			<p><label for="policy-tos"><?php p($l->t('Terms of service URL')); ?></label>
+				<input name="policy-tos"
+					  id="policy-tos"
+					  value="<?php print_unescaped($_['policy-tos']); ?>"
+					  type="text">
+				</p>
+		</div>
+	</div>
+
 	<div id="forms-create-groups" class="section">
 		<h2><?php p($l->t('Create forms')); ?></h2>
 		<div class="section-content">

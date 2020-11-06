@@ -25,6 +25,8 @@ $routeRegister = \OC::$server->getURLGenerator()
 	->linkToRoute('forms.sureveyUser.register', ['id' => $_['formid']]);
 $routeLogin = \OC::$server->getURLGenerator()
 	->linkToRoute('forms.sureveyUser.login', ['id' => $_['formid']]);
+$routeReset = \OC::$server->getURLGenerator()
+	->linkToRoute('forms.sureveyUser.requireResetPassword');
 
 ?>
 
@@ -45,8 +47,10 @@ $routeLogin = \OC::$server->getURLGenerator()
 			</div>
 		<?php else: ?>
 			<div class="survey_user_login">
-				<h2><?php p($l->t('This form is for registered users only. If you already have an account, please log in.')); ?></h2>
-
+				<h2><?php if($_['activationMessage'])
+								p($_['activationMessage']);
+							else
+								p($l->t('This form is for registered users only. If you already have an account, please log in.')); ?></h2>
 				<?php if($_['message']): ?>
 					<div class="survey-user-message">
 						<?php p($_['message']); ?>
@@ -78,6 +82,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 				</div>
 			</div>
 
+			<p><?php print_unescaped($l->t('Did you forgot your password? <a href="%s">Click here to start a password reset</a>!', $routeReset)); ?></p>
 			<p><?php print_unescaped($l->t('If you don\'t have an account yet, you can register by <a href="%s">clicking here</a>.', $routeRegister)); ?></p>
 		<?php endif ?>
 	</div>

@@ -70,7 +70,6 @@ class SurveyUserMapper extends QBMapper {
 	{
 		$qb = $this->db->getQueryBuilder();
 
-		// TODO TODOFORMS check for deleted flag and modify comment
 		$qb->select('*')
 			->from($this->getTableName())
 			->where(
@@ -80,4 +79,24 @@ class SurveyUserMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
+	/**
+	 * Find a user by activation/reset code (Either deleted or active)
+	 *
+	 * @param string $email
+	 * @return SurveyUser|\OCP\AppFramework\Db\Entity
+	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException if more than one result
+	 * @throws \OCP\AppFramework\Db\DoesNotExistException if not found
+	 */
+	public function findByCode(string $code)
+	{
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('confirmcode', $qb->createNamedParameter($code, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntity($qb);
+	}
 }

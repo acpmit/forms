@@ -32,8 +32,12 @@ return [
 		['name' => 'sureveyUser#commitRegister', 'url' => '/sureveyuser/register/form/{id}', 'verb' => 'POST', 'defaults' => ['id' => '']],
 		['name' => 'sureveyUser#loginForm', 'url' => '/sureveyuser/login/form/{id}', 'verb' => 'GET', 'defaults' => ['id' => '']],
 		['name' => 'sureveyUser#login', 'url' => '/sureveyuser/login/{id}', 'verb' => 'POST', 'defaults' => ['id' => '']],
+		['name' => 'sureveyUser#logout', 'url' => '/sureveyuser/logout', 'verb' => 'GET'],
 		['name' => 'sureveyUser#verifyEmail', 'url' => '/sureveyuser/verifyemail/{code}', 'verb' => 'GET'],
+		['name' => 'sureveyUser#requireResetPassword', 'url' => '/sureveyuser/resetpassword/require', 'verb' => 'GET'],
+		['name' => 'sureveyUser#requireResetPasswordPost', 'url' => '/sureveyuser/resetpassword/require', 'verb' => 'POST'],
 		['name' => 'sureveyUser#resetPassword', 'url' => '/sureveyuser/resetpassword/{code}', 'verb' => 'GET'],
+		['name' => 'sureveyUser#resetPasswordPost', 'url' => '/sureveyuser/resetpassword/{code}', 'verb' => 'POST'],
 
 		// Settings
 		['name' => 'settings#postSettings', 'url' => '/settings', 'verb' => 'POST'],

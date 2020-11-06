@@ -116,6 +116,31 @@ $routeLogin = \OC::$server->getURLGenerator()
 							   placeholder="<?php p($l->t('Please enter the year you were born in')); ?>" maxlength="4"
 							   minlength="1" type="number" class="question__input">
 					</div>
+					<div class="survey-policy survey-policy-spacer">
+						<input name="su_tos"
+							<?php if (isset($_['su_tos'])) p('checked'); ?>
+							   id="su_tos"
+							   type="checkbox"
+							   value="yes"
+							   class="checkbox question__checkbox">
+						<label for="su_tos"><?php p($l->t('Please check this if you accept our terms of use')); ?></label>
+					</div>
+					<div class="survey-policy-link">
+						<a href="<?php print_unescaped($_['pplink']); ?>"><?php p($l->t('Click here to view')); ?></a>
+					</div>
+					<div class="survey-policy">
+						<input name="su_pp"
+								<?php if (isset($_['su_pp'])) p('checked'); ?>
+							   id="su_pp"
+							   type="checkbox"
+							   value="yes"
+							   class="checkbox question__checkbox">
+						<label for="su_pp"><?php p($l->t('Please check this if you accept our privacy policy')); ?></label>
+						<a href="<?php print_unescaped($_['toslink']); ?>"></a>
+					</div>
+					<div class="survey-policy-link">
+						<a href="<?php print_unescaped($_['toslink']); ?>"><?php p($l->t('Click here to view')); ?></a>
+					</div>
 					<div>
 						<input type="submit" class="primary" value="<?php p($l->t('Register')); ?>">
 					</div>

@@ -49,7 +49,14 @@ use OCP\Util;
 
 class SureveyUserController extends Controller {
 	public const TEMPLATE_SURVEY_USER_LOGIN = 'surveyuserlogin';
+	public const TEMPLATE_SURVEY_USER_LOGOUT = 'surveyuserlogout';
 	public const TEMPLATE_SURVEY_USER_REGISTER = 'surveyuserregister';
+	public const TEMPLATE_SURVEY_USER_RESET = 'surveyuserreset';
+
+	public const DB_CODE_PREFIX_VALIDATE = 'validate:';
+	public const DB_CODE_PREFIX_RESET = 'reset:';
+
+	public const ACCESS_CODE_LEN = 100;
 
 	private const EMAIL_TEMPLATE_VERIFY = 1;
 	private const EMAIL_TEMPLATE_RESET_PASSWORD = 2;
@@ -105,6 +112,21 @@ class SureveyUserController extends Controller {
 	}
 
 	/**
+	 * Destroy the survey user session
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 */
+	public function logout() {
+		$this->surveyUserService->logoutSurveyUser();
+		return $this->setupPage(
+			[],
+			'',
+			'',
+			self::TEMPLATE_SURVEY_USER_LOGOUT);
+	}
+
+	/**
 	 * Process the login details and/or show the login page for the survey users
 	 * accordingly
 	 *
@@ -129,6 +151,8 @@ class SureveyUserController extends Controller {
 			$user = $this->surveyUserMapper->findByEmail($su_email);
 			if ($user && password_verify($su_password, $user->getPasswordhash())) {
 				$this->surveyUserService->setCurrentSurveyUserId($user->getId());
+				// TODO TODOFORMS Check if the user is in a verify email stage
+				// (access code starts with verify:)
 				$success = true;
 			}
 		} catch (IMapperException $e) {
@@ -194,7 +218,7 @@ class SureveyUserController extends Controller {
 	 * @throws \Exception
 	 */
 	private static function getAccessCode(): string {
-		return RandomHelper::randomStr(100);
+		return RandomHelper::randomStr(self::ACCESS_CODE_LEN);
 	}
 
 	/**
@@ -206,11 +230,117 @@ class SureveyUserController extends Controller {
 	 * @param $code
 	 */
 	public function verifyEmail($code) {
+		$code = self::DB_CODE_PREFIX_VALIDATE.
+			ValidationHelper::filterAlphaNumericUnicde($code, self::ACCESS_CODE_LEN);
+		$failed = true;
 
+		try {
+			$user = $this->surveyUserMapper->findByCode($code);
+			if ($user !== null) {
+				$user->setConfirmcode(null);
+				$this->surveyUserMapper->update($user);
+				$failed = false;
+			}
+		} catch (IMapperException $e) {
+			// TODO TODOFORMS log
+			// We are already at failed true
+		}
+
+		if ($failed)
+			return $this->setupLoginPage([
+				'activationMessage' => $this->l10n->t(
+					'Invalid activation code. Please try again or contact the site administration.')
+			], $this->l10n->t(
+				'Activation done.'));
+		else
+			return $this->setupLoginPage([
+				'activationMessage' => $this->l10n->t(
+					'Thank you for activating your account. Please log in.')
+			], $this->l10n->t(
+				'Activation done.'));
 	}
 
 	/**
-	 * Reset password email link
+	 * Reset password email link (process the code we got in the link and do
+	 * the actual reset)
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param $code
+	 */
+	public function resetPasswordPost($code,
+									  $submitted = null,
+									  $su_password = null,
+									  $su_password2 = null) {
+		$notFound = false;
+		$resetError = null;
+		$code = ValidationHelper::filterAlphaNumericUnicde($code, self::ACCESS_CODE_LEN);
+
+		if ($su_password !== null && $su_password !== $su_password2)
+			$resetError = $this->l10n->t(
+				'The password and password verification fields don\'t match.');
+
+		if ($su_password === '' && $su_password2 === ''&& $submitted === 'yes')
+			$resetError = $this->l10n->t(
+				'Please type in your new password.');
+
+		if ($resetError === null
+			&& $submitted === 'yes'
+			&& strlen($su_password) < self::SUREVEY_USER_PASS_MIN_LEN) {
+			$resetError = $this->l10n->t(
+				'The password is too short. Please use at least %s characters.',
+				self::SUREVEY_USER_PASS_MIN_LEN);
+		}
+
+		try {
+			if ($resetError === null) {
+				if ($submitted === 'yes') {
+					$user = $this->surveyUserMapper->findByCode(self::DB_CODE_PREFIX_RESET.$code);
+					if ($user !== null) {
+						$user->setConfirmcode(null);
+						$user->setPasswordhash(password_hash($su_password, PASSWORD_ARGON2I));
+						$this->surveyUserMapper->update($user);
+					} else {
+						$notFound = true;
+					}
+				} else {
+					return $this->setupResetPage([
+						'code' => $code,
+						'altTitle' => $this->l10n->t(
+							'Please enter your new password.'),
+						'showresetfields' => true
+					]);
+				}
+			}
+		} catch (IMapperException $e) {
+			// TODO TODOFORMS log
+			$notFound = true;
+		}
+
+		if ($notFound)
+			$resetError = $this->l10n->t(
+				'Invalid reset code, please check it and try again.');
+
+		if ($resetError !== null)
+			return $this->setupResetPage([
+				'altTitle' => 'Error resetting your password.',
+				'message' => $resetError,
+				'code' => $code,
+				'su_password' => $su_password,
+				'su_password2' => $su_password2,
+				'showresetfields' => true
+			]);
+
+		return $this->setupLoginPage([
+			'activationMessage' => $this->l10n->t(
+				'You password have been reset. Please log in.')
+		], $this->l10n->t(
+			'Reset done.'));
+	}
+
+	/**
+	 * Reset password email link, GET page for the new password form
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
@@ -218,7 +348,59 @@ class SureveyUserController extends Controller {
 	 * @param $code
 	 */
 	public function resetPassword($code) {
+		return $this->resetPasswordPost($code);
+	}
 
+	/**
+	 * Reset password form (display the form to enter the email address)
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 */
+	public function requireResetPassword() {
+		return $this->setupResetPage([]);
+	}
+
+	/**
+	 * Process the password reset form (send the link)
+	 *
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 */
+	public function requireResetPasswordPost($su_email = null) {
+		$code = self::getAccessCode();
+		$su_email = filter_var($su_email, FILTER_VALIDATE_EMAIL);
+		$message = $this->l10n->t(
+			'The password reset instructions were sent, if there was a registered user with this e-mail. Please check your inbox.');
+
+		try {
+			$user = $this->surveyUserMapper->findByEmail($su_email);
+			if ($user !== null) {
+				// We don't want to give out clues about the email being registered or not
+				// if this security concern won't be valid, we can give feedback on an
+				// email already sent and being invalidated
+				//$savedCode = $user->getConfirmcode();
+				//if ($savedCode)
+				//	$message .= "\n".$this->l10n->t();
+
+				$user->setConfirmcode(self::DB_CODE_PREFIX_RESET.$code);
+				$this->surveyUserMapper->update($user);
+
+				// Send mail with the activation code
+				$link = \OC::$server->getURLGenerator()
+					->linkToRoute('forms.sureveyUser.resetPassword', ['code' => $code]);
+				$this->sendMail(self::EMAIL_TEMPLATE_RESET_PASSWORD, $link, $su_email);
+			}
+			// TODO TODOFORMS log
+		} catch (IMapperException $e) {
+			// We won't give out clues about whether the email exits
+			// TODO TODOFORMS log attempt
+		}
+
+		return $this->setupResetPage([
+			'message' => $message,
+			'email' => $su_email
+		]);
 	}
 
 	/**
@@ -241,8 +423,10 @@ class SureveyUserController extends Controller {
 								   $su_password,
 								   $su_password2,
 								   $su_realname,
-								   $su_address,
-								   $su_born): TemplateResponse {
+								   $su_address = null,
+								   $su_pp = null,
+								   $su_tos = null,
+								   $su_born = null): TemplateResponse {
 		$success = true;
 		$message = '';
 		$problems = [];
@@ -265,6 +449,18 @@ class SureveyUserController extends Controller {
 				'The password and password verification fields don\'t match.');
 		}
 
+		if ($su_pp !== 'yes') {
+			$success = false;
+			$problems[] = $this->l10n->t(
+				'You have to accept our privacy policy to register.');
+		}
+
+		if ($su_tos !== 'yes') {
+			$success = false;
+			$problems[] = $this->l10n->t(
+				'You have to accept our terms of use to register.');
+		}
+
 		if (strlen($su_password) < self::SUREVEY_USER_PASS_MIN_LEN) {
 			$success = false;
 			$problems[] = $this->l10n->t(
@@ -285,7 +481,7 @@ class SureveyUserController extends Controller {
 			$newUser->setEmail($su_email); // It is already filtered above
 			$newUser->setPasswordhash(password_hash($su_password, PASSWORD_ARGON2I));
 			$code = self::getAccessCode();
-			$newUser->setConfirmcode($code);
+			$newUser->setConfirmcode(self::DB_CODE_PREFIX_VALIDATE.$code);
 
 			$born = (int)$su_born;
 			if ($born > 0)
@@ -311,6 +507,8 @@ class SureveyUserController extends Controller {
 			'formid' => $id,
 			'mode' => 'return',
 			'su_email' => $su_email,
+			'su_pp' => $su_pp,
+			'su_tos' => $su_tos,
 			'su_password' => $su_password,
 			'su_password2' => $su_password2,
 			'su_address' => $su_address,
@@ -325,6 +523,15 @@ class SureveyUserController extends Controller {
 			$this->l10n->t('Please check your details'));
 	}
 
+	/**
+	 * Display the login form
+	 *
+	 * @param string $formId Form ID to be passed, so we can redirect after the
+	 * login process
+	 * @param null $success True if the login was successful
+	 * @param null $message Message to be displayed
+	 * @return TemplateResponse Login form
+	 */
 	public function surveyUserLoginPage($formId = null,
 										$success = null,
 										$message = null) : TemplateResponse {
@@ -338,6 +545,13 @@ class SureveyUserController extends Controller {
 				: '');
 	}
 
+	/**
+	 * Setup the template for the login form
+	 *
+	 * @param array $data Extra data to be passed
+	 * @param string $subtitle Subtitle on the top left side
+	 * @return TemplateResponse Login page template
+	 */
 	private function setupLoginPage($data,
 									$subtitle = null) : TemplateResponse {
 		return $this->setupPage(
@@ -357,12 +571,30 @@ class SureveyUserController extends Controller {
 	private function setupRegisterPage($data,
 									   $subtitle = null) : TemplateResponse {
 		Util::addStyle($this->appName, 'survey');
+		$data['pplink'] = $this->settingsController->getPrivacyPolicyUrl();
+		$data['toslink'] = $this->settingsController->getTermsOfServiceUrl();
 
 		return $this->setupPage(
 			$data,
 			$this->l10n->t('Survey user registration'),
 			$subtitle,
 			self::TEMPLATE_SURVEY_USER_REGISTER);
+	}
+
+	/**
+	 * Prepare a password reset form page for the survey users
+	 *
+	 * @param array $data Data to be passed to the PHP template
+	 * @return TemplateResponse Password reset page
+	 */
+	private function setupResetPage($data) : TemplateResponse {
+		Util::addStyle($this->appName, 'survey');
+
+		return $this->setupPage(
+			$data,
+			$this->l10n->t('Survey user registration'),
+			$this->l10n->t('Password reset'),
+			self::TEMPLATE_SURVEY_USER_RESET);
 	}
 
 	/**
@@ -377,9 +609,11 @@ class SureveyUserController extends Controller {
 			return $response;
 
 		$profileUrl = 'http://';
-		$logoutUrl = 'http://2';
-		$docsUrlPrivacyPolicy = 'http://2';
-		$docsUrlTermsOfUse = 'http://2';
+		$logoutUrl = $routeReset = \OC::$server->getURLGenerator()
+			->linkToRoute('forms.sureveyUser.logout');
+		$docsUrlPrivacyPolicy = $this->settingsController->getPrivacyPolicyUrl();
+		$docsUrlTermsOfUse = $this->settingsController->getTermsOfServiceUrl();
+
 		$profile = new SimpleMenuAction('profile', $this->l10n->t('View profile'), 'icon-user', $profileUrl, 0);
 		$docs1 = new SimpleMenuAction('tos', $this->l10n->t('Terms of use'), 'icon-info', $docsUrlTermsOfUse, 1);
 		$docs2 = new SimpleMenuAction('ppolicy', $this->l10n->t('Privacy Policy'), 'icon-info', $docsUrlPrivacyPolicy, 2);

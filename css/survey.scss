@@ -33,10 +33,23 @@
 .survey-user-center {
 	position: absolute;
 	padding: 15px;
-	background: rgba(var(--color-main-background),0.7);
+	background: rgba(red($color-main-background), green($color-main-background), blue($color-main-background), 0.9);
 	left: 50%;
 	top: 50%;
+	min-width: 400px;
 	transform: translate(-50%, -50%);
+
+	.survey-policy {
+		text-align: left;
+	}
+
+	.survey-policy-link {
+		margin-left: 34px;
+	}
+
+	.survey-policy-spacer {
+		padding-top: 15px;
+	}
 
 	.survey-user-message {
 		text-align: left;

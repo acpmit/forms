@@ -74,6 +74,10 @@ class SettingsController extends Controller
 		'FormsSurveyLogoImage';
 	public const CONFIG_ENABLE_ACCESS_ALL =
 		'FormsAccessAll';
+	public const CONFIG_URL_TOS =
+		'FormsUrlTos';
+	public const CONFIG_URL_PP =
+		'FormsUrlPP';
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -163,6 +167,8 @@ class SettingsController extends Controller
 		$this->setIsAccessToAllEnabled(
 			isset($_POST['allow-all']) && $_POST['allow-all'] === 'yes'
 		);
+		$this->setPrivacyPolicyUrl($_POST['policy-pp']);
+		$this->setTermsOfServiceUrl($_POST['policy-tos']);
 
 		if (isset($_POST['uploadLogoData']) && strlen($_POST['uploadLogoData']) > 0)
 			$this->setSurveyUiLogo($_POST['uploadLogoData']);
@@ -250,6 +256,8 @@ class SettingsController extends Controller
 		}
 
 		$data = [
+			'policy-tos' => $this->getTermsOfServiceUrl(),
+			'policy-pp' => $this->getPrivacyPolicyUrl(),
 			'enableAll' => $this->isAccessToAllEnabled(),
 			'createGroups' => $createGroupList,
 			'viewGroups' => $viewGroupList,
@@ -429,5 +437,39 @@ class SettingsController extends Controller
 	{
 		return $this->setBoolVal(self::CONFIG_ENABLE_ACCESS_ALL,
 			$enabled);
+	}
+
+	/**
+	 * @return string Privacy policy URL
+	 */
+	public function getPrivacyPolicyUrl()
+	{
+		return $this->getVal(self::CONFIG_URL_PP);
+	}
+
+	/**
+	 * @param string $url  Privacy policy URL
+	 */
+	public function setPrivacyPolicyUrl($url)
+	{
+		return $this->setVal(self::CONFIG_URL_PP,
+			$url);
+	}
+
+	/**
+	 * @return string Terms of service URL
+	 */
+	public function getTermsOfServiceUrl()
+	{
+		return $this->getVal(self::CONFIG_URL_TOS);
+	}
+
+	/**
+	 * @param string $url Terms of service URL
+	 */
+	public function setTermsOfServiceUrl($url)
+	{
+		return $this->setVal(self::CONFIG_URL_TOS,
+			$url);
 	}
 }
