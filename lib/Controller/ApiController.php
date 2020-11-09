@@ -948,8 +948,8 @@ class ApiController extends Controller {
 	 */
 	private function checkFormAccess(int $access, Form $form) : bool {
 		if ($access === self::ACCESS_VIEW_RESULTS) {
-			return ($this->settingsController->isAccessControlEnabled() &&
-				!$this->settingsController->canViewResults()) ||
+			return (!$this->settingsController->isAccessControlEnabled() ||
+				$this->settingsController->canViewResults()) ||
 				$form->getOwnerId() === $this->currentUser->getUID();
 		}
 
