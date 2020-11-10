@@ -712,6 +712,7 @@ class ApiController extends Controller {
 	public function getSubmissions(string $hash): DataResponse {
 		try {
 			$form = $this->formMapper->findByHash($hash);
+			$access = $form->getAccess();
 		} catch (IMapperException $e) {
 			$this->logger->debug('Could not find form');
 			throw new OCSBadRequestException();
@@ -728,11 +729,20 @@ class ApiController extends Controller {
 			// Just ignore, if no Data. Returns empty Submissions-Array
 		}
 
+		$isSurveyUserForm = ($access['type'] === 'surveyusers');
+		$addPersonalData = ($isSurveyUserForm &&
+			// If the advanced access control is enabled, the user has to have
+			// access to personal data
+			(!$this->settingsController->isAccessControlEnabled() ||
+			$this->settingsController->canViewPersonalData()));
+
 		$submissions = [];
 		foreach ($submissionEntities as $submissionEntity) {
 			// Load Submission-Data & corresponding Answers
 			$submission = $submissionEntity->read();
 			$submission['answers'] = $this->getAnswers($submission['id']);
+			if ($addPersonalData)
+				$this->surveyUserService->addAnswersForPersonalData($submission['answers'], $submission['id']);
 
 			// Append Display Name
 			if (substr($submission['userId'], 0, 10) === 'anon-user-') {
@@ -759,6 +769,9 @@ class ApiController extends Controller {
 
 		// Load currently active questions
 		$questions = $this->formsService->getQuestions($form->getId());
+		if ($addPersonalData)
+			$this->surveyUserService->addQuestionsForPersonalData(
+				$questions, $form->getId());
 
 		$response = [
 			'submissions' => $submissions,

@@ -80,7 +80,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 							   minlength="1" type="text" class="question__input">
 					</div>
 					<div>
-						<label for="su_realname"><?php p($l->t('Real name:')); ?></label>
+						<label for="su_realname"><?php p($l->t('Real name')); ?>:</label>
 						<input name="su_realname"
 							   required
 							   value="<?php p($_['su_realname']); ?>"
@@ -104,7 +104,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 							   minlength="1" type="password" class="question__input">
 					</div>
 					<div>
-						<label for="su_address"><?php p($l->t('Address:')); ?></label>
+						<label for="su_address"><?php p($l->t('Address')); ?>:</label>
 						<input name="su_address"
 							   value="<?php p($_['su_address']); ?>"
 							   required
@@ -112,7 +112,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 							   minlength="1" type="text" class="question__input">
 					</div>
 					<div>
-						<label for="su_born"><?php p($l->t('Your birth year:')); ?></label>
+						<label for="su_born"><?php p($l->t('Your birth year')); ?>:</label>
 						<input name="su_born"
 							   value="<?php p($_['su_born']); ?>"
 							   required

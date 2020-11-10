@@ -29,6 +29,7 @@ use OCA\Forms\Db\SurveyUserMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\IMapperException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\IL10N;
 use OCP\ILogger;
 
 /**
@@ -46,17 +47,22 @@ class SurveyUserService
 	/** @var ILogger */
 	private $logger;
 
+	/** @var IL10N */
+	private $l10n;
+
 	public const SURVEY_USER_SESSION_ID = 'FormsSurveyUserId';
 	public const SURVEY_USER_DB_PREFIX = 'survey-user-';
 
 	public function __construct(FormMapper $formMapper,
 								SurveyUserMapper $surveyUserMapper,
+								IL10N $l10n,
 								ILogger $logger) {
 		// We need the session if we want to use survey user login sessions
 		if (session_status() == PHP_SESSION_NONE) session_start();
 		$this->formMapper = $formMapper;
 		$this->surveyUserMapper = $surveyUserMapper;
 		$this->logger = $logger;
+		$this->l10n = $l10n;
 	}
 
 	public function isSurveyUserLoggedIn() {
@@ -129,5 +135,52 @@ class SurveyUserService
 		}
 
 		return false;
+	}
+
+	private const QUESTION_ID_ADDRESS = 2147483647;
+	private const QUESTION_ID_BIRTHYEAR = 2147483646;
+	private const QUESTION_ID_REALNAME = 2147483645;
+
+	public function addAnswersForPersonalData(&$answersList, $submissionId) {
+		$answers = [
+			self::QUESTION_ID_ADDRESS => 'ADDR',
+			self::QUESTION_ID_BIRTHYEAR => 'BY',
+			self::QUESTION_ID_REALNAME => 'RN',
+		];
+
+		foreach ($answers as $key => $answer)
+			$answersList[] = [
+				'id' => $submissionId.'_'.$key,
+				'submissionId' => $submissionId,
+				'questionId' => $key,
+				'text' => $answer
+			];
+	}
+
+	public function addQuestionsForPersonalData(&$questions, $formId) {
+		$newFields = [
+			self::QUESTION_ID_ADDRESS => $this->l10n->t('Address'),
+			self::QUESTION_ID_BIRTHYEAR => $this->l10n->t('Your birth year'),
+			self::QUESTION_ID_REALNAME => $this->l10n->t('Real name'),
+		];
+
+		foreach ($questions as $question)
+			$question['order'] += count($newFields);
+
+		$order = 0;
+		foreach ($newFields as $key => $newField) {
+			array_unshift($questions, [
+				'id' => (int)$key,
+				'formId' => $formId,
+				'order' => $order++,
+				'type' => 'short',
+				'mandatory' => false,
+				'text' => $newField,
+				'hideSummary' => true,
+				'options' => []
+			]);
+		}
+
+		return $questions;
 	}
 }

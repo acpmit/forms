@@ -90,6 +90,25 @@ $settingsUrl = \OC::$server->getURLGenerator()
 		</div>
 	</div>
 
+	<div id="forms-personal-groups" class="section">
+		<h2><?php p($l->t('View personal data')); ?></h2>
+		<div class="section-content">
+			<div class="forms-access forms-access-curtain"></div>
+			<p class="settings-hint">
+				<?php p($l->t('Please select the user groups allowed to view the personal data connected to the survey results:')); ?>
+			</p>
+			<?php foreach($_['personalDataGroups'] as $value): ?>
+				<p><input name="personal-<?php p($value['id']); ?>"
+						  id="personal-<?php p($value['id']); ?>"
+						<?php if ($value['selected']) p('checked'); ?>
+						  type="checkbox"
+						  value="yes"
+						  class="checkbox">
+					<label for="personal-<?php p($value['id']); ?>"><?php p($value['name']); ?></label></p>
+			<?php endforeach; ?>
+		</div>
+	</div>
+
 	<div id="forms-logo" class="section">
 		<h2><?php p($l->t('Logo for the survey user interface')); ?></h2>
 		<div class="section-content">

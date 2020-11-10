@@ -70,6 +70,8 @@ class SettingsController extends Controller
 		'FormsCreateAllowed';
 	public const CONFIG_VIEW_RESULTS_FORMS_GROUPS =
 		'FormsViewResults';
+	public const CONFIG_VIEW_PERSONAL_DATA_FORMS_GROUPS =
+		'FormsViewPersonalData';
 	public const CONFIG_SURVEY_UI_LOGOIMAGE =
 		'FormsSurveyLogoImage';
 	public const CONFIG_ENABLE_ACCESS_ALL =
@@ -132,6 +134,13 @@ class SettingsController extends Controller
 	}
 
 	/**
+	 * @return bool True, if the current user can view survey user personal data
+	 */
+	public function canViewPersonalData() : bool {
+		return $this->checkListForAccess($this->getFormsViewPersonalDataGroups());
+	}
+
+	/**
 	 * @param array $accessList List of group IDS allowed
 	 * @return bool True if the user has a group that is allowed
 	 */
@@ -152,15 +161,18 @@ class SettingsController extends Controller
 	public function postSettings() {
 		$configViewGroups = [];
 		$configCreateGroups = [];
+		$configPersonalDataGroups = [];
 		$error = [];
 
 		foreach ($_POST as $key => $item) {
 			$this->checkFieldForGroup($configViewGroups, 'view-', $key, $error);
 			$this->checkFieldForGroup($configCreateGroups, 'create-', $key, $error);
+			$this->checkFieldForGroup($configPersonalDataGroups, 'personal-', $key, $error);
 		}
 
 		$this->setFormsCreatorGroups($configCreateGroups);
 		$this->setFormsViewResultsGroups($configViewGroups);
+		$this->setFormsViewPersonalDataGroups($configPersonalDataGroups);
 		$this->setIsAccessControlEnabled(
 			isset($_POST['enable-access']) && $_POST['enable-access'] === 'yes'
 		);
@@ -238,8 +250,10 @@ class SettingsController extends Controller
 
 		$createGroupList = [];
 		$viewGroupList = [];
+		$personalDataGroupList = [];
 		$configViewGroups = $this->getFormsViewResultsGroups();
 		$configCreateGroups = $this->getFormsCreatorGroups();
+		$configPersonalDataGroups = $this->getFormsViewPersonalDataGroups();
 
 		foreach ($this->groupManager->search('') as $group) {
 			$id = $group->getGID();
@@ -253,6 +267,11 @@ class SettingsController extends Controller
 				'id' => $group->getGID(),
 				'selected' => in_array($id, $configCreateGroups)
 			];
+			$personalDataGroupList[] = [
+				'name' => $group->getDisplayName(),
+				'id' => $group->getGID(),
+				'selected' => in_array($id, $configPersonalDataGroups)
+			];
 		}
 
 		$data = [
@@ -261,6 +280,7 @@ class SettingsController extends Controller
 			'enableAll' => $this->isAccessToAllEnabled(),
 			'createGroups' => $createGroupList,
 			'viewGroups' => $viewGroupList,
+			'personalDataGroups' => $personalDataGroupList,
 			'enableAccess' => $this->isAccessControlEnabled(),
 		];
 
@@ -360,6 +380,22 @@ class SettingsController extends Controller
 	public function getFormsViewResultsGroups()
 	{
 		return $this->getArray(self::CONFIG_VIEW_RESULTS_FORMS_GROUPS);
+	}
+
+	/**
+	 * @return array List of the groups allowed to view personal data
+	 */
+	public function getFormsViewPersonalDataGroups()
+	{
+		return $this->getArray(self::CONFIG_VIEW_PERSONAL_DATA_FORMS_GROUPS);
+	}
+
+	/**
+	 * @param array $groupList List of the groups allowed to view personal data
+	 */
+	public function setFormsViewPersonalDataGroups($groupList)
+	{
+		return $this->setArray(self::CONFIG_VIEW_PERSONAL_DATA_FORMS_GROUPS, $groupList);
 	}
 
 	/**

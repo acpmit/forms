@@ -98,7 +98,7 @@
 		<!-- Summary view for visualization -->
 		<section v-if="!noSubmissions && showSummary">
 			<Summary
-				v-for="question in form.questions"
+				v-for="question in questionsWithSummary"
 				:key="question.id"
 				:question="question"
 				:submissions="form.submissions" />
@@ -173,6 +173,14 @@ export default {
 				return this.form.title
 			}
 			return t('forms', 'New form')
+		},
+
+		/**
+		 * Return all the questions where the hideSummary flag is not set
+		 * @returns {array}
+		 */
+		questionsWithSummary() {
+			return this.form.questions.filter(question => !question.hideSummary)
 		},
 	},
 
