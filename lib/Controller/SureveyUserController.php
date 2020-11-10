@@ -150,10 +150,18 @@ class SureveyUserController extends Controller {
 		try {
 			$user = $this->surveyUserMapper->findByEmail($su_email);
 			if ($user && password_verify($su_password, $user->getPasswordhash())) {
-				$this->surveyUserService->setCurrentSurveyUserId($user->getId());
-				// TODO TODOFORMS Check if the user is in a verify email stage
-				// (access code starts with verify:)
-				$success = true;
+				if (substr($user->getConfirmcode(), 0, strlen(self::DB_CODE_PREFIX_VALIDATE)) === self::DB_CODE_PREFIX_VALIDATE) {
+					// Validation required
+					return $response = $this->surveyUserLoginPage(
+						$id,
+						false,
+						$this->l10n->t('Please check your e-mail inbox and validate your e-mail address.')
+					);
+				} else {
+					// Login ok
+					$this->surveyUserService->setCurrentSurveyUserId($user->getId());
+					$success = true;
+				}
 			}
 		} catch (IMapperException $e) {
 			// TODO TODOFORMS log
@@ -431,6 +439,24 @@ class SureveyUserController extends Controller {
 		$message = '';
 		$problems = [];
 
+		if (!$su_realname || strlen($su_realname) <= 0) {
+			$success = false;
+			$problems[] = $this->l10n->t(
+				'Please provide your real name.');
+		}
+
+		if (!$su_address || strlen($su_address) <= 0) {
+			$success = false;
+			$problems[] = $this->l10n->t(
+				'Please provide your address.');
+		}
+
+		if (!$su_born || $su_born < 1800) {
+			$success = false;
+			$problems[] = $this->l10n->t(
+				'Please provide your date of birth.');
+		}
+
 		if (!filter_var($su_email, FILTER_VALIDATE_EMAIL)) {
 			$success = false;
 			$problems[] = $this->l10n->t('Invalid e-mail format.');
@@ -614,11 +640,11 @@ class SureveyUserController extends Controller {
 		$docsUrlPrivacyPolicy = $this->settingsController->getPrivacyPolicyUrl();
 		$docsUrlTermsOfUse = $this->settingsController->getTermsOfServiceUrl();
 
-		$profile = new SimpleMenuAction('profile', $this->l10n->t('View profile'), 'icon-user', $profileUrl, 0);
+		// $profile = new SimpleMenuAction('profile', $this->l10n->t('View profile'), 'icon-user', $profileUrl, 0);
+		$logout = new SimpleMenuAction('logout', $this->l10n->t('Log out'), 'icon-close', $logoutUrl, 0);
 		$docs1 = new SimpleMenuAction('tos', $this->l10n->t('Terms of use'), 'icon-info', $docsUrlTermsOfUse, 1);
 		$docs2 = new SimpleMenuAction('ppolicy', $this->l10n->t('Privacy Policy'), 'icon-info', $docsUrlPrivacyPolicy, 2);
-		$logout = new SimpleMenuAction('logout', $this->l10n->t('Log out'), 'icon-close', $logoutUrl, 3);
-		$response->setHeaderActions([$profile, $docs1, $docs2, $logout]);
+		$response->setHeaderActions([$logout, $docs1, $docs2]);
 		return $response;
 	}
 
@@ -636,6 +662,7 @@ class SureveyUserController extends Controller {
 							   $subtitle,
 							   $template) : TemplateResponse
 	{
+		Util::addStyle($this->appName, 'public');
 		Util::addStyle($this->appName, 'survey');
 
 		if ($this->settingsController->hasSurveyUiLogo())

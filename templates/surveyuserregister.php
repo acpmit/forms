@@ -82,6 +82,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 					<div>
 						<label for="su_realname"><?php p($l->t('Real name:')); ?></label>
 						<input name="su_realname"
+							   required
 							   value="<?php p($_['su_realname']); ?>"
 							   placeholder="<?php p($l->t('Please enter your name')); ?>" maxlength="255"
 							   type="text" class="question__input">
@@ -106,6 +107,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 						<label for="su_address"><?php p($l->t('Address:')); ?></label>
 						<input name="su_address"
 							   value="<?php p($_['su_address']); ?>"
+							   required
 							   placeholder="<?php p($l->t('Please enter your postal address')); ?>"
 							   minlength="1" type="text" class="question__input">
 					</div>
@@ -113,6 +115,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 						<label for="su_born"><?php p($l->t('Your birth year:')); ?></label>
 						<input name="su_born"
 							   value="<?php p($_['su_born']); ?>"
+							   required
 							   placeholder="<?php p($l->t('Please enter the year you were born in')); ?>" maxlength="4"
 							   minlength="1" type="number" class="question__input">
 					</div>
@@ -121,6 +124,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 							<?php if (isset($_['su_tos'])) p('checked'); ?>
 							   id="su_tos"
 							   type="checkbox"
+							   required
 							   value="yes"
 							   class="checkbox question__checkbox">
 						<label for="su_tos"><?php p($l->t('Please check this if you accept our terms of use')); ?></label>
@@ -132,6 +136,7 @@ $routeLogin = \OC::$server->getURLGenerator()
 						<input name="su_pp"
 								<?php if (isset($_['su_pp'])) p('checked'); ?>
 							   id="su_pp"
+							   required
 							   type="checkbox"
 							   value="yes"
 							   class="checkbox question__checkbox">

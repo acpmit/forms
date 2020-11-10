@@ -1,5 +1,9 @@
 {
 	"translations": {
+		"Please provide your real name.": "Kérjük, adja meg a valós nevét.",
+		"Please provide your address.": "Kérjük, adja meg a címét.",
+		"Please provide your date of birth": "Kérjük, adja meg a születési dátumát.",
+		"Please check your e-mail inbox and validate your e-mail address.": "Kérjük, ellenőrizze az e-mail fiókjában a beérkező leveleket és erősítse meg az e-mail címét.",
 		"Click here to view": "Kattintson ide a megtekintéshez",
 		"Terms of service URL": "Felhasználási feltételek URL",
 		"Privacy policy URL": "Adatvédelmi irányelvek URL",
