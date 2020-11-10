@@ -742,7 +742,9 @@ class ApiController extends Controller {
 			$submission = $submissionEntity->read();
 			$submission['answers'] = $this->getAnswers($submission['id']);
 			if ($addPersonalData)
-				$this->surveyUserService->addAnswersForPersonalData($submission['answers'], $submission['id']);
+				$this->surveyUserService->addAnswersForPersonalData(
+					$submission['answers'],
+					$submission);
 
 			// Append Display Name
 			if (substr($submission['userId'], 0, 10) === 'anon-user-') {

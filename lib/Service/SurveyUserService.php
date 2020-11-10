@@ -53,6 +53,10 @@ class SurveyUserService
 	public const SURVEY_USER_SESSION_ID = 'FormsSurveyUserId';
 	public const SURVEY_USER_DB_PREFIX = 'survey-user-';
 
+	private const QUESTION_ID_ADDRESS = 2147483647;
+	private const QUESTION_ID_BIRTHYEAR = 2147483646;
+	private const QUESTION_ID_REALNAME = 2147483645;
+
 	public function __construct(FormMapper $formMapper,
 								SurveyUserMapper $surveyUserMapper,
 								IL10N $l10n,
@@ -137,26 +141,59 @@ class SurveyUserService
 		return false;
 	}
 
-	private const QUESTION_ID_ADDRESS = 2147483647;
-	private const QUESTION_ID_BIRTHYEAR = 2147483646;
-	private const QUESTION_ID_REALNAME = 2147483645;
+	/**
+	 * Adds answers to the "virtual" user personal data questions. These
+	 * answers will be filled from the registered user database.
+	 *
+	 * @param $answersList array of the answers for a submission
+	 * @param $submission array submission "object"
+	 * @return array the $answersList parameter for easier syntax
+	 */
+	public function addAnswersForPersonalData(&$answersList, $submission) {
+		$userId = $submission['userId'];
+		if (substr($userId, 0, strlen(self::SURVEY_USER_DB_PREFIX)) !==
+			self::SURVEY_USER_DB_PREFIX)
+			// This is not a survey user submission, we can't fill in the
+			// personal data answers
+			return $answersList;
 
-	public function addAnswersForPersonalData(&$answersList, $submissionId) {
-		$answers = [
-			self::QUESTION_ID_ADDRESS => 'ADDR',
-			self::QUESTION_ID_BIRTHYEAR => 'BY',
-			self::QUESTION_ID_REALNAME => 'RN',
-		];
+		$userId = substr($userId, strlen(self::SURVEY_USER_DB_PREFIX));
+		try {
+			$user = $this->surveyUserMapper->load($userId);
+			$answers = [
+				self::QUESTION_ID_ADDRESS => $user->getAddress(),
+				self::QUESTION_ID_BIRTHYEAR => $user->setBornyear(),
+				self::QUESTION_ID_REALNAME => $user->getRealname(),
+			];;
+		} catch (IMapperException $e) {
+			$retracted = $this->l10n->t('Data not found or retracted');
+			$answers = [
+				self::QUESTION_ID_ADDRESS => $retracted,
+				self::QUESTION_ID_BIRTHYEAR => $retracted,
+				self::QUESTION_ID_REALNAME => $retracted,
+			];
+		}
 
 		foreach ($answers as $key => $answer)
 			$answersList[] = [
-				'id' => $submissionId.'_'.$key,
-				'submissionId' => $submissionId,
+				'id' => $submission['id'].'_'.$key,
+				'submissionId' => $submission['id'],
 				'questionId' => $key,
 				'text' => $answer
 			];
+
+		return $answersList;
 	}
 
+	/**
+	 * Adds the "virtual" questions for the registated user's personal data
+	 * (address, real name, date of birth) so it can be filled in when the user
+	 * has access to these data
+	 *
+	 * @param $questions array of Question objects
+	 * @param $formId int ID for the form
+	 * @return array the $questions parameter for easier syntax
+	 */
 	public function addQuestionsForPersonalData(&$questions, $formId) {
 		$newFields = [
 			self::QUESTION_ID_ADDRESS => $this->l10n->t('Address'),

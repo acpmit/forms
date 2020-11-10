@@ -1,5 +1,6 @@
 {
 	"translations": {
+		"Data not found or retracted": "Az adatokat nem találhatók vagy azokat visszavonták",
 		"Please select the user groups allowed to view the personal data connected to the survey results:": "Kérjük, válassza ki azokat a felhasználói csoportokat, amelyek tagjai megtekinthetik a kérdőívek eredményeihez rendelt személyes adatokat:",
 		"View personal data": "Személyes adatok megtekintése",
 		"Please provide your real name.": "Kérjük, adja meg a valós nevét.",
