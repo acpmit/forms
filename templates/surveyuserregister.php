@@ -134,7 +134,7 @@ $showPP = isset($_['pplink']) && strlen($_['pplink']) > 0;
 							<label for="su_tos"><?php p($l->t('Please check this if you accept our terms of use')); ?></label>
 						</div>
 						<div class="survey-policy-link">
-							<a href="<?php print_unescaped($_['pplink']); ?>"><?php p($l->t('Click here to view')); ?></a>
+							<a href="<?php print_unescaped($_['toslink']); ?>"><?php p($l->t('Click here to view')); ?></a>
 						</div>
 					<?php endif ?>
 					<?php if($showPP): ?>
@@ -147,10 +147,9 @@ $showPP = isset($_['pplink']) && strlen($_['pplink']) > 0;
 								   value="yes"
 								   class="checkbox question__checkbox">
 							<label for="su_pp"><?php p($l->t('Please check this if you accept our privacy policy')); ?></label>
-							<a href="<?php print_unescaped($_['toslink']); ?>"></a>
 						</div>
 						<div class="survey-policy-link">
-							<a href="<?php print_unescaped($_['toslink']); ?>"><?php p($l->t('Click here to view')); ?></a>
+							<a href="<?php print_unescaped($_['pplink']); ?>"><?php p($l->t('Click here to view')); ?></a>
 						</div>
 					<?php endif ?>
 					<div>

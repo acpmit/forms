@@ -238,7 +238,7 @@ class SureveyUserController extends Controller {
 	 *
 	 * @param $code
 	 */
-	public function verifyEmail($code) {
+	public function verifyEmail($code, $formid = '') {
 		$code = self::DB_CODE_PREFIX_VALIDATE.
 			ValidationHelper::filterAlphaNumericUnicde($code, self::ACCESS_CODE_LEN);
 		$failed = true;
@@ -257,12 +257,14 @@ class SureveyUserController extends Controller {
 
 		if ($failed)
 			return $this->setupLoginPage([
+				'formid' => $formid,
 				'activationMessage' => $this->l10n->t(
 					'Invalid activation code. Please try again or contact the site administration.')
 			], $this->l10n->t(
 				'Activation done.'));
 		else
 			return $this->setupLoginPage([
+				'formid' => $formid,
 				'activationMessage' => $this->l10n->t(
 					'Thank you for activating your account. Please log in.')
 			], $this->l10n->t(
@@ -525,7 +527,7 @@ class SureveyUserController extends Controller {
 
 				// Send mail with the activation code
 				$link = \OC::$server->getURLGenerator()
-					->linkToRoute('forms.sureveyUser.verifyEmail', ['code' => $code]);
+					->linkToRoute('forms.sureveyUser.verifyEmail', ['code' => $code, 'formid' => $id]);
 				$this->sendMail(self::EMAIL_TEMPLATE_VERIFY, $link, $su_email);
 			} catch (Exception $e) {
 				// TODO TODOFORMS Log

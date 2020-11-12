@@ -33,7 +33,7 @@ return [
 		['name' => 'sureveyUser#loginForm', 'url' => '/sureveyuser/login/form/{id}', 'verb' => 'GET', 'defaults' => ['id' => '']],
 		['name' => 'sureveyUser#login', 'url' => '/sureveyuser/login/{id}', 'verb' => 'POST', 'defaults' => ['id' => '']],
 		['name' => 'sureveyUser#logout', 'url' => '/sureveyuser/logout', 'verb' => 'GET'],
-		['name' => 'sureveyUser#verifyEmail', 'url' => '/sureveyuser/verifyemail/{code}', 'verb' => 'GET'],
+		['name' => 'sureveyUser#verifyEmail', 'url' => '/sureveyuser/verifyemail/{code}/{formid}', 'verb' => 'GET', 'defaults' => ['formid' => '']],
 		['name' => 'sureveyUser#requireResetPassword', 'url' => '/sureveyuser/resetpassword/require', 'verb' => 'GET'],
 		['name' => 'sureveyUser#requireResetPasswordPost', 'url' => '/sureveyuser/resetpassword/require', 'verb' => 'POST'],
 		['name' => 'sureveyUser#resetPassword', 'url' => '/sureveyuser/resetpassword/{code}', 'verb' => 'GET'],
