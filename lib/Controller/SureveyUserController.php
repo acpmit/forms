@@ -431,6 +431,7 @@ class SureveyUserController extends Controller {
 	 */
 	public function commitRegister($id,
 								   $su_email,
+								   $su_phone,
 								   $su_password,
 								   $su_password2,
 								   $su_realname,
@@ -454,11 +455,17 @@ class SureveyUserController extends Controller {
 				'Please provide your address.');
 		}
 
-		if (!$su_born || $su_born < 1800) {
+		if (!$su_phone || strlen($su_phone) <= 0) {
 			$success = false;
 			$problems[] = $this->l10n->t(
-				'Please provide your date of birth.');
+				'Please provide your phone number.');
 		}
+
+		//if (!$su_born || $su_born < 1800) {
+		//	$success = false;
+		//	$problems[] = $this->l10n->t(
+		//		'Please provide your date of birth.');
+		//}
 
 		if (!filter_var($su_email, FILTER_VALIDATE_EMAIL)) {
 			$success = false;
@@ -512,6 +519,7 @@ class SureveyUserController extends Controller {
 			$newUser = new SurveyUser();
 			$newUser->setRealname(ValidationHelper::filterAlphaNumericUnicde($su_realname, 255));
 			$newUser->setAddress(ValidationHelper::filterAlphaNumericUnicde($su_address, 1000));
+			$newUser->setPhone(ValidationHelper::filterPhoneNumber($su_phone, 50));
 			$newUser->setEmail($su_email); // It is already filtered above
 			$newUser->setPasswordhash(password_hash($su_password, PASSWORD_ARGON2I));
 			$code = self::getAccessCode();
@@ -542,6 +550,7 @@ class SureveyUserController extends Controller {
 			'mode' => 'return',
 			'su_email' => $su_email,
 			'su_pp' => $su_pp,
+			'su_phone' => $su_phone,
 			'su_tos' => $su_tos,
 			'su_password' => $su_password,
 			'su_password2' => $su_password2,

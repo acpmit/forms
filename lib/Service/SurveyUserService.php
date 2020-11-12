@@ -161,7 +161,9 @@ class SurveyUserService
 			// personal data answers
 			return $answersList;
 
-		$userId = substr($userId, strlen(self::SURVEY_USER_DB_PREFIX));
+		$userId = (int)substr($userId, strlen(self::SURVEY_USER_DB_PREFIX));
+		if ($userId === 0) return $answersList;
+
 		try {
 			$user = $this->surveyUserMapper->load($userId);
 			$answers = [

@@ -38,4 +38,18 @@ class ValidationHelper
 		return substr(preg_replace("/[^[:alnum:][:space:]]/u", '',
 			$input), 0, $len);
 	}
+
+	/**
+	 * Filter input for phone numbers
+	 *
+	 * @param string $input String to filter
+	 * @param int $len Maximum length
+	 * @return false|string Filtered string or false if there was no result
+	 */
+	public static function filterPhoneNumber($input,
+													$len = 200)
+	{
+		return trim(substr(preg_replace('/[^\d^\s^+^\-]/', '',
+			$input), 0, $len));
+	}
 }

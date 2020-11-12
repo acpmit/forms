@@ -1,5 +1,8 @@
 {
 	"translations": {
+		"Please provide your phone number.": "Kérjük, adja meg a telefonszámát.",
+		"Phone number": "Telefonszám",
+		"Please enter your phone number": "Kérjük, adja meg a telefonszámát",
 		"Reset password": "Jelszó visszaállítása",
 		"Background": "Háttér",
 		"Background for the survey user interface": "Háttérkép a kérdőív felülethez",

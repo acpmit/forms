@@ -43,6 +43,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setEmail(string $value)
  * @method string getConfirmcode()
  * @method void setConfirmcode(string $value)
+ * @method string getPhone()
+ * @method void setPhone(string $value)
  * @method integer getBornyear()
  * @method void setBornyear(integer $value)
  * @method integer getStatus()
@@ -58,6 +60,7 @@ class SurveyUser extends Entity
 	protected $confirmcode;
 	protected $bornyear;
 	protected $status;
+	protected $phone;
 
 	/**
 	 * SurveyUser constructor.
@@ -72,6 +75,7 @@ class SurveyUser extends Entity
 		$this->addType('bornyear', 'integer');
 		$this->addType('passwordhash', 'string');
 		$this->addType('status', 'integer');
+		$this->addType('phone', 'string');
 	}
 
 	public function read(): array
@@ -86,6 +90,7 @@ class SurveyUser extends Entity
 			'confirmcode' => $this->getConfirmcode(),
 			'bornyear' => $this->getBornyear(),
 			'status' => $this->getStatus(),
+			'phone' => $this->getPhone(),
 		];
 	}
 }

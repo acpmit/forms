@@ -78,7 +78,7 @@ $showPP = isset($_['pplink']) && strlen($_['pplink']) > 0;
 						<label for="su_email"><?php p($l->t('E-mail address:')); ?></label>
 						<input name="su_email"
 							   required
-							   value="<?php p($_['su_email']); ?>"
+							   value="<?php if(isset($_['su_email'])) p($_['su_email']); ?>"
 							   placeholder="<?php p($l->t('my@address.com')); ?>" maxlength="200"
 							   minlength="1" type="text" class="question__input">
 					</div>
@@ -86,7 +86,7 @@ $showPP = isset($_['pplink']) && strlen($_['pplink']) > 0;
 						<label for="su_realname"><?php p($l->t('Real name')); ?>:</label>
 						<input name="su_realname"
 							   required
-							   value="<?php p($_['su_realname']); ?>"
+							   value="<?php if(isset($_['su_realname'])) p($_['su_realname']); ?>"
 							   placeholder="<?php p($l->t('Please enter your name')); ?>" maxlength="255"
 							   type="text" class="question__input">
 					</div>
@@ -94,7 +94,7 @@ $showPP = isset($_['pplink']) && strlen($_['pplink']) > 0;
 						<label for="su_password"><?php p($l->t('Password:')); ?></label>
 						<input name="su_password"
 							   required
-							   value="<?php p($_['su_password']); ?>"
+							   value="<?php if(isset($_['su_password'])) p($_['su_password']); ?>"
 							   placeholder="<?php p($l->t('Enter your password here')); ?>" maxlength="200"
 							   minlength="1" type="password" class="question__input">
 					</div>
@@ -102,26 +102,36 @@ $showPP = isset($_['pplink']) && strlen($_['pplink']) > 0;
 						<label for="su_password2"><?php p($l->t('Password (repeat):')); ?></label>
 						<input name="su_password2"
 							   required
-							   value="<?php p($_['su_password2']); ?>"
+							   value="<?php if(isset($_['su_password2'])) p($_['su_password2']); ?>"
 							   placeholder="<?php p($l->t('Enter your password here')); ?>" maxlength="200"
 							   minlength="1" type="password" class="question__input">
 					</div>
 					<div>
 						<label for="su_address"><?php p($l->t('Address')); ?>:</label>
 						<input name="su_address"
-							   value="<?php p($_['su_address']); ?>"
+							   value="<?php if(isset($_['su_address'])) p($_['su_address']); ?>"
 							   required
 							   placeholder="<?php p($l->t('Please enter your postal address')); ?>"
 							   minlength="1" type="text" class="question__input">
 					</div>
 					<div>
+						<label for="su_phone"><?php p($l->t('Phone number')); ?>:</label>
+						<input name="su_phone"
+							   value="<?php if(isset($_['su_phone'])) p($_['su_phone']); ?>"
+							   required
+							   placeholder="<?php p($l->t('Please enter your phone number')); ?>"
+							   minlength="1" type="text" class="question__input">
+					</div>
+					<?php if (false): ?>
+					<div>
 						<label for="su_born"><?php p($l->t('Your birth year')); ?>:</label>
 						<input name="su_born"
-							   value="<?php p($_['su_born']); ?>"
+							   value="<?php if(isset($_['su_born'])) p($_['su_born']); ?>"
 							   required
 							   placeholder="<?php p($l->t('Please enter the year you were born in')); ?>" maxlength="4"
 							   minlength="1" type="number" class="question__input">
 					</div>
+					<?php endif ?>
 					<?php if($showTos): ?>
 						<div class="survey-policy survey-policy-spacer">
 							<input name="su_tos"
