@@ -476,13 +476,18 @@ class SureveyUserController extends Controller {
 				'The password and password verification fields don\'t match.');
 		}
 
-		if ($su_pp !== 'yes') {
+		$docsUrlPrivacyPolicy = $this->settingsController->getPrivacyPolicyUrl();
+		$docsUrlTermsOfUse = $this->settingsController->getTermsOfServiceUrl();
+		$tosReq = ($docsUrlTermsOfUse !== null && strlen($docsUrlTermsOfUse) > 0);
+		$ppReq = ($docsUrlPrivacyPolicy !== null && strlen($docsUrlPrivacyPolicy) > 0);
+
+		if ($ppReq && $su_pp !== 'yes') {
 			$success = false;
 			$problems[] = $this->l10n->t(
 				'You have to accept our privacy policy to register.');
 		}
 
-		if ($su_tos !== 'yes') {
+		if ($tosReq && $su_tos !== 'yes') {
 			$success = false;
 			$problems[] = $this->l10n->t(
 				'You have to accept our terms of use to register.');
@@ -642,10 +647,13 @@ class SureveyUserController extends Controller {
 		$docsUrlTermsOfUse = $this->settingsController->getTermsOfServiceUrl();
 
 		// $profile = new SimpleMenuAction('profile', $this->l10n->t('View profile'), 'icon-user', $profileUrl, 0);
-		$logout = new SimpleMenuAction('logout', $this->l10n->t('Log out'), 'icon-close', $logoutUrl, 0);
-		$docs1 = new SimpleMenuAction('tos', $this->l10n->t('Terms of use'), 'icon-info', $docsUrlTermsOfUse, 1);
-		$docs2 = new SimpleMenuAction('ppolicy', $this->l10n->t('Privacy Policy'), 'icon-info', $docsUrlPrivacyPolicy, 2);
-		$response->setHeaderActions([$logout, $docs1, $docs2]);
+		$menu = [new SimpleMenuAction('logout', $this->l10n->t('Log out'), 'icon-close', $logoutUrl, 0)];
+		if ($docsUrlTermsOfUse !== null && strlen($docsUrlTermsOfUse) > 0)
+			$menu[] = new SimpleMenuAction('tos', $this->l10n->t('Terms of use'), 'icon-info', $docsUrlTermsOfUse, 1);
+		if ($docsUrlPrivacyPolicy !== null && strlen($docsUrlPrivacyPolicy) > 0)
+			$menu[] = new SimpleMenuAction('ppolicy', $this->l10n->t('Privacy Policy'), 'icon-info', $docsUrlPrivacyPolicy, 2);
+
+		$response->setHeaderActions($menu);
 		return $response;
 	}
 

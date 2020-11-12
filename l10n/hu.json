@@ -1,5 +1,6 @@
 {
 	"translations": {
+		"Reset password": "Jelszó visszaállítása",
 		"Background": "Háttér",
 		"Background for the survey user interface": "Háttérkép a kérdőív felülethez",
 		"There was an error while loading the list of users": "Hiba a felhasználók listájának betöltése közben",
@@ -115,7 +116,7 @@
 		"Expired on {date}": "Lejárt: {date}",
 		"Form expired": "Az űrlap lejárt",
 		"Please provide your details below.": "Kérjük, adja meg az alábbi adatokat.",
-		"Privacy Policy": "Adatvédelmi tájékoztató",
+		"Privacy Policy": "Adatvédelmi irányelvek",
 		"Submitting form …": "Űrlap beküldése …",
 		"Registered survey user response": "Regisztrált külső felhasználó válasza",
 		"Please enter your name": "Kérjük, adja meg a nevét",

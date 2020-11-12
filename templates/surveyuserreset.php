@@ -95,7 +95,7 @@ if (isset($_['code']))
 						<?php endif; ?>
 						<div>
 							<label></label>
-							<input type="submit" class="primary" value="<?php p($l->t('Send reset link')); ?>">
+							<input type="submit" class="primary" value="<?php p($l->t('Reset password')); ?>">
 						</div>
 					</form>
 				</div>
