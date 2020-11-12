@@ -16,11 +16,16 @@
 	<tr v-else
 		:class="{
 			'users-item': true,
+			'open': userOpen,
 			'users-clickable': !iamAHeader}"
-		@click="itemClicked">
+		@click="userOpen = !userOpen">
 		<td class="users-text users-clickable">
 			<div :class="itemIcon" />
 			<div class="user-icon" />{{ user.realname }}
+			<div v-if="userOpen"
+				class="user-drawer">
+				Hello
+			</div>
 		</td>
 		<td class="users-addr users-clickable">
 			{{ user.address }}
@@ -49,6 +54,12 @@ export default {
 		},
 	},
 
+	data() {
+		return {
+			userOpen: false,
+		}
+	},
+
 	computed: {
 		itemIcon() {
 			let common = ' user-icon users-clickable user-icon-user'
@@ -61,18 +72,6 @@ export default {
 		},
 	},
 
-	methods: {
-		itemClicked(event) {
-			if (this.iamAHeader || this.node === undefined) return
-
-			if (!this.isFolder) {
-				this.$store.commit('TOGGLE_FILE', this.node)
-			} else {
-				this.loading = true
-				this.$emit('change-folder', this.node.id)
-			}
-		},
-	},
 }
 </script>
 
@@ -81,6 +80,12 @@ export default {
 td, th {
 	padding: 15px;
 	border-bottom: 1px solid var(--color-border);
+	height: 60px;
+}
+
+tr.open {
+	height: 120px;
+	padding-bottom: 75px;
 }
 
 tr.users-selected {
@@ -104,16 +109,25 @@ tr.users-clickable:hover {
 	background: var(--color-background-hover);
 }
 
+.users-text, td.users-phone, td.users-addr, td.users-email {
+	overflow: hidden;
+	margin-top: 3px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: top;
+	padding-top: 18px;
+}
+
 td.users-phone {
-	width: 10%;
+	min-width: 10%;
 }
 
 td.users-addr {
-	width: 30%;
+	min-width: 20%;
 }
 
 td.users-email {
-	width: 30%;
+	min-width: 20%;
 }
 
 div.sf-load-pos {
@@ -124,11 +138,7 @@ div.sf-load-pos {
 
 .users-text {
 	padding-left: 36px;
-	margin-top: 3px;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	width: 30%;
+	min-width: 20%;
 }
 
 .sf-node-date {
@@ -165,6 +175,17 @@ div.user-icon-user {
 	width: 20px;
 	height: 20px;
 	mask-image: url('../../../img/user.svg');
+}
+
+div.user-drawer {
+	position: absolute;
+	width: 100%;
+	top: 60px;
+	left: 0px;
+	height: 60px;
+	z-index: 300;
+	padding: 15px;
+	background-color: var(--color-background-darker);
 }
 
 </style>

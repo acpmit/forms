@@ -762,7 +762,10 @@ class SureveyUserController extends Controller {
 	 * @param string $filter Filter to use listing the users
 	 * @return DataResponse List of survey users
 	 */
-	public function apiList(string $filter): DataResponse {
+	public function apiList(string $filter, int $page): DataResponse {
+
+		// TODO ACCESS CHECK
+
 //		if ($this->settingsController->isAccessToAllEnabled())
 //			$forms = $this->formMapper->findAll();
 //		else
@@ -773,15 +776,27 @@ class SureveyUserController extends Controller {
 //		$canView = !$this->settingsController->isAccessControlEnabled() ||
 //			$this->settingsController->canViewResults();
 
-		$data = [];
-		foreach ($this->surveyUserMapper->findAll() as $user) {
-			$data[] = [
+		$limit = 100;
+
+		$data = [
+			'results' => [],
+			'limit' => $limit,
+			'page' => $page,
+			'more' => false,
+		];
+
+		foreach ($this->surveyUserMapper->findAll($filter, $limit+1, $limit * $page) as $user) {
+			$data['results'][] = [
 				'realname' => $user->getRealname(),
 				'address' => $user->getAddress(),
 				'email' => $user->getEmail(),
 				'phone' => $user->getPhone(),
 				'status' => $user->getStatus(),
 			];
+			if (count($data['results']) === $limit) {
+				$data['more'] = true;
+				break;
+			}
 		}
 
 		return new DataResponse($data);

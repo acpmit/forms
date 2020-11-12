@@ -27,14 +27,18 @@
 	</AppContent>
 
 	<AppContent v-else>
-		<TopBar>
-			<div>
+		<div class="topbar-container">
+			<div class="topbar-relative">
 				<label for="filter">{{ t('forms', 'Filter results') }}:</label>
 				<input id="filter"
 					v-model="dataFilter"
 					name="filter">
+				<div v-show="filterLoading"
+					class="loading-pos">
+					<div class="icon-loading-small" />
+				</div>
 			</div>
-		</TopBar>
+		</div>
 		<div class="users-container">
 			<table class="users-table">
 				<thead>
@@ -42,7 +46,7 @@
 				</thead>
 				<tbody>
 					<UserRow
-						v-for="surveyUser in filteredResults"
+						v-for="surveyUser in surveyUsers.results"
 						:key="surveyUser.id"
 						:iam-a-header="false"
 						:user="surveyUser" />
@@ -59,9 +63,9 @@ import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import EmptyContent from '../components/EmptyContent'
-import ViewsMixin from '../mixins/ViewsMixin'
 import SetWindowTitle from '../utils/SetWindowTitle'
 import UserRow from '../components/Users/UserRow'
+import debounce from 'debounce'
 
 export default {
 	name: 'Users',
@@ -71,8 +75,6 @@ export default {
 		AppContent,
 		EmptyContent,
 	},
-
-	mixins: [ViewsMixin],
 
 	props: {
 		filter: {
@@ -88,16 +90,17 @@ export default {
 	data() {
 		return {
 			dataFilter: '',
+			lastSentFilter: '',
 			loadingUsers: true,
+			filterLoading: false,
 			surveyUsers: [],
+			dataPage: 0,
 		}
 	},
 
-	computed: {
-		filteredResults() {
-			return this.surveyUsers.filter(item => {
-				return item.realname.toLowerCase().indexOf(this.dataFilter.toLowerCase()) > -1
-			})
+	watch: {
+		dataFilter(val) {
+			this.debounceLoadSurveyUsers(val)
 		},
 	},
 
@@ -108,13 +111,30 @@ export default {
 	},
 
 	methods: {
+		debounceLoadSurveyUsers: debounce(function(filter = null) {
+			if (filter !== null && filter !== '') filter = '/' + filter
+			else filter = ''
+
+			this.filterLoading = true
+			axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/' + this.dataPage + filter)
+				.then(response => {
+					this.surveyUsers = response.data
+				})
+				.catch(error => {
+					console.error(error)
+					showError(t('forms', 'There was an error while loading the list of users'))
+				}).finally(() => {
+					this.filterLoading = false
+				})
+		}, 500),
+
 		async loadSurveyUsers(filter = null) {
 			this.loadingUsers = true
 			if (filter !== null && filter !== '') filter = '/' + filter
 			else filter = ''
 
 			try {
-				const response = await axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers' + filter)
+				const response = await axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/' + this.dataPage + filter)
 
 				// Append questions & submissions
 				this.surveyUsers = response.data
@@ -138,6 +158,25 @@ table.users-table {
 
 div.users-container {
 	width: 100%;
+	margin-top: 10px;
+}
+
+div.loading-pos {
+	position: absolute;
+	right: 12px;
+	top: 12px;
+}
+
+div.topbar-relative {
+	position: relative;
+	margin-left: 40px;
+	padding: 2px;
+}
+
+div.topbar-container {
+	position: relative;
+	width: 100%;
+	background: var(--color-background-darker);
 }
 
 </style>

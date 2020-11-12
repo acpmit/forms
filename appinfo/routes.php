@@ -83,6 +83,6 @@ return [
 		['name' => 'settings#getAccess', 'url' => '/api/v1/access', 'verb' => 'GET'],
 
 		// Survey user management
-		['name' => 'sureveyUser#apiList', 'url' => '/api/v1/surveyusers/{filter}', 'verb' => 'GET', 'defaults' => ['filter' => '']],
+		['name' => 'sureveyUser#apiList', 'url' => '/api/v1/surveyusers/{page}/{filter}', 'verb' => 'GET', 'defaults' => ['page' => 0, 'filter' => '']],
 	]
 ];

@@ -103,11 +103,18 @@ class SurveyUserMapper extends QBMapper {
 	/**
 	 * @return SurveyUser[]
 	 */
-	public function findAll(): array {
+	public function findAll($filter = '', $limit = 100, $offset = 0): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName());
+
+		if ($filter !== '' && $filter !== null)
+			$qb->where($qb->expr()->iLike('realname', $qb->createNamedParameter("%$filter%")));
+
+		$qb->orderBy('realname', 'ASC')
+			->setFirstResult($offset)
+			->setMaxResults($limit);
 
 		return $this->findEntities($qb);
 	}
