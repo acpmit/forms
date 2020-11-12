@@ -41,7 +41,7 @@ if (isset($_['code']))
 	<?php endif ?>
 
 	<div class="survey-user-center">
-		<?php if($_['success']): ?>
+		<?php if(isset($_['message']) && isset($_['success']) && $_['success']): ?>
 			<div>
 				<?php p($_['message']); ?>
 			</div>

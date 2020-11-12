@@ -1,5 +1,8 @@
 {
 	"translations": {
+		"Background": "Háttér",
+		"Background for the survey user interface": "Háttérkép a kérdőív felülethez",
+		"There was an error while loading the list of users": "Hiba a felhasználók listájának betöltése közben",
 		"Data not found or retracted": "Az adatokat nem találhatók vagy azokat visszavonták",
 		"Please select the user groups allowed to view the personal data connected to the survey results:": "Kérjük, válassza ki azokat a felhasználói csoportokat, amelyek tagjai megtekinthetik a kérdőívek eredményeihez rendelt személyes adatokat:",
 		"View personal data": "Személyes adatok megtekintése",
@@ -39,7 +42,7 @@
 		"To confirm your e-mail address, please open this link in your browser: %1$s": "E-mail címének megerősítéséhez nyissa meg ezt a linket a böngészőben: %1$s",
 		"Confirm e-mail address": "E-mail cím megerősítése",
 		"Password reset for %1$s": "Jelszó visszaállítása a következőhöz: %1$s",
-		"Someone requested a password reset at %1$s for you.": "Valaki kérte a jelszó visszaállítását %1$s időpontban.",
+		"Someone requested a password reset at %1$s for you.": "Valaki kérte a jelszó visszaállítását %1$s weboldalon.",
 		"To change your password, please press the button below:": "Jelszavának megváltoztatásához nyomja meg az alábbi gombot:",
 		"To change your password, please open this link in your browser: %1$s": "Jelszavának megváltoztatásához nyissa meg ezt a linket a böngészőben: %1$s",
 		"Change password": "Jelszó módosítása",

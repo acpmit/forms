@@ -42,9 +42,11 @@ return [
 		// Settings
 		['name' => 'settings#postSettings', 'url' => '/settings', 'verb' => 'POST'],
 		['name' => 'settings#getLogoImage', 'url' => '/settings/logoimage', 'verb' => 'GET'],
+		['name' => 'settings#getBackgroundImage', 'url' => '/settings/backgroundimage', 'verb' => 'GET'],
 
 		// Before /{hash} to avoid conflict
 		['name' => 'page#index', 'url' => '/new', 'verb' => 'GET', 'postfix' => 'create'],
+		// ['name' => 'page#index', 'url' => '/surveyusers/{filter}', 'verb' => 'GET', 'defaults' => ['filter' => '']],
 		['name' => 'page#index', 'url' => '/{hash}/edit', 'verb' => 'GET', 'postfix' => 'edit'],
 		['name' => 'page#index', 'url' => '/{hash}/clone', 'verb' => 'GET', 'postfix' => 'clone'],
 		['name' => 'page#index', 'url' => '/{hash}/results', 'verb' => 'GET', 'postfix' => 'results'],
@@ -78,5 +80,8 @@ return [
 
 		// Access
 		['name' => 'settings#getAccess', 'url' => '/api/v1/access', 'verb' => 'GET'],
+
+		// Survey user management
+		['name' => 'sureveyUser#apiList', 'url' => '/api/v1/surveyusers/{filter}', 'verb' => 'GET', 'defaults' => ['filter' => '']],
 	]
 ];

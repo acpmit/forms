@@ -35,6 +35,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\IMapperException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
@@ -671,6 +672,12 @@ class SureveyUserController extends Controller {
 		else
 			$data['logoImage'] = false;
 
+		if ($this->settingsController->hasSurveyUiBackground())
+			$data['bgImage'] = \OC::$server->getURLGenerator()
+				->linkToRoute('forms.settings.getBackgroundImage');
+		else
+			$data['logoImage'] = false;
+
 		// TODO
 		$template = new PublicTemplateResponse(
 			$this->appName,
@@ -727,4 +734,38 @@ class SureveyUserController extends Controller {
 		$message->useTemplate($emailTemplate);
 		$this->mailer->send($message);
 	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Read the list of the currently registered survey users
+	 *
+	 * @param string $filter Filter to use listing the users
+	 * @return DataResponse List of survey users
+	 */
+	public function apiList(string $filter): DataResponse {
+//		if ($this->settingsController->isAccessToAllEnabled())
+//			$forms = $this->formMapper->findAll();
+//		else
+//			$forms = $this->formMapper->findAllByOwnerId($this->currentUser->getUID());
+//
+//		// The current user can view survey results. This could be
+//		// refined to a per form basis later if required
+//		$canView = !$this->settingsController->isAccessControlEnabled() ||
+//			$this->settingsController->canViewResults();
+
+		$data = [];
+		foreach ($this->surveyUserMapper->findAll() as $user) {
+			$data[] = [
+				'realname' => $user->getRealname(),
+				'address' => $user->getAddress(),
+				'email' => $user->getEmail(),
+				'bornyear' => $user->getBornyear(),
+				'status' => $user->getStatus(),
+			];
+		}
+
+		return new DataResponse($data);
+	}
+
 }

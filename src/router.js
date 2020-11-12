@@ -29,6 +29,7 @@ import { generateUrl } from '@nextcloud/router'
 import Create from './views/Create'
 import Results from './views/Results'
 import Sidebar from './views/Sidebar'
+import Users from './views/Users'
 
 Vue.use(Router)
 
@@ -44,6 +45,15 @@ export default new Router({
 		{
 			path: '/',
 			name: 'root',
+		},
+		{
+			path: '/surveyusers/:filter?',
+			components: {
+				default: Users,
+				sidebar: Sidebar,
+			},
+			name: 'surveyusers',
+			props: true,
 		},
 		{
 			path: '/:hash',

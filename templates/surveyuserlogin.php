@@ -32,7 +32,15 @@ $routeReset = \OC::$server->getURLGenerator()
 
 <div id="emptycontent" class="">
 
-	<?php if($_['logoImage']): ?>
+	<?php if(isset($_['bgImage']) && $_['bgImage']): ?>
+		<style>
+			body {
+				background-image: url(<?php print_unescaped($_['bgImage']); ?>);
+			}
+		</style>
+	<?php endif ?>
+
+	<?php if(isset($_['logoImage']) && $_['logoImage']): ?>
 		<div class="survey-logo">
 			<img src="<?php p($_['logoImage']); ?>">
 		</div>
@@ -41,17 +49,17 @@ $routeReset = \OC::$server->getURLGenerator()
 	<?php endif ?>
 
 	<div class="survey-user-center">
-		<?php if($_['success']): ?>
+		<?php if(isset($_['success']) && isset($_['message']) && $_['success']): ?>
 			<div>
 				<?php p($_['message']); ?>
 			</div>
 		<?php else: ?>
 			<div class="survey_user_login">
-				<h2><?php if($_['activationMessage'])
+				<h2><?php if(isset($_['activationMessage']) && $_['activationMessage'])
 								p($_['activationMessage']);
 							else
 								p($l->t('This form is for registered users only. If you already have an account, please log in.')); ?></h2>
-				<?php if($_['message']): ?>
+				<?php if(isset($_['message']) && $_['message']): ?>
 					<div class="survey-user-message">
 						<?php p($_['message']); ?>
 					</div>

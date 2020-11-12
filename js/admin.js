@@ -23,6 +23,12 @@ window.addEventListener('DOMContentLoaded', function(){
 		fileReader.readAsDataURL($('#uploadlogo').prop('files')[0]);
 	});
 
+	$('#uploadBg').on('change', function () {
+		var fileReader = new FileReader();
+		fileReader.onload = function () { $('#uploadBgData').val(fileReader.result); };
+		fileReader.readAsDataURL($('#uploadBg').prop('files')[0]);
+	});
+
 	var setupCurtain = function () {
 		if ($('#enable-access').prop('checked'))
 			$('.forms-access').removeClass('forms-access-curtain');

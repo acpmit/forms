@@ -74,6 +74,8 @@ class SettingsController extends Controller
 		'FormsViewPersonalData';
 	public const CONFIG_SURVEY_UI_LOGOIMAGE =
 		'FormsSurveyLogoImage';
+	public const CONFIG_SURVEY_UI_BACKGROUND =
+		'FormsSurveyBackgroundImage';
 	public const CONFIG_ENABLE_ACCESS_ALL =
 		'FormsAccessAll';
 	public const CONFIG_URL_TOS =
@@ -185,6 +187,9 @@ class SettingsController extends Controller
 		if (isset($_POST['uploadLogoData']) && strlen($_POST['uploadLogoData']) > 0)
 			$this->setSurveyUiLogo($_POST['uploadLogoData']);
 
+		if (isset($_POST['uploadBgData']) && strlen($_POST['uploadBgData']) > 0)
+			$this->setSurveyUiBackground($_POST['uploadBgData']);
+
 		if (count($error) === 0)
 			return new DataResponse('Ok', Http::STATUS_OK);
 		else
@@ -237,6 +242,24 @@ class SettingsController extends Controller
 		return new DataDownloadResponse(
 			$data['source'],
 			'logo',
+			$data['mime']
+		);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @CORS
+	 *
+	 * @return DataDownloadResponse|DataResponse
+	 */
+	public function getBackgroundImage() {
+		$data = self::getImageData($this->getSurveyUiBackground());
+		if (!$data) return new DataResponse('', Http::STATUS_NO_CONTENT);
+
+		return new DataDownloadResponse(
+			$data['source'],
+			'background',
 			$data['mime']
 		);
 	}
@@ -430,6 +453,32 @@ class SettingsController extends Controller
 	{
 		return $this->setBoolVal(self::CONFIG_ADVANCED_ACCESS_CONTROL,
 			$enabled);
+	}
+
+	/**
+	 * @return string Base64 coded image to insert into the source
+	 */
+	public function getSurveyUiBackground()
+	{
+		return $this->getVal(self::CONFIG_SURVEY_UI_BACKGROUND);
+	}
+
+	/**
+	 * @return bool If the page has an image to insert into the source
+	 */
+	public function hasSurveyUiBackground()
+	{
+		return strlen($this->getVal(self::CONFIG_SURVEY_UI_BACKGROUND))>0;
+	}
+
+	/**
+	 * @param string $image Base64 coded image to insert into the source
+	 * considered
+	 */
+	public function setSurveyUiBackground($image)
+	{
+		return $this->setVal(self::CONFIG_SURVEY_UI_BACKGROUND,
+			$image);
 	}
 
 	/**

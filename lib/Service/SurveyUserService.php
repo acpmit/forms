@@ -53,6 +53,10 @@ class SurveyUserService
 	public const SURVEY_USER_SESSION_ID = 'FormsSurveyUserId';
 	public const SURVEY_USER_DB_PREFIX = 'survey-user-';
 
+	public const SURVEY_USER_STATUS_ACTIVE = 0;
+	public const SURVEY_USER_STATUS_BANNED = 1;
+	public const SURVEY_USER_STATUS_DATA_RETRACTED = 2;
+
 	private const QUESTION_ID_ADDRESS = 2147483647;
 	private const QUESTION_ID_BIRTHYEAR = 2147483646;
 	private const QUESTION_ID_REALNAME = 2147483645;
@@ -162,7 +166,7 @@ class SurveyUserService
 			$user = $this->surveyUserMapper->load($userId);
 			$answers = [
 				self::QUESTION_ID_ADDRESS => $user->getAddress(),
-				self::QUESTION_ID_BIRTHYEAR => $user->setBornyear(),
+				self::QUESTION_ID_BIRTHYEAR => $user->getBornyear(),
 				self::QUESTION_ID_REALNAME => $user->getRealname(),
 			];;
 		} catch (IMapperException $e) {

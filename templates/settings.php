@@ -118,6 +118,15 @@ $settingsUrl = \OC::$server->getURLGenerator()
 		</div>
 	</div>
 
+	<div id="forms-bg" class="section">
+		<h2><?php p($l->t('Background for the survey user interface')); ?></h2>
+		<div class="section-content">
+			<label for="uploadBg"><span><?php p($l->t('Background')) ?></span></label>
+			<input id="uploadBgData" name="uploadBgData" type="hidden" />
+			<input id="uploadBg" class="fileupload" name="uploadBg" type="file" />
+		</div>
+	</div>
+
 	<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>">
 	<div class="section"><input type="button" id="forms_settings_submit" class="primary" value="<?php p($l->t('Save changes')); ?>"></div>
 </form>

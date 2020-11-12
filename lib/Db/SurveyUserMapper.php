@@ -99,4 +99,16 @@ class SurveyUserMapper extends QBMapper {
 
 		return $this->findEntity($qb);
 	}
+
+	/**
+	 * @return SurveyUser[]
+	 */
+	public function findAll(): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName());
+
+		return $this->findEntities($qb);
+	}
 }

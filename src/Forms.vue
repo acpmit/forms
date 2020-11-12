@@ -38,7 +38,11 @@
 		</AppNavigation>
 
 		<!-- No forms & loading emptycontents -->
-		<AppContent v-if="loading || noForms || (!routeHash && $route.name !== 'create')">
+		<AppContent v-if="$route.name === 'surveyusers'">
+			<router-view />
+		</AppContent>
+
+		<AppContent v-else-if="loading || noForms || (!routeHash && $route.name !== 'create')">
 			<EmptyContent v-if="loading" icon="icon-loading">
 				{{ t('forms', 'Loading forms …') }}
 			</EmptyContent>
