@@ -38,6 +38,8 @@ return [
 		['name' => 'sureveyUser#requireResetPasswordPost', 'url' => '/sureveyuser/resetpassword/require', 'verb' => 'POST'],
 		['name' => 'sureveyUser#resetPassword', 'url' => '/sureveyuser/resetpassword/{code}', 'verb' => 'GET'],
 		['name' => 'sureveyUser#resetPasswordPost', 'url' => '/sureveyuser/resetpassword/{code}', 'verb' => 'POST'],
+		// Survey user management
+		['name' => 'page#userAdminIndex', 'url' => '/surveyuseradmin/listusers/{page}/{filter}', 'verb' => 'GET', 'defaults' => ['filter' => '', 'page' => 1]],
 
 		// Settings
 		['name' => 'settings#postSettings', 'url' => '/settings', 'verb' => 'POST'],
@@ -46,7 +48,6 @@ return [
 
 		// Before /{hash} to avoid conflict
 		['name' => 'page#index', 'url' => '/new', 'verb' => 'GET', 'postfix' => 'create'],
-		// ['name' => 'page#index', 'url' => '/surveyusers/{filter}', 'verb' => 'GET', 'defaults' => ['filter' => '']],
 		['name' => 'page#index', 'url' => '/{hash}/edit', 'verb' => 'GET', 'postfix' => 'edit'],
 		['name' => 'page#index', 'url' => '/{hash}/clone', 'verb' => 'GET', 'postfix' => 'clone'],
 		['name' => 'page#index', 'url' => '/{hash}/results', 'verb' => 'GET', 'postfix' => 'results'],

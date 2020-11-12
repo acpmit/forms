@@ -1,6 +1,8 @@
 OC.L10N.register(
     "forms",
     {
+    	"Filter results": "Találatok szűrése",
+		"Phone number": "Telefonszám",
     	"Loading users …": "Felhasználói lista töltése …",
 		"If you don't have an account yet, you can register by <a href=\"%s\">clicking here</a>.": "Ha még nincs felhasználói fiókja, <a href=\"%s\">itt regisztrálhat</a>.",
 		"Allow all instance users to access all forms (no ownership is checked)": "Engedélyezze az összes példány felhasználójának az összes űrlaphoz való hozzáférést (nincs ellenőrizve a tulajdonjog)",

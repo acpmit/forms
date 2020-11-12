@@ -47,7 +47,7 @@ export default new Router({
 			name: 'root',
 		},
 		{
-			path: '/surveyusers/:filter?',
+			path: '/surveyuseradmin/listusers/:page?/:filter?',
 			components: {
 				default: Users,
 				sidebar: Sidebar,

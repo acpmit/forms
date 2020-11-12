@@ -1,5 +1,7 @@
 {
 	"translations": {
+		"When you have finished the registration and confirmed your e-mail address, you can log in to answer the survey.": "Amikor befejezte a regisztrációt és visszaigazolta az e-mail címét, ezen az oldalon beléphet és kitöltheti a kérdőívet.",
+		"If you don't have an account for this page yet, you can register by clicking on the button below.": "Ha még nincs felhasználói fiókja ezen az oldalon, kérjük regisztráljon a lenti gombbal.",
 		"Please provide your phone number.": "Kérjük, adja meg a telefonszámát.",
 		"Phone number": "Telefonszám",
 		"Please enter your phone number": "Kérjük, adja meg a telefonszámát",
@@ -23,7 +25,7 @@
 		"Please check this if you accept our terms of use": "Jelölje be, ha elfogadja a felhasználási feltételeinket",
 		"You have to accept our terms of use to register.": "El kell fogadnia a felhasználási feltételeket a regisztrációhoz.",
 		"You have to accept our privacy policy to register.": "El kell fogadnia az adatvédelmi irányelveinket a regisztrációhoz.",
-		"Good bye!": "Viszont látásra!",
+		"Good bye!": "Viszontlátásra!",
 		"Error resetting your password.": "Hiba a jelszó visszaállítása során.",
 		"Please enter your new password.": "Kérjük, adja meg az új jelszavát.",
 		"You password have been reset. Please log in.": "A jelszavát visszaállítottuk. Kérjük, lépjen be.",
@@ -38,7 +40,8 @@
 		"Send reset link": "Link kérése",
 		"Please enter your e-mail address, so we can send you a password reset link.": "Kérjük, adja meg az e-mail címét, amire a jelszóváltáshoz szükséges linket küldhetjük.",
 		"Did you forgot your password? <a href=\"%s\">Click here to start a password reset</a>!": "Elfelejtette a jelszavát? <a href=\"%s\">Kattintson ide, ha újat szeretne kérni</a>!",
-		"This form is for registered users only. If you already have an account, please log in.": "Ez az űrlap csak regisztrált felhasználók számára érhető el. Amennyiben rendelkezik felhasználói fiókkal, kérjük lépjen be.",
+		"This form is for registered users only.": "Ez az űrlap csak regisztrált felhasználók számára érhető el.",
+		"If you already have an account, please log in.": "Amennyiben rendelkezik felhasználói fiókkal, kérjük lépjen be.",
 		"If you don't have an account yet, you can register by <a href=\"%s\">clicking here</a>.": "Ha még nincs felhasználói fiókja, <a href=\"%s\">itt regisztrálhat</a>.",
 		"Password verification for %1$s": "Jelszóellenőrzés %1$s számára",
 		"Please confirm that this is your e-mail address": "Kérjük, erősítse meg, hogy ez az Ön e-mail címe",

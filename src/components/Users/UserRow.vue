@@ -9,8 +9,8 @@
 		<th class="users-email">
 			{{ t('forms', 'E-mail address') }}
 		</th>
-		<th class="users-birth users-text">
-			{{ t('forms', 'Birth year') }}
+		<th class="users-phone users-text">
+			{{ t('forms', 'Phone number') }}
 		</th>
 	</tr>
 	<tr v-else
@@ -28,8 +28,8 @@
 		<td class="users-email users-clickable">
 			{{ user.email }}
 		</td>
-		<td class="users-birth users-clickable">
-			{{ user.bornyear }}
+		<td class="users-phone users-clickable">
+			{{ user.phone }}
 		</td>
 	</tr>
 </template>
@@ -80,6 +80,7 @@ export default {
 
 td, th {
 	padding: 15px;
+	border-bottom: 1px solid var(--color-border);
 }
 
 tr.users-selected {
@@ -103,7 +104,7 @@ tr.users-clickable:hover {
 	background: var(--color-background-hover);
 }
 
-td.users-birth {
+td.users-phone {
 	width: 10%;
 }
 

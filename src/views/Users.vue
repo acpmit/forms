@@ -28,7 +28,12 @@
 
 	<AppContent v-else>
 		<TopBar>
-			Topbar
+			<div>
+				<label for="filter">{{ t('forms', 'Filter results') }}:</label>
+				<input id="filter"
+					v-model="dataFilter"
+					name="filter">
+			</div>
 		</TopBar>
 		<div class="users-container">
 			<table class="users-table">
@@ -37,7 +42,7 @@
 				</thead>
 				<tbody>
 					<UserRow
-						v-for="surveyUser in surveyUsers"
+						v-for="surveyUser in filteredResults"
 						:key="surveyUser.id"
 						:iam-a-header="false"
 						:user="surveyUser" />
@@ -74,18 +79,32 @@ export default {
 			type: String,
 			default: '',
 		},
+		page: {
+			type: Number,
+			default: 1,
+		},
 	},
 
 	data() {
 		return {
+			dataFilter: '',
 			loadingUsers: true,
 			surveyUsers: [],
 		}
 	},
 
+	computed: {
+		filteredResults() {
+			return this.surveyUsers.filter(item => {
+				return item.realname.toLowerCase().indexOf(this.dataFilter.toLowerCase()) > -1
+			})
+		},
+	},
+
 	beforeMount() {
 		this.loadSurveyUsers(this.filter)
 		SetWindowTitle(this.formTitle)
+		this.dataFilter = this.$route.params.filter
 	},
 
 	methods: {

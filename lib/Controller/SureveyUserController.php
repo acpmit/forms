@@ -779,7 +779,7 @@ class SureveyUserController extends Controller {
 				'realname' => $user->getRealname(),
 				'address' => $user->getAddress(),
 				'email' => $user->getEmail(),
-				'bornyear' => $user->getBornyear(),
+				'phone' => $user->getPhone(),
 				'status' => $user->getStatus(),
 			];
 		}

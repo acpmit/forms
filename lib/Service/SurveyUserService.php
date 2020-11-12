@@ -58,7 +58,7 @@ class SurveyUserService
 	public const SURVEY_USER_STATUS_DATA_RETRACTED = 2;
 
 	private const QUESTION_ID_ADDRESS = 2147483647;
-	private const QUESTION_ID_BIRTHYEAR = 2147483646;
+	private const QUESTION_ID_PHONE = 2147483646;
 	private const QUESTION_ID_REALNAME = 2147483645;
 
 	public function __construct(FormMapper $formMapper,
@@ -73,28 +73,43 @@ class SurveyUserService
 		$this->l10n = $l10n;
 	}
 
+	/**
+	 * @return bool True if there is a logged in survey user session
+	 */
 	public function isSurveyUserLoggedIn() {
 		$user = $this->getCurrentSurveyUserId();
 		return $user !== null && ((int)$user) > 0;
 	}
 
+	/**
+	 * Log out survey user session
+	 */
 	public function logoutSurveyUser() {
 		if (session_status() == PHP_SESSION_NONE) session_start();
 		$_SESSION[self::SURVEY_USER_SESSION_ID] = null;
 	}
 
+	/**
+	 * @param $userId int Set the current logged in survey user id
+	 */
 	public function setCurrentSurveyUserId($userId) {
 		if (session_status() == PHP_SESSION_NONE) session_start();
 		// \OC::$server->getSession()->set(self::SURVEY_USER_SESSION_ID, $userId);
 		$_SESSION[self::SURVEY_USER_SESSION_ID] = $userId;
 	}
 
+	/**
+	 * @return mixed Returns the current logged in surevy user id
+	 */
 	public function getCurrentSurveyUserId() {
 		if (session_status() == PHP_SESSION_NONE) session_start();
 		// return \OC::$server->getSession()->get(self::SURVEY_USER_SESSION_ID);
 		return $_SESSION[self::SURVEY_USER_SESSION_ID];
 	}
 
+	/**
+	 * @return SurveyUser|null Returns the current logged in survey user
+	 */
 	public function getCurrentSurveyUser() : ?SurveyUser {
 		if (!$this->isSurveyUserLoggedIn())
 			return null;
@@ -165,17 +180,18 @@ class SurveyUserService
 		if ($userId === 0) return $answersList;
 
 		try {
+			/** @var SurveyUser $user */
 			$user = $this->surveyUserMapper->load($userId);
 			$answers = [
 				self::QUESTION_ID_ADDRESS => $user->getAddress(),
-				self::QUESTION_ID_BIRTHYEAR => $user->getBornyear(),
+				self::QUESTION_ID_PHONE => $user->getPhone(),
 				self::QUESTION_ID_REALNAME => $user->getRealname(),
 			];;
 		} catch (IMapperException $e) {
 			$retracted = $this->l10n->t('Data not found or retracted');
 			$answers = [
 				self::QUESTION_ID_ADDRESS => $retracted,
-				self::QUESTION_ID_BIRTHYEAR => $retracted,
+				self::QUESTION_ID_PHONE => $retracted,
 				self::QUESTION_ID_REALNAME => $retracted,
 			];
 		}
@@ -203,7 +219,7 @@ class SurveyUserService
 	public function addQuestionsForPersonalData(&$questions, $formId) {
 		$newFields = [
 			self::QUESTION_ID_ADDRESS => $this->l10n->t('Address'),
-			self::QUESTION_ID_BIRTHYEAR => $this->l10n->t('Your birth year'),
+			self::QUESTION_ID_PHONE => $this->l10n->t('Phone number'),
 			self::QUESTION_ID_REALNAME => $this->l10n->t('Real name'),
 		];
 

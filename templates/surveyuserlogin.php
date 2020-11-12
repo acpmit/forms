@@ -55,10 +55,15 @@ $routeReset = \OC::$server->getURLGenerator()
 			</div>
 		<?php else: ?>
 			<div class="survey_user_login">
-				<h2><?php if(isset($_['activationMessage']) && $_['activationMessage'])
-								p($_['activationMessage']);
-							else
-								p($l->t('This form is for registered users only. If you already have an account, please log in.')); ?></h2>
+				<?php if(isset($_['activationMessage']) && $_['activationMessage']): ?>
+					<h2><?php p($_['activationMessage']); ?></h2>
+				<?php else: ?>
+					<p><h2><?php p($l->t('This form is for registered users only.')); ?></h2></p>
+					<p class="spaced"><h2><?php print_unescaped($l->t('If you don\'t have an account for this page yet, you can register by clicking on the button below.')); ?></h2></p>
+					<p class="spaced"><a class="button spacedButton" href="<?php print_unescaped($routeRegister); ?>"><?php p($l->t('Register')); ?></a></p>
+					<p class="spaced"><?php print_unescaped($l->t('When you have finished the registration and confirmed your e-mail address, you can log in to answer the survey.')); ?></p>
+					<p class="spaced"><h2><?php p($l->t('If you already have an account, please log in.')); ?></h2></p>
+				<?php endif ?>
 				<?php if(isset($_['message']) && $_['message']): ?>
 					<div class="survey-user-message">
 						<?php p($_['message']); ?>
@@ -88,10 +93,9 @@ $routeReset = \OC::$server->getURLGenerator()
 						</div>
 					</form>
 				</div>
-			</div>
 
-			<p><?php print_unescaped($l->t('Did you forgot your password? <a href="%s">Click here to start a password reset</a>!', $routeReset)); ?></p>
-			<p><?php print_unescaped($l->t('If you don\'t have an account yet, you can register by <a href="%s">clicking here</a>.', $routeRegister)); ?></p>
+				<p><?php print_unescaped($l->t('Did you forgot your password? <a href="%s">Click here to start a password reset</a>!', $routeReset)); ?></p>
+			</div>
 		<?php endif ?>
 	</div>
 

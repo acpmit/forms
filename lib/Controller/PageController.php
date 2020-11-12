@@ -35,6 +35,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
@@ -83,6 +84,9 @@ class PageController extends Controller {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var SettingsController */
+	private $settingsController;
+
 	/** @var Array
 	 *
 	 * Maximum String lengths, the database is set to store.
@@ -105,6 +109,7 @@ class PageController extends Controller {
 								SureveyUserController $sureveyUserController,
 								IL10N $l10n,
 								ILogger $logger,
+								SettingsController $settingsController,
 								IUserManager $userManager,
 								IUserSession $userSession) {
 		parent::__construct($appName, $request);
@@ -122,6 +127,7 @@ class PageController extends Controller {
 		$this->logger = $logger;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
+		$this->settingsController = $settingsController;
 	}
 
 	/**
@@ -135,6 +141,19 @@ class PageController extends Controller {
 		Util::addStyle($this->appName, 'forms');
 		$this->initialStateService->provideInitialState($this->appName, 'maxStringLengths', $this->maxStringLengths);
 		return new TemplateResponse($this->appName, self::TEMPLATE_MAIN);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * @return TemplateResponse
+	 */
+	public function userAdminIndex(): TemplateResponse {
+		if (!$this->settingsController->canViewPersonalData())
+			throw new OCSForbiddenException();
+
+		return $this->index();
 	}
 
 	/**
