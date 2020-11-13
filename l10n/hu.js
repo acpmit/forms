@@ -1,6 +1,10 @@
 OC.L10N.register(
     "forms",
     {
+    	"Unban user and include survey results": "Felhasználói fiók tiltásának visszavonása és a válaszok figyelembevétele",
+    	"Ban user and exclude survey results": "Felhasználói fiók tiltása és a válaszok figyelmen kívül hagyása",
+    	"Hide banned users": "Kitiltott felhasználók elrejtése",
+    	"There was an error while modifying the user account": "Hiba történt a felhasználói fiók módosítása közben",
     	"Filter results": "Találatok szűrése",
 		"Phone number": "Telefonszám",
     	"Loading users …": "Felhasználói lista töltése …",

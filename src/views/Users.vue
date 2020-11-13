@@ -33,6 +33,13 @@
 				<input id="filter"
 					v-model="dataFilter"
 					name="filter">
+				<input id="filterBanned"
+					v-model="dataFilterBanned"
+					type="checkbox"
+					class="checkbox user-padleft"
+					name="filterBanned">
+				<label for="filterBanned"
+					class="user-padleft">{{ t('forms', 'Hide banned users') }}</label>
 				<div v-show="filterLoading"
 					class="loading-pos">
 					<div class="icon-loading-small" />
@@ -46,11 +53,12 @@
 				</thead>
 				<tbody>
 					<UserRow
-						v-for="surveyUser in surveyUsers.results"
+						v-for="surveyUser in filteredSurveyUsers"
 						:key="surveyUser.id"
 						:iam-a-header="false"
 						:ban-disabled="banDisabled"
 						:user="surveyUser"
+						@user-unban-clicked="unbanUser"
 						@user-ban-clicked="banUser" />
 				</tbody>
 			</table>
@@ -91,6 +99,7 @@ export default {
 
 	data() {
 		return {
+			dataFilterBanned: true,
 			dataFilter: '',
 			loadedFilter: null,
 			banDisabled: false,
@@ -102,6 +111,13 @@ export default {
 		}
 	},
 
+	computed: {
+		filteredSurveyUsers() {
+			if (!this.dataFilterBanned) return this.surveyUsers.results
+			return this.surveyUsers.results.filter(user => { return user.status === 0 })
+		},
+	},
+
 	watch: {
 		dataFilter(val) {
 			this.debounceLoadSurveyUsers(val)
@@ -110,16 +126,38 @@ export default {
 
 	beforeMount() {
 		this.dataFilter = this.$route.params.filter
-		this.loadSurveyUsers(this.dataFilter)
+		this.loadUsers(this.dataFilter)
 		SetWindowTitle(this.formTitle)
 	},
 
 	methods: {
 		banUser(sender) {
-			console.info(sender)
+			this.sendBanUser(sender)
+		},
+
+		unbanUser(sender) {
+			this.sendBanUser(sender, 0)
 		},
 
 		debounceLoadSurveyUsers: debounce(function(filter = null) {
+			this.loadUsers(filter)
+		}, 500),
+
+		sendBanUser(user, status = 1) {
+			this.banDisabled = true
+			axios.put(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/status/' + user.id + '/' + status)
+				.then(response => {
+					user.status = status
+				})
+				.catch(error => {
+					console.error(error)
+					showError(t('forms', 'There was an error while modifying the user account'))
+				}).finally(() => {
+					this.banDisabled = false
+				})
+		},
+
+		loadUsers(filter = null) {
 			if (filter !== null && filter !== '') filter = '/' + filter
 			else filter = ''
 
@@ -128,6 +166,7 @@ export default {
 			this.filterLoading = true
 			axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/list/' + this.dataPage + filter)
 				.then(response => {
+					console.info('response')
 					this.surveyUsers = response.data
 					this.loadedFilter = filter
 				})
@@ -136,24 +175,8 @@ export default {
 					showError(t('forms', 'There was an error while loading the list of users'))
 				}).finally(() => {
 					this.filterLoading = false
+					this.loadingUsers = false
 				})
-		}, 500),
-
-		async loadSurveyUsers(filter = null) {
-			this.loadingUsers = true
-			if (filter !== null && filter !== '') filter = '/' + filter
-			else filter = ''
-
-			try {
-				const response = await axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/list/' + this.dataPage + filter)
-				this.loadedFilter = filter
-				this.surveyUsers = response.data
-			} catch (error) {
-				console.error(error)
-				showError(t('forms', 'There was an error while loading the list of users'))
-			} finally {
-				this.loadingUsers = false
-			}
 		},
 	},
 }
@@ -174,7 +197,7 @@ div.users-container {
 div.loading-pos {
 	position: absolute;
 	right: 12px;
-	top: 12px;
+	top: 65px;
 }
 
 div.topbar-relative {
@@ -187,6 +210,10 @@ div.topbar-container {
 	position: relative;
 	width: 100%;
 	background: var(--color-background-darker);
+}
+
+.user-padleft {
+	padding-left: 30px;
 }
 
 </style>

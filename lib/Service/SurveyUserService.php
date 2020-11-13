@@ -114,9 +114,18 @@ class SurveyUserService
 		if (!$this->isSurveyUserLoggedIn())
 			return null;
 
+		return $this->getSurveyUser($this->getCurrentSurveyUserId());
+	}
+
+	/**
+	 * Retrieves a survey user with error handling
+	 *
+	 * @param $userId int Get this survey user
+	 * @return SurveyUser|null The user or null if there was an error
+	 */
+	public function getSurveyUser(int $userId) : ?SurveyUser {
 		try {
-			$user = $this->surveyUserMapper->load(
-				$this->getCurrentSurveyUserId());
+			$user = $this->surveyUserMapper->load($userId);
 			return $user;
 		} catch (IMapperException $e) {
 			// TODO FORMSTODO log

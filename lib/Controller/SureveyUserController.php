@@ -24,6 +24,7 @@
 namespace OCA\Forms\Controller;
 
 use OC\OCS\Exception;
+use OCA\Activity\Data;
 use OCA\Forms\Db\Form;
 use OCA\Forms\Db\FormMapper;
 use OCA\Forms\Db\SurveyUser;
@@ -35,6 +36,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\IMapperException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
@@ -56,6 +58,8 @@ class SureveyUserController extends Controller {
 
 	public const DB_CODE_PREFIX_VALIDATE = 'validate:';
 	public const DB_CODE_PREFIX_RESET = 'reset:';
+	public const DB_USER_STATUS_ACTIVE = 0;
+	public const DB_USER_STATUS_BANNED = 1;
 
 	public const ACCESS_CODE_LEN = 100;
 
@@ -762,6 +766,28 @@ class SureveyUserController extends Controller {
 	 * @return DataResponse
 	 */
 	public function apiSetStatus(int $user, int $status): DataResponse {
+		// TODO ACCESS CHECK
+
+		$user = (int)$user;
+		$status = (int)$status;
+		if ($user <= 0 || $status < 0 || $status >= 100)
+			return new DataResponse($this->l10n->t('Invalid request'),
+				Http::STATUS_BAD_REQUEST);
+
+		$userObj = $this->surveyUserService->getSurveyUser($user);
+		if ($userObj === null)
+			return new DataResponse($this->l10n->t('Invalid request'),
+				Http::STATUS_BAD_REQUEST);
+
+		try {
+			$userObj->setStatus((int)$status);
+			$this->surveyUserMapper->update($userObj);
+		} catch (IMapperException $e) {
+			// TODO FORMSTODO log
+			return new DataResponse($this->l10n->t('Internal error'),
+				Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
 		return new DataResponse(['OK']);
 	}
 

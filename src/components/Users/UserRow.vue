@@ -37,9 +37,14 @@
 					{{ user.phone }}
 				</div>
 				<div class="user-drawerbutton">
-					<a v-show="!banDisabled"
-						class="button icon-userban"
+					<a v-show="user.status === 0"
+						class="button icon-delete"
+						:title="t('forms', 'Ban user and exclude survey results')"
 						@click.stop="banUserClick" />
+					<a v-show="user.status === 1"
+						class="button icon-add"
+						:title="t('forms', 'Unban user and include survey results')"
+						@click.stop="unbanUserClick" />
 					<div v-show="banDisabled"
 						class="icon-loading user-padloading" />
 				</div>
@@ -84,18 +89,20 @@ export default {
 
 	computed: {
 		itemIcon() {
-			let common = ' user-icon users-clickable user-icon-user'
-			common += ' '
-			return common
-		},
-
-		isFolder() {
-			return this.node.type === 'folder'
+			return this.user.status === 0
+				? 'icon-user users-preicon'
+				: 'icon-userban users-preicon'
 		},
 	},
 
 	methods: {
+		unbanUserClick() {
+			if (this.banDisabled) return
+			this.$emit('user-unban-clicked', this.user)
+		},
+
 		banUserClick() {
+			if (this.banDisabled) return
 			this.$emit('user-ban-clicked', this.user)
 		},
 	},
@@ -244,7 +251,9 @@ div.user-drawerbutton {
 }
 
 div.user-padloading {
-	padding: 15px;
+	position: absolute;
+	top: 2px;
+	right: 9px;
 }
 
 </style>
