@@ -1,6 +1,7 @@
 OC.L10N.register(
     "forms",
     {
+    	"Create a new form": "Új űrlap létrehozása",
     	"Survey users": "Kérdőív kitöltők",
     	"Unban user and include survey results": "Felhasználói fiók tiltásának visszavonása és a válaszok figyelembevétele",
     	"Ban user and exclude survey results": "Felhasználói fiók tiltása és a válaszok figyelmen kívül hagyása",

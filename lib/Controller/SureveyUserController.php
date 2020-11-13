@@ -27,6 +27,7 @@ use OC\OCS\Exception;
 use OCA\Activity\Data;
 use OCA\Forms\Db\Form;
 use OCA\Forms\Db\FormMapper;
+use OCA\Forms\Db\SubmissionMapper;
 use OCA\Forms\Db\SurveyUser;
 use OCA\Forms\Db\SurveyUserMapper;
 use OCA\Forms\Helper\RandomHelper;
@@ -94,6 +95,9 @@ class SureveyUserController extends Controller {
 	/** @var IMailer */
 	private $mailer;
 
+	/** @var SubmissionMapper */
+	private $submissionMapper;
+
 	public function __construct(string $appName,
 								IL10N $l10n,
 								ILogger $logger,
@@ -102,6 +106,7 @@ class SureveyUserController extends Controller {
 								SurveyUserMapper $surveyUserMapper,
 								SettingsController $settingsController,
 								SurveyUserService $surveyUserService,
+								SubmissionMapper $submissionMapper,
 								IMailer $mailer,
 								IRequest $request) {
 		parent::__construct($appName, $request);
@@ -114,6 +119,7 @@ class SureveyUserController extends Controller {
 		$this->surveyUserService = $surveyUserService;
 		$this->logger = $logger;
 		$this->appName = $appName;
+		$this->submissionMapper = $submissionMapper;
 	}
 
 	/**
@@ -161,6 +167,13 @@ class SureveyUserController extends Controller {
 						$id,
 						false,
 						$this->l10n->t('Please check your e-mail inbox and validate your e-mail address.')
+					);
+				} else if ($user->getStatus() !== 0) {
+					// Banned
+					return $response = $this->surveyUserLoginPage(
+						$id,
+						false,
+						$this->l10n->t('Your account have been banned.')
 					);
 				} else {
 					// Login ok
@@ -786,7 +799,13 @@ class SureveyUserController extends Controller {
 			$userObj->setStatus((int)$status);
 			$this->surveyUserMapper->update($userObj);
 
-			// TODO toggle survey results
+			// Toggle survey results
+			$submissions = $this->submissionMapper->findByUser(SurveyUserService::SURVEY_USER_DB_PREFIX.$user);
+			foreach ($submissions as $submission) {
+				$submission->setStatus($status === 0 ? 0 : 1);
+				$this->submissionMapper->update($submission);
+			}
+
 		} catch (IMapperException $e) {
 			// TODO FORMSTODO log
 			return new DataResponse($this->l10n->t('Internal error'),

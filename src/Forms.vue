@@ -24,15 +24,18 @@
 <template>
 	<Content app-name="forms">
 		<AppNavigation>
-			<AppNavigationNew v-if="access.canCreate"
-				button-class="icon-add"
-				:text="t('forms', 'New form')"
-				@click="onNewForm" />
-			<AppNavigationNew
-				button-class="icon-user"
-				:text="t('forms', 'Survey users')"
-				@click="onSurveyUserManagement" />
-			<template #list>
+			<template slot="list">
+				<AppNavigationItem v-if="access.canCreate"
+					class="buttonItem"
+					icon="icon-add"
+					:title="t('forms', 'Create a new form')"
+					@click.prevent.stop="onNewForm" />
+				<AppNavigationItem v-if="access.canCreate"
+					class="buttonItem"
+					icon="icon-user"
+					:title="t('forms', 'Survey users')"
+					@click.prevent.stop="onSurveyUserManagement" />
+
 				<AppNavigationForm v-for="form in forms"
 					:key="form.id"
 					:form="form"
@@ -87,7 +90,7 @@ import axios from '@nextcloud/axios'
 
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
-import AppNavigationNew from '@nextcloud/vue/dist/Components/AppNavigationNew'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import Content from '@nextcloud/vue/dist/Components/Content'
 import isMobile from '@nextcloud/vue/src/mixins/isMobile'
 
@@ -101,7 +104,7 @@ export default {
 		AppNavigationForm,
 		AppContent,
 		AppNavigation,
-		AppNavigationNew,
+		AppNavigationItem,
 		Content,
 		EmptyContent,
 	},

@@ -37,11 +37,14 @@ use OCP\AppFramework\Db\Entity;
  * @method void setUserId(string $value)
  * @method integer getTimestamp()
  * @method void setTimestamp(integer $value)
+ * @method integer getStatus()
+ * @method void setStatus(integer $value)
  */
 class Submission extends Entity {
 	protected $formId;
 	protected $userId;
 	protected $timestamp;
+	protected $status;
 
 	/**
 	 * Submission constructor.
@@ -49,6 +52,7 @@ class Submission extends Entity {
 	public function __construct() {
 		$this->addType('formId', 'integer');
 		$this->addType('timestamp', 'integer');
+		$this->addType('status', 'integer');
 	}
 
 	public function read(): array {
@@ -57,6 +61,7 @@ class Submission extends Entity {
 			'formId' => $this->getFormId(),
 			'userId' => $this->getUserId(),
 			'timestamp' => $this->getTimestamp(),
+			'status' => $this->getStatus(),
 		];
 	}
 }

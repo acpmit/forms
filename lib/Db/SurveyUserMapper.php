@@ -110,7 +110,8 @@ class SurveyUserMapper extends QBMapper {
 			->from($this->getTableName());
 
 		if ($filter !== '' && $filter !== null)
-			$qb->where($qb->expr()->iLike('realname', $qb->createNamedParameter("%$filter%")));
+			$qb->where($qb->expr()->iLike('realname', $qb->createNamedParameter("%$filter%")))
+				->orWhere($qb->expr()->iLike('email', $qb->createNamedParameter("%$filter%")));
 
 		$qb->orderBy('realname', 'ASC')
 			->setFirstResult($offset)
