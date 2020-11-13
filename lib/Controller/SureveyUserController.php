@@ -766,7 +766,10 @@ class SureveyUserController extends Controller {
 	 * @return DataResponse
 	 */
 	public function apiSetStatus(int $user, int $status): DataResponse {
-		// TODO ACCESS CHECK
+		if ($this->settingsController->isAccessControlEnabled() &&
+			!$this->settingsController->canViewPersonalData())
+			return new DataResponse($this->l10n->t('Access denied'),
+				Http::STATUS_UNAUTHORIZED);
 
 		$user = (int)$user;
 		$status = (int)$status;
@@ -782,6 +785,8 @@ class SureveyUserController extends Controller {
 		try {
 			$userObj->setStatus((int)$status);
 			$this->surveyUserMapper->update($userObj);
+
+			// TODO toggle survey results
 		} catch (IMapperException $e) {
 			// TODO FORMSTODO log
 			return new DataResponse($this->l10n->t('Internal error'),
@@ -800,18 +805,10 @@ class SureveyUserController extends Controller {
 	 * @return DataResponse List of survey users
 	 */
 	public function apiList(string $filter, int $page): DataResponse {
-
-		// TODO ACCESS CHECK
-
-//		if ($this->settingsController->isAccessToAllEnabled())
-//			$forms = $this->formMapper->findAll();
-//		else
-//			$forms = $this->formMapper->findAllByOwnerId($this->currentUser->getUID());
-//
-//		// The current user can view survey results. This could be
-//		// refined to a per form basis later if required
-//		$canView = !$this->settingsController->isAccessControlEnabled() ||
-//			$this->settingsController->canViewResults();
+		if ($this->settingsController->isAccessControlEnabled() &&
+			!$this->settingsController->canViewPersonalData())
+			return new DataResponse($this->l10n->t('Access denied'),
+				Http::STATUS_UNAUTHORIZED);
 
 		$limit = 100;
 

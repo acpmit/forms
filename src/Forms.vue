@@ -28,6 +28,10 @@
 				button-class="icon-add"
 				:text="t('forms', 'New form')"
 				@click="onNewForm" />
+			<AppNavigationNew
+				button-class="icon-user"
+				:text="t('forms', 'Survey users')"
+				@click="onSurveyUserManagement" />
 			<template #list>
 				<AppNavigationForm v-for="form in forms"
 					:key="form.id"
@@ -178,6 +182,13 @@ export default {
 				showError(t('forms', 'An error occurred while loading the access list'))
 				console.error(error)
 			}
+		},
+
+		/**
+		 * Show the user management interface
+		 */
+		async onSurveyUserManagement() {
+			this.$router.push({ name: 'surveyusers' })
 		},
 
 		/**

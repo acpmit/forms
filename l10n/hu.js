@@ -1,6 +1,7 @@
 OC.L10N.register(
     "forms",
     {
+    	"Survey users": "Kérdőív kitöltők",
     	"Unban user and include survey results": "Felhasználói fiók tiltásának visszavonása és a válaszok figyelembevétele",
     	"Ban user and exclude survey results": "Felhasználói fiók tiltása és a válaszok figyelmen kívül hagyása",
     	"Hide banned users": "Kitiltott felhasználók elrejtése",
