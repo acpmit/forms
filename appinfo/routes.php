@@ -84,6 +84,7 @@ return [
 
 		// Survey user management
 		['name' => 'sureveyUser#apiList', 'url' => '/api/v1/surveyusers/list/{page}/{filter}', 'verb' => 'GET', 'defaults' => ['page' => 0, 'filter' => '']],
+		['name' => 'sureveyUser#apiListExport', 'url' => '/api/v1/surveyusers/exportlist', 'verb' => 'GET'],
 		['name' => 'sureveyUser#apiSetStatus', 'url' => '/api/v1/surveyusers/status/{user}/{status}', 'verb' => 'PUT', 'defaults' => ['user' => 0, 'status' => 0]],
 	]
 ];

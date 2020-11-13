@@ -40,6 +40,8 @@
 					name="filterBanned">
 				<label for="filterBanned"
 					class="user-padleft">{{ t('forms', 'Hide banned users') }}</label>
+				<a class="button user-marginleft"
+					@click="exportCsv">{{ t('forms', 'Export to CSV') }}</a>
 				<div v-show="filterLoading"
 					class="loading-pos">
 					<div class="icon-loading-small" />
@@ -131,6 +133,10 @@ export default {
 	},
 
 	methods: {
+		exportCsv() {
+			window.location.href = generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/exportlist'
+		},
+
 		banUser(sender) {
 			this.sendBanUser(sender)
 		},
@@ -214,6 +220,10 @@ div.topbar-container {
 
 .user-padleft {
 	padding-left: 30px;
+}
+
+.user-marginleft {
+	margin-left: 30px;
 }
 
 </style>

@@ -20,8 +20,7 @@
 			'users-clickable': !iamAHeader}"
 		@click="userOpen = !userOpen">
 		<td class="users-text users-clickable">
-			<div :class="itemIcon" />
-			<div class="icon-user users-preicon" />{{ user.realname }}
+			<div :class="itemIcon" />{{ user.realname }}
 			<div v-if="userOpen"
 				class="user-drawer">
 				<div class="user-drawer1">
@@ -112,7 +111,7 @@ export default {
 <style>
 
 :root {
-	--drawer-height: 150px;
+	--drawer-height: 160px;
 }
 
 </style>
@@ -216,7 +215,7 @@ div.users-preicon {
 	height: 20px;
 	position: absolute;
 	left: 8px;
-	top: 15px;
+	top: 19px;
 }
 
 div.user-drawer {
@@ -227,7 +226,8 @@ div.user-drawer {
 	height: var(--drawer-height);
 	z-index: 300;
 	padding: 15px;
-	background-color: var(--color-background-dark);
+	border-bottom: 2px solid var(--color-border);
+	border-top: 1px solid var(--color-border);
 }
 
 div.user-drawer1 {

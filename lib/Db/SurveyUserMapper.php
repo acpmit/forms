@@ -119,4 +119,18 @@ class SurveyUserMapper extends QBMapper {
 
 		return $this->findEntities($qb);
 	}
+
+	/**
+	 * @return SurveyUser[] List for CSV export
+	 */
+	public function listAll(): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+//		->expr()->eq('status', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+			->orderBy('realname', 'ASC');
+
+		return $this->findEntities($qb);
+	}
 }

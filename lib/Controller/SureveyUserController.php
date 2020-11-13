@@ -38,7 +38,9 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\IMapperException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\DownloadResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
@@ -772,6 +774,8 @@ class SureveyUserController extends Controller {
 	}
 
 	/**
+ 	 * @NoAdminRequired
+	 *
 	 * Set the status on a survey user
 	 *
 	 * @param int $user Survey user id
@@ -813,6 +817,46 @@ class SureveyUserController extends Controller {
 		}
 
 		return new DataResponse(['OK']);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * @return Http\DownloadResponse All survey users exported to a CVS file
+	 */
+	public function apiListExport(): Response {
+		if ($this->settingsController->isAccessControlEnabled() &&
+			!$this->settingsController->canViewPersonalData())
+			return new DataResponse($this->l10n->t('Access denied'),
+				Http::STATUS_UNAUTHORIZED);
+
+		$csv = sprintf(
+			'"%s","%s","%s","%s","%s"'."\n",
+			$this->l10n->t('Id'),
+			$this->l10n->t('Real name'),
+			$this->l10n->t('Address'),
+			$this->l10n->t('E-mail'),
+			$this->l10n->t('Phone number')
+			);
+
+		foreach ($this->surveyUserMapper->listAll() as $user)
+			$csv .= sprintf(
+				'%s,"%s","%s","%s","%s"'."\n",
+				$user->getId(),
+				$user->getRealname(),
+				$user->getAddress(),
+				$user->getEmail(),
+				$user->getPhone()
+			);
+
+		$download = new DataDownloadResponse(
+			$csv,
+			$this->l10n->t('survey_users.csv'),
+			'text/csv'
+		);
+
+		return $download;
 	}
 
 	/**

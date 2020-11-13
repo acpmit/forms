@@ -1,5 +1,7 @@
 {
 	"translations": {
+		"E-mail": "E-mail",
+		"Id": "Azonosító",
 		"Your account have been banned.": "Az Ön fiókját kitiltották.",
 		"Invalid request": "Hibás kérés",
 		"When you have finished the registration and confirmed your e-mail address, you can log in to answer the survey.": "Amikor befejezte a regisztrációt és visszaigazolta az e-mail címét, ezen az oldalon beléphet és kitöltheti a kérdőívet.",
