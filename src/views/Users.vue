@@ -49,7 +49,9 @@
 						v-for="surveyUser in surveyUsers.results"
 						:key="surveyUser.id"
 						:iam-a-header="false"
-						:user="surveyUser" />
+						:ban-disabled="banDisabled"
+						:user="surveyUser"
+						@user-ban-clicked="banUser" />
 				</tbody>
 			</table>
 		</div>
@@ -90,6 +92,8 @@ export default {
 	data() {
 		return {
 			dataFilter: '',
+			loadedFilter: null,
+			banDisabled: false,
 			lastSentFilter: '',
 			loadingUsers: true,
 			filterLoading: false,
@@ -105,20 +109,27 @@ export default {
 	},
 
 	beforeMount() {
-		this.loadSurveyUsers(this.filter)
-		SetWindowTitle(this.formTitle)
 		this.dataFilter = this.$route.params.filter
+		this.loadSurveyUsers(this.dataFilter)
+		SetWindowTitle(this.formTitle)
 	},
 
 	methods: {
+		banUser(sender) {
+			console.info(sender)
+		},
+
 		debounceLoadSurveyUsers: debounce(function(filter = null) {
 			if (filter !== null && filter !== '') filter = '/' + filter
 			else filter = ''
 
+			if (this.loadedFilter === filter) return
+
 			this.filterLoading = true
-			axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/' + this.dataPage + filter)
+			axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/list/' + this.dataPage + filter)
 				.then(response => {
 					this.surveyUsers = response.data
+					this.loadedFilter = filter
 				})
 				.catch(error => {
 					console.error(error)
@@ -134,9 +145,8 @@ export default {
 			else filter = ''
 
 			try {
-				const response = await axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/' + this.dataPage + filter)
-
-				// Append questions & submissions
+				const response = await axios.get(generateOcsUrl('apps/forms/api/v1', 2) + 'surveyusers/list/' + this.dataPage + filter)
+				this.loadedFilter = filter
 				this.surveyUsers = response.data
 			} catch (error) {
 				console.error(error)

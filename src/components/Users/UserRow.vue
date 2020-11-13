@@ -21,10 +21,28 @@
 		@click="userOpen = !userOpen">
 		<td class="users-text users-clickable">
 			<div :class="itemIcon" />
-			<div class="user-icon" />{{ user.realname }}
+			<div class="icon-user users-preicon" />{{ user.realname }}
 			<div v-if="userOpen"
 				class="user-drawer">
-				Hello
+				<div class="user-drawer1">
+					{{ t('forms', 'Real name') }}:<br>
+					{{ t('forms', 'Address') }}:<br>
+					{{ t('forms', 'E-mail address') }}:<br>
+					{{ t('forms', 'Phone number') }}:
+				</div>
+				<div class="user-drawer2">
+					{{ user.realname }}<br>
+					{{ user.address }}<br>
+					{{ user.email }}<br>
+					{{ user.phone }}
+				</div>
+				<div class="user-drawerbutton">
+					<a v-show="!banDisabled"
+						class="button icon-userban"
+						@click.stop="banUserClick" />
+					<div v-show="banDisabled"
+						class="icon-loading user-padloading" />
+				</div>
 			</div>
 		</td>
 		<td class="users-addr users-clickable">
@@ -45,6 +63,10 @@ export default {
 
 	props: {
 		iamAHeader: {
+			type: Boolean,
+			default: false,
+		},
+		banDisabled: {
 			type: Boolean,
 			default: false,
 		},
@@ -72,8 +94,21 @@ export default {
 		},
 	},
 
+	methods: {
+		banUserClick() {
+			this.$emit('user-ban-clicked', this.user)
+		},
+	},
 }
 </script>
+
+<style>
+
+:root {
+	--drawer-height: 150px;
+}
+
+</style>
 
 <style scoped>
 
@@ -84,8 +119,7 @@ td, th {
 }
 
 tr.open {
-	height: 120px;
-	padding-bottom: 75px;
+	height: calc( 60px + var(--drawer-height) );
 }
 
 tr.users-selected {
@@ -170,11 +204,12 @@ div.user-icon {
 	mask-position: 0px center;
 }
 
-div.user-icon-user {
-	background: var(--color-primary);
+div.users-preicon {
 	width: 20px;
 	height: 20px;
-	mask-image: url('../../../img/user.svg');
+	position: absolute;
+	left: 8px;
+	top: 15px;
 }
 
 div.user-drawer {
@@ -182,10 +217,34 @@ div.user-drawer {
 	width: 100%;
 	top: 60px;
 	left: 0px;
-	height: 60px;
+	height: var(--drawer-height);
 	z-index: 300;
 	padding: 15px;
-	background-color: var(--color-background-darker);
+	background-color: var(--color-background-dark);
+}
+
+div.user-drawer1 {
+	position: absolute;
+	left: 35px;
+	top: 15px;
+	line-height: 30px;
+}
+
+div.user-drawer2 {
+	position: absolute;
+	left: 145px;
+	top: 15px;
+	line-height: 30px;
+}
+
+div.user-drawerbutton {
+	position: absolute;
+	right: 15px;
+	top: 15px;
+}
+
+div.user-padloading {
+	padding: 15px;
 }
 
 </style>

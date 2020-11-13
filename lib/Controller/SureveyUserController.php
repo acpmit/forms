@@ -755,6 +755,17 @@ class SureveyUserController extends Controller {
 	}
 
 	/**
+	 * Set the status on a survey user
+	 *
+	 * @param int $user Survey user id
+	 * @param int $status New status
+	 * @return DataResponse
+	 */
+	public function apiSetStatus(int $user, int $status): DataResponse {
+		return new DataResponse(['OK']);
+	}
+
+	/**
 	 * @NoAdminRequired
 	 *
 	 * Read the list of the currently registered survey users
@@ -787,6 +798,7 @@ class SureveyUserController extends Controller {
 
 		foreach ($this->surveyUserMapper->findAll($filter, $limit+1, $limit * $page) as $user) {
 			$data['results'][] = [
+				'id' => $user->getId(),
 				'realname' => $user->getRealname(),
 				'address' => $user->getAddress(),
 				'email' => $user->getEmail(),
