@@ -26,6 +26,8 @@ namespace OCA\Forms\Service;
 use OCA\Forms\Db\FormMapper;
 use OCA\Forms\Db\SurveyUser;
 use OCA\Forms\Db\SurveyUserMapper;
+use OCA\Forms\Helper\RandomHelper;
+use OCA\Forms\Service\Exceptions\EmailExistsException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\IMapperException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -52,14 +54,16 @@ class SurveyUserService
 
 	public const SURVEY_USER_SESSION_ID = 'FormsSurveyUserId';
 	public const SURVEY_USER_DB_PREFIX = 'survey-user-';
+	public const SURVEY_MANUAL_DB_PREFIX = 'manual:';
 
 	public const SURVEY_USER_STATUS_ACTIVE = 0;
 	public const SURVEY_USER_STATUS_BANNED = 1;
 	public const SURVEY_USER_STATUS_DATA_RETRACTED = 2;
 
-	private const QUESTION_ID_ADDRESS = 2147483647;
-	private const QUESTION_ID_PHONE = 2147483646;
 	private const QUESTION_ID_REALNAME = 2147483645;
+	private const QUESTION_ID_ADDRESS = 2147483644;
+	private const QUESTION_ID_PHONE = 2147483643;
+	private const QUESTION_ID_EMAIL = 2147483642;
 
 	public function __construct(FormMapper $formMapper,
 								SurveyUserMapper $surveyUserMapper,
@@ -125,10 +129,11 @@ class SurveyUserService
 	 */
 	public function getSurveyUser(int $userId) : ?SurveyUser {
 		try {
+			/** @var SurveyUser $user */
 			$user = $this->surveyUserMapper->load($userId);
 			return $user;
 		} catch (IMapperException $e) {
-			// TODO FORMSTODO log
+			$this->logger->error('Error reading survey user: '.$userId, [$e]);
 			return  null;
 		}
 	}
@@ -143,8 +148,10 @@ class SurveyUserService
 		try {
 			$this->surveyUserMapper->findByLogin($loginToCheck);
 		} catch (DoesNotExistException $e) {
+			// Not an error
 			return true;
 		} catch (MultipleObjectsReturnedException $e) {
+			// Not an error
 			return false;
 		}
 
@@ -161,8 +168,10 @@ class SurveyUserService
 		try {
 			$this->surveyUserMapper->findByEmail($emailToCheck);
 		} catch (DoesNotExistException $e) {
+			// Not an error
 			return true;
 		} catch (MultipleObjectsReturnedException $e) {
+			// Not an error
 			return false;
 		}
 
@@ -195,11 +204,13 @@ class SurveyUserService
 				self::QUESTION_ID_ADDRESS => $user->getAddress(),
 				self::QUESTION_ID_PHONE => $user->getPhone(),
 				self::QUESTION_ID_REALNAME => $user->getRealname(),
-			];;
+				self::QUESTION_ID_EMAIL => $user->getEmail(),
+			];
 		} catch (IMapperException $e) {
 			$retracted = $this->l10n->t('Data not found or retracted');
 			$answers = [
 				self::QUESTION_ID_ADDRESS => $retracted,
+				self::QUESTION_ID_EMAIL => $retracted,
 				self::QUESTION_ID_PHONE => $retracted,
 				self::QUESTION_ID_REALNAME => $retracted,
 			];
@@ -227,8 +238,9 @@ class SurveyUserService
 	 */
 	public function addQuestionsForPersonalData(&$questions, $formId) {
 		$newFields = [
-			self::QUESTION_ID_ADDRESS => $this->l10n->t('Address'),
+			self::QUESTION_ID_EMAIL => $this->l10n->t('E-mail'),
 			self::QUESTION_ID_PHONE => $this->l10n->t('Phone number'),
+			self::QUESTION_ID_ADDRESS => $this->l10n->t('Address'),
 			self::QUESTION_ID_REALNAME => $this->l10n->t('Real name'),
 		];
 
@@ -250,5 +262,67 @@ class SurveyUserService
 		}
 
 		return $questions;
+	}
+
+	/**
+	 * The nextcloud user enters a paper based survey that contain answers
+	 * for personal details. We create a survey user based on these answers
+	 *
+	 * @param array $answers
+	 * @return int The survey user ID
+	 * @throws EmailExistsException If the email was registered manually already
+	 */
+	public function getSurveyUserForManualSubmission(array $answers)
+	{
+		$email = self::checkAnswer($answers, self::QUESTION_ID_EMAIL);
+		if ($email != '-') {
+			// Check if there was a submission with this email
+			$email = self::SURVEY_MANUAL_DB_PREFIX . $email;
+			try {
+				// TODO FORMSTODO check for email without prefix
+				// TODO FORMSTODO check for submission?
+				$user = $this->surveyUserMapper->findByEmail($email);
+				throw new EmailExistsException();
+			} catch (DoesNotExistException $e) {
+				// We should not find a result
+			}
+		} else {
+			$email = self::SURVEY_MANUAL_DB_PREFIX.RandomHelper::randomStr(20);
+		}
+
+		try {
+			$surveyUser = new SurveyUser();
+			$surveyUser->setEmail($email);
+			$surveyUser->setRealname(self::checkAnswer($answers, self::QUESTION_ID_REALNAME));
+			$surveyUser->setAddress(self::checkAnswer($answers, self::QUESTION_ID_ADDRESS));
+			$surveyUser->setPhone(self::checkAnswer($answers, self::QUESTION_ID_PHONE));
+			$surveyUser->setPasswordhash(password_hash(RandomHelper::randomStr(50), PASSWORD_ARGON2I));
+			$surveyUser = $this->surveyUserMapper->insert($surveyUser);
+			return $surveyUser->getId();
+		} catch (IMapperException $e) {
+			$this->logger->error('Error creating survey user', [$e]);
+			// TODO TODOFORMS throw
+			return  null;
+		}
+	}
+
+	private static function checkAnswer($array, $index) {
+		return (isset($array[$index]) && is_array($array[$index]) && count($array[$index]) >= 1)
+			? $array[$index][0]
+			: '-';
+	}
+
+	/**
+	 * Returns true, if this is a virtual question to hold personal data
+	 * during manual input
+	 *
+	 * @param $questionId int Question id to check
+	 * @return bool True if it's a virtual question
+	 */
+	public static function isPersonalDataQuestion(int $questionId) {
+		return $questionId === self::QUESTION_ID_PHONE ||
+			$questionId === self::QUESTION_ID_EMAIL ||
+			$questionId === self::QUESTION_ID_ADDRESS ||
+			$questionId === self::QUESTION_ID_REALNAME;
 	}
 }

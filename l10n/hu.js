@@ -1,7 +1,9 @@
 OC.L10N.register(
     "forms",
     {
-    	"Export to CSV": "Exportálás CSV fájlba",
+    	"A result with this e-mail address have been already recorded": "Egy ilyen e-mail címmel már regisztráltak választ.",
+    	"There form have been submitted": "Az űrlapot sikeresen beküldte",
+    	"Each response will create as a new survey user.": "Minden választ egy új válaszadó nevében regisztrálunk.",
 		"Create a new form": "Új űrlap létrehozása",
     	"Survey users": "Kérdőív kitöltők",
     	"Unban user and include survey results": "Felhasználói fiók tiltásának visszavonása és a válaszok figyelembevétele",

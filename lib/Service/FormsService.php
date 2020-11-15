@@ -132,6 +132,13 @@ class FormsService {
 				$question['options'] = $this->getOptions($question['id']);
 				$questionList[] =  $question;
 			}
+
+			// Nextcloud users fill the survey creating a new survey user
+			$form = $this->formMapper->findById($formId);
+			$access = $form->getAccess();
+			if ($access['type'] === 'surveyusers' && $this->currentUser)
+				$this->surveyUserService->addQuestionsForPersonalData(
+					$questionList, $form->getId());
 		} catch (DoesNotExistException $e) {
 			//handle silently
 		} finally {
@@ -213,7 +220,7 @@ class FormsService {
 				$lookupId = $this->currentUser->getUID();
 			}
 
-			// TODO It should be more efficient if the ID went with the query
+			// TODO It could be more efficient if the ID went with the query
 			$participants = $this->submissionMapper->findParticipantsByForm($form->getId());
 			foreach ($participants as $participant) {
 				if ($participant === $lookupId) {

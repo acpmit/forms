@@ -184,11 +184,13 @@ class SureveyUserController extends Controller {
 				}
 			}
 		} catch (IMapperException $e) {
-			// TODO TODOFORMS log
 			// We are already at success = false
+			$this->logger->error('Could not log in survey user', [$e]);
 		}
 
 		if ($success) {
+			$this->logger->info('Login success with email: '.$su_email);
+
 			if ($id)
 				$response = new RedirectResponse(\OC::$server->getURLGenerator()
 					->linkToRoute('forms.page.goto_form', ['hash' => $id]));
@@ -204,6 +206,7 @@ class SureveyUserController extends Controller {
 				false,
 				$this->l10n->t('Invalid e-mail or login.')
 			);
+			$this->logger->info('Invalid login attempt with email: '.$su_email);
 		}
 
 		return $response;
@@ -270,8 +273,8 @@ class SureveyUserController extends Controller {
 				$failed = false;
 			}
 		} catch (IMapperException $e) {
-			// TODO TODOFORMS log
 			// We are already at failed true
+			$this->logger->error('Survey user lookup failed at verify email.', [$e]);
 		}
 
 		if ($failed)
@@ -328,6 +331,7 @@ class SureveyUserController extends Controller {
 				if ($submitted === 'yes') {
 					$user = $this->surveyUserMapper->findByCode(self::DB_CODE_PREFIX_RESET.$code);
 					if ($user !== null) {
+						$this->logger->info('Survey user password reset done: '.$user->getEmail());
 						$user->setConfirmcode(null);
 						$user->setPasswordhash(password_hash($su_password, PASSWORD_ARGON2I));
 						$this->surveyUserMapper->update($user);
@@ -344,8 +348,10 @@ class SureveyUserController extends Controller {
 				}
 			}
 		} catch (IMapperException $e) {
-			// TODO TODOFORMS log
 			$notFound = true;
+			// Not saving the exception for it could contain the the clear text
+			// password
+			$this->logger->error('Survey user password reset error: '.$code);
 		}
 
 		if ($notFound)
@@ -421,10 +427,11 @@ class SureveyUserController extends Controller {
 					->linkToRoute('forms.sureveyUser.resetPassword', ['code' => $code]);
 				$this->sendMail(self::EMAIL_TEMPLATE_RESET_PASSWORD, $link, $su_email);
 			}
-			// TODO TODOFORMS log
+
+			$this->logger->info('Password reset requested for: '.$su_email);
 		} catch (IMapperException $e) {
 			// We won't give out clues about whether the email exits
-			// TODO TODOFORMS log attempt
+			$this->logger->error('Error sending password reset mail to: '.$su_email, [$e]);
 		}
 
 		return $this->setupResetPage([
@@ -557,7 +564,7 @@ class SureveyUserController extends Controller {
 					->linkToRoute('forms.sureveyUser.verifyEmail', ['code' => $code, 'formid' => $id]);
 				$this->sendMail(self::EMAIL_TEMPLATE_VERIFY, $link, $su_email);
 			} catch (Exception $e) {
-				// TODO TODOFORMS Log
+				$this->logger->error('Error during survey user registration: '.$su_email, [$e]);
 				$message = $this->l10n->t(
 					'Error occurred during the registration, please try again later.');
 				$success = false;
@@ -811,7 +818,7 @@ class SureveyUserController extends Controller {
 			}
 
 		} catch (IMapperException $e) {
-			// TODO FORMSTODO log
+			$this->logger->error('Error while setting survey user status:'.$user, [$e]);
 			return new DataResponse($this->l10n->t('Internal error'),
 				Http::STATUS_INTERNAL_SERVER_ERROR);
 		}

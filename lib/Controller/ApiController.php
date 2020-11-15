@@ -37,12 +37,14 @@ use OCA\Forms\Db\Question;
 use OCA\Forms\Db\QuestionMapper;
 use OCA\Forms\Db\Submission;
 use OCA\Forms\Db\SubmissionMapper;
+use OCA\Forms\Service\Exceptions\EmailExistsException;
 use OCA\Forms\Service\FormsService;
 
 use OCA\Forms\Service\SurveyUserService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\IMapperException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -825,14 +827,28 @@ class ApiController extends Controller {
 		}
 
 		// Create Submission
+		$manualSubmission = false;
 		$submission = new Submission();
 		$submission->setFormId($formId);
 		$submission->setTimestamp(time());
 
 		if ($access['type'] === 'surveyusers') {
-			$surveyUserID =
-				SurveyUserService::SURVEY_USER_DB_PREFIX.
-				$this->surveyUserService->getCurrentSurveyUserId();
+			// If a NC user is logged in, they are entering paper based
+			// survey results
+			if ($this->currentUser) {
+				try {
+					$manualSubmission = true;
+					$surveyUserID =
+						SurveyUserService::SURVEY_USER_DB_PREFIX.
+						$this->surveyUserService->getSurveyUserForManualSubmission($answers);
+				} catch (EmailExistsException $e) {
+					return new DataResponse('emailerror', Http::STATUS_CONFLICT);
+				}
+			} else {
+				$surveyUserID =
+					SurveyUserService::SURVEY_USER_DB_PREFIX.
+					$this->surveyUserService->getCurrentSurveyUserId();
+			}
 			$submission->setUserId($surveyUserID);
 		} else {
 			// If not logged in or anonymous use anonID
@@ -852,7 +868,8 @@ class ApiController extends Controller {
 		foreach ($answers as $questionId => $answerArray) {
 			// Search corresponding Question, skip processing if not found
 			$questionIndex = array_search($questionId, array_column($questions, 'id'));
-			if ($questionIndex === false) {
+			if ($questionIndex === false ||
+				SurveyUserService::isPersonalDataQuestion($questionId)) {
 				continue;
 			} else {
 				$question = $questions[$questionIndex];
@@ -886,7 +903,9 @@ class ApiController extends Controller {
 			}
 		}
 
-		return new DataResponse();
+		return new DataResponse($manualSubmission
+			? 'next'
+			: []);
 	}
 
 	/**

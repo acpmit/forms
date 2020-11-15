@@ -76,7 +76,7 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import Content from '@nextcloud/vue/dist/Components/Content'
@@ -150,7 +150,7 @@ export default {
 			if (this.form.isAnonymous) {
 				message += t('forms', 'Responses are anonymous.')
 			} else if (this.form.isSurveyUserForm) {
-				message += t('forms', 'Responses are connected to your account.')
+				message += t('forms', 'Each response will create as a new survey user.')
 			} else {
 				message += t('forms', 'Responses are connected to your Nextcloud account.')
 			}
@@ -198,11 +198,24 @@ export default {
 				await axios.post(generateOcsUrl('apps/forms/api/v1', 2) + 'submission/insert', {
 					formId: this.form.id,
 					answers: this.answers,
+				}).then(response => {
+					if (response.data === 'next') {
+						console.info('Move to next survey')
+						this.answers = {}
+						showSuccess(t('forms', 'There form have been submitted'))
+					} else {
+						this.success = true
+					}
+				}).catch(error => {
+					if (error.response.status === 409) {
+						showError(t('forms', 'A result with this e-mail address have been already recorded'))
+					} else {
+						console.info(error)
+						showError(t('forms', 'There was an error submitting the form'))
+					}
 				})
-				this.success = true
 			} catch (error) {
-				console.error(error)
-				showError(t('forms', 'There was an error submitting the form'))
+				console.info(error)
 			} finally {
 				this.loading = false
 			}
