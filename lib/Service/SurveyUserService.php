@@ -264,6 +264,19 @@ class SurveyUserService
 		return $questions;
 	}
 
+	public function isManualSurveySubmission(array $submission) {
+		$userId = $submission['userId'];
+		if (substr($userId, 0, strlen(self::SURVEY_USER_DB_PREFIX)) !== self::SURVEY_USER_DB_PREFIX)
+			return false;
+
+		$userId = (int)substr($userId, strlen(self::SURVEY_USER_DB_PREFIX));
+		if ($userId === 0) return false;
+
+		$user = $this->getSurveyUser($userId);
+		$email = $user->getEmail();
+		return (substr($email, 0, strlen(self::SURVEY_MANUAL_DB_PREFIX)) === self::SURVEY_MANUAL_DB_PREFIX);
+	}
+
 	/**
 	 * The nextcloud user enters a paper based survey that contain answers
 	 * for personal details. We create a survey user based on these answers

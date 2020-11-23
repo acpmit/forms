@@ -211,6 +211,9 @@ class FormsService {
 		// Refuse access, if SubmitOnce is set and user already has taken part.
 		if ($form->getSubmitOnce()) {
 			if ($access['type'] === 'surveyusers') {
+				// Survey users can submit as many times as they wish
+				if ($this->currentUser) return true;
+
 				// Check for forms with survey users
 				$lookupId =
 					SurveyUserService::SURVEY_USER_DB_PREFIX.

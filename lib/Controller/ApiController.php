@@ -752,10 +752,15 @@ class ApiController extends Controller {
 			if (substr($submission['userId'], 0, 10) === 'anon-user-') {
 				// Anonymous User
 				$submission['userDisplayName'] = $this->l10n->t('Anonymous response');
-			} else if (substr($submission['userId'], 0, 12) === 'survey-user-') {
-				// Survey User. They are anonymous unless the user has extra
-				// rights to expose the name
-				$submission['userDisplayName'] = $this->l10n->t('Registered survey user response');
+			} else if (substr($submission['userId'], 0, strlen(SurveyUserService::SURVEY_USER_DB_PREFIX)) === SurveyUserService::SURVEY_USER_DB_PREFIX) {
+				// Check first if the submission was done internally by a NC
+				// user, we'll use different wording
+				if ($this->surveyUserService->isManualSurveySubmission($submission))
+					$submission['userDisplayName'] = $this->l10n->t('Manually entered survey user response');
+				else
+					// Survey User. They are anonymous unless the user has extra
+					// rights to expose the name
+					$submission['userDisplayName'] = $this->l10n->t('Registered survey user response');
 			} else {
 				$userEntity = $this->userManager->get($submission['userId']);
 
