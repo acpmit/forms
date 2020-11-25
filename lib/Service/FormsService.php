@@ -173,6 +173,14 @@ class FormsService {
 			!$this->settingsController->isAccessControlEnabled() ||
 			$this->settingsController->canViewResults();
 
+		// When an NC user fills a survey form, no field is mandatory, for
+		// they enter a survey from a paper based query
+		if (isset($result['questions']) && isset($this->currentUser))
+			if (($result['access']['type'] === 'surveyusers') && $this->currentUser) {
+				foreach ($result['questions'] as &$question)
+					$question['mandatory'] = false;
+		}
+
 		return $result;
 	}
 

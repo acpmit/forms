@@ -244,8 +244,11 @@ class SurveyUserService
 			self::QUESTION_ID_REALNAME => $this->l10n->t('Real name'),
 		];
 
-		foreach ($questions as $question)
+		foreach ($questions as $question) {
 			$question['order'] += count($newFields);
+			if ($question['id'] === self::QUESTION_ID_EMAIL)
+				return $questions;
+		}
 
 		$order = 0;
 		foreach ($newFields as $key => $newField) {
