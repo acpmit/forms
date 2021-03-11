@@ -61,6 +61,7 @@
 						:ban-disabled="banDisabled"
 						:user="surveyUser"
 						@user-unban-clicked="unbanUser"
+						@user-delete-clicked="deleteUser"
 						@user-ban-clicked="banUser" />
 				</tbody>
 			</table>
@@ -139,6 +140,10 @@ export default {
 
 		banUser(sender) {
 			this.sendBanUser(sender)
+		},
+
+		deleteUser(sender) {
+			this.sendBanUser(sender, 2)
 		},
 
 		unbanUser(sender) {

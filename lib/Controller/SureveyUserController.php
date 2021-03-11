@@ -807,10 +807,20 @@ class SureveyUserController extends Controller {
 				Http::STATUS_BAD_REQUEST);
 
 		try {
+			// Set the user status, if it's a delete request, we anonymize the
+			// user data to be GDPR compliant
+			if ((int)$status === 2) {
+				$userObj->setAddress('Deleted');
+				$userObj->setIsdeleted(true);
+				$userObj->setPhone('Deleted');
+				$userObj->setRealname('Deleted');
+				$userObj->setEmail(SurveyUserService::getEmailHash($userObj->getEmail()));
+			}
+
 			$userObj->setStatus((int)$status);
 			$this->surveyUserMapper->update($userObj);
 
-			// Toggle survey results
+			// Disable/enable survey results according to the user status
 			$submissions = $this->submissionMapper->findByUser(SurveyUserService::SURVEY_USER_DB_PREFIX.$user);
 			foreach ($submissions as $submission) {
 				$submission->setStatus($status === 0 ? 0 : 1);

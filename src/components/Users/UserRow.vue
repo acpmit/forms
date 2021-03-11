@@ -1,64 +1,97 @@
 <template>
-	<tr v-if="iamAHeader">
-		<th class="users-text">
-			{{ t('forms', 'Real name') }}
-		</th>
-		<th class="users-addr">
-			{{ t('forms', 'Address') }}
-		</th>
-		<th class="users-email">
-			{{ t('forms', 'E-mail address') }}
-		</th>
-		<th class="users-phone users-text">
-			{{ t('forms', 'Phone number') }}
-		</th>
-	</tr>
-	<tr v-else
-		:class="{
-			'users-item': true,
-			'open': userOpen,
-			'users-clickable': !iamAHeader}"
-		@click="userOpen = !userOpen">
-		<td class="users-text users-clickable">
-			<div :class="itemIcon" />{{ user.realname }}
-			<div v-if="userOpen"
-				class="user-drawer">
-				<div class="user-drawer1">
-					{{ t('forms', 'Real name') }}:<br>
-					{{ t('forms', 'Address') }}:<br>
-					{{ t('forms', 'E-mail address') }}:<br>
-					{{ t('forms', 'Phone number') }}:
+	<div>
+		<tr v-if="iamAHeader">
+			<th class="users-text">
+				{{ t('forms', 'Real name') }}
+			</th>
+			<th class="users-addr">
+				{{ t('forms', 'Address') }}
+			</th>
+			<th class="users-email">
+				{{ t('forms', 'E-mail address') }}
+			</th>
+			<th class="users-phone users-text">
+				{{ t('forms', 'Phone number') }}
+			</th>
+		</tr>
+		<tr v-else
+			:class="{
+				'users-item': true,
+				'open': userOpen,
+				'users-clickable': !iamAHeader}"
+			@click="userOpen = !userOpen">
+			<td class="users-text users-clickable">
+				<div :class="itemIcon" />{{ user.realname }}
+			</td>
+			<td class="users-addr users-clickable">
+				{{ user.address }}
+			</td>
+			<td class="users-email users-clickable">
+				{{ user.email }}
+			</td>
+			<td class="users-phone users-clickable">
+				{{ user.phone }}
+			</td>
+		</tr>
+		<tr v-if="userOpen"
+			class="users-item"
+			@click="userOpen = !userOpen">
+			<td colspan="4"
+				class="users-no-padding">
+				<div class="user-drawer">
+					<table class="users-sub-table">
+						<tr>
+							<td>{{ t('forms', 'Real name') }}:</td>
+							<td>{{ user.realname }}</td>
+						</tr>
+						<tr>
+							<td>{{ t('forms', 'Address') }}:</td>
+							<td>{{ user.address }}</td>
+						</tr>
+						<tr>
+							<td>{{ t('forms', 'E-mail address') }}:</td>
+							<td>{{ user.email }}</td>
+						</tr>
+						<tr>
+							<td>{{ t('forms', 'Phone number') }}:</td>
+							<td>{{ user.phone }}</td>
+						</tr>
+					</table>
+					<div class="user-drawerbutton">
+						<a v-show="user.status === 0"
+							class="button icon-disabled-user"
+							:title="t('forms', 'Ban user and exclude survey results')"
+							@click.stop="banUserClick" />
+						<a v-show="user.status === 1"
+							class="button icon-add"
+							:title="t('forms', 'Unban user and include survey results')"
+							@click.stop="unbanUserClick" />
+						<a class="button icon-delete"
+							:title="t('forms', 'Remove user data from the database and exclude survey results')"
+							@click.stop="confirmOpen = !confirmOpen" />
+						<div v-show="banDisabled"
+							class="icon-loading user-padloading" />
+					</div>
+					<div v-if="confirmOpen"
+						class="user-confirmdelete">
+						{{ t('forms', 'This action will anonymize and remove user data from the database and can not be undone. Are you sure?') }}
+						<div class="user-confirmdelete-buttons">
+							<a class="button"
+								:title="t('forms', 'Remove user data from the database and exclude survey results')"
+								@click.stop="deleteUserClick">
+								{{ t('forms', 'Remove user') }}
+							</a>
+							<a class="button"
+								:title="t('forms', 'Cancel')"
+								@click.stop="confirmOpen = false">
+								{{ t('forms', 'Cancel') }}
+							</a>
+						</div>
+					</div>
 				</div>
-				<div class="user-drawer2">
-					{{ user.realname }}<br>
-					{{ user.address }}<br>
-					{{ user.email }}<br>
-					{{ user.phone }}
-				</div>
-				<div class="user-drawerbutton">
-					<a v-show="user.status === 0"
-						class="button icon-delete"
-						:title="t('forms', 'Ban user and exclude survey results')"
-						@click.stop="banUserClick" />
-					<a v-show="user.status === 1"
-						class="button icon-add"
-						:title="t('forms', 'Unban user and include survey results')"
-						@click.stop="unbanUserClick" />
-					<div v-show="banDisabled"
-						class="icon-loading user-padloading" />
-				</div>
-			</div>
-		</td>
-		<td class="users-addr users-clickable">
-			{{ user.address }}
-		</td>
-		<td class="users-email users-clickable">
-			{{ user.email }}
-		</td>
-		<td class="users-phone users-clickable">
-			{{ user.phone }}
-		</td>
-	</tr>
+			</td>
+		</tr>
+	</div>
 </template>
 
 <script>
@@ -83,6 +116,7 @@ export default {
 	data() {
 		return {
 			userOpen: false,
+			confirmOpen: false,
 		}
 	},
 
@@ -103,6 +137,11 @@ export default {
 		banUserClick() {
 			if (this.banDisabled) return
 			this.$emit('user-ban-clicked', this.user)
+		},
+
+		deleteUserClick() {
+			if (this.banDisabled) return
+			this.$emit('user-delete-clicked', this.user)
 		},
 	},
 }
@@ -125,7 +164,7 @@ td, th {
 }
 
 tr.open {
-	height: calc( 60px + var(--drawer-height) );
+	/*height: calc( 60px + var(--drawer-height) );*/
 }
 
 tr.users-selected {
@@ -219,15 +258,16 @@ div.users-preicon {
 }
 
 div.user-drawer {
-	position: absolute;
-	width: 100%;
-	top: 60px;
-	left: 0px;
-	height: var(--drawer-height);
-	z-index: 300;
-	padding: 15px;
-	border-bottom: 2px solid var(--color-border);
-	border-top: 1px solid var(--color-border);
+	/*position: absolute;*/
+	/*height: var(--drawer-height);*/
+	/*width: 100%;*/
+	/*top: 60px;*/
+	/*left: 0px;*/
+	/*z-index: 300;*/
+	/*padding: 15px;*/
+	/*border-bottom: 5px solid var(--color-border);*/
+	background: var(--color-background-dark);
+	/*border-top: 1px solid var(--color-border);*/
 }
 
 div.user-drawer1 {
@@ -247,13 +287,38 @@ div.user-drawer2 {
 div.user-drawerbutton {
 	position: absolute;
 	right: 15px;
-	top: 15px;
+	top: 18px;
 }
 
 div.user-padloading {
 	position: absolute;
 	top: 2px;
 	right: 9px;
+}
+
+table.users-sub-table {
+	width: 100%;
+}
+
+td.users-no-padding {
+	padding: 0px;
+}
+
+table.users-sub-table td {
+	border-bottom: 1px solid var(--color-main-background);
+}
+
+div.user-confirmdelete {
+	background: var(--color-warning);
+	width: 100%;
+	padding: 15px;
+	position: relative;
+}
+
+div.user-confirmdelete-buttons {
+	position: absolute;
+	right: 15px;
+	top: 16px;
 }
 
 </style>

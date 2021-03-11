@@ -159,6 +159,16 @@ class SurveyUserService
 	}
 
 	/**
+	 * Creates a hash from the e-mail address that will be used to anonymize
+	 * the user upon delete
+	 *
+	 * @param $email string Email to be hashed
+	 */
+	public static function getEmailHash($email) {
+		return hash('sha256', $email.'-deleted-forms-survey-user');
+	}
+
+	/**
 	 * Check if the email is available to register
 	 *
 	 * @param string $emailToCheck Email to check
@@ -168,8 +178,17 @@ class SurveyUserService
 		try {
 			$this->surveyUserMapper->findByEmail($emailToCheck);
 		} catch (DoesNotExistException $e) {
-			// Not an error
-			return true;
+			// Not an error, the email was not registered in plain text. We
+			// check for e-mail hashes for deleted users
+			try {
+				$this->surveyUserMapper->findByEmail(self::getEmailHash($emailToCheck));
+			} catch (DoesNotExistException $e) {
+				// Not an error, there were no deleted email with this hash
+				return true;
+			} catch (MultipleObjectsReturnedException $e) {
+				// Not an error
+				return false;
+			}
 		} catch (MultipleObjectsReturnedException $e) {
 			// Not an error
 			return false;
