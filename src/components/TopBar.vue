@@ -46,7 +46,7 @@ $top-bar-height: 60px;
 	align-self: flex-end;
 	justify-content: flex-end;
 	height: var(--top-bar-height);
-	margin-top: calc(var(--top-bar-height) * -1);
+	// margin-top: calc(var(--top-bar-height) * -1);
 	padding: 0 6px;
 
 	button {
